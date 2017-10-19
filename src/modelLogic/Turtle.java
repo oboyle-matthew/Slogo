@@ -1,4 +1,4 @@
-package screenMovers;
+package modelLogic;
 
 import javafx.scene.image.ImageView;
 
@@ -118,6 +118,31 @@ public class Turtle {
 	 */
 	public ImageView getImageViewForScreen() {
 		return myTurtle; 
+	}
+
+/* Turtle Query Methods */
+	
+	/**
+	 * @return A {@code double[]} of length 2, where the first item is the turtle's
+	 * x-coordinate, and the second item is the turtle's y-coordinate
+	 */
+	public double[] getCoordinates() {
+		return new double[] {myTurtle.getX(), myTurtle.getY()} ;
+	}
+	
+	/**
+	 * @return A {@code double} that specifies the Turtle's current heading. 
+	 * Will always be between 0 and 360 degrees. 
+	 */
+	public double getHeading() {
+		return myTurtle.getRotate();
+	}
+	
+	/**
+	 * @return {@code True} if the turtle is currently being shown on the screen
+	 */
+	public boolean isTurtleVisible() {
+		return myTurtle.isVisible();
 	}
 	
 }

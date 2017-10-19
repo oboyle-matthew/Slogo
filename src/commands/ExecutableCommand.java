@@ -1,6 +1,6 @@
 package commands;
 
-import screenMovers.Turtle;
+import modelLogic.Turtle;
 
 /**
  * This interface serves as the single interface implemented by each command 

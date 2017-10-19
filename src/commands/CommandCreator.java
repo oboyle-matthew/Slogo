@@ -59,6 +59,11 @@ public class CommandCreator {
 		return null; 
 	}	
 	
+	/**
+	 * Creates the correct turtle command executable for the given command
+	 * @param command is a {@code String} that contains the command to create
+	 * @return A {@code ExecutableCommand} that is representative of the string passed in
+	 */
 	private ExecutableCommand createTurtleCommand(String command) {
 		switch (command) {
 			case "forward": return new ForwardCommand();
@@ -88,6 +93,12 @@ public class CommandCreator {
 		}
 		return null;
 	}
+	
+	/**
+	 * Creates the correct query command executable for the given command
+	 * @param command is a {@code String} that contains the command to create
+	 * @return A {@code ExecutableCommand} that is representative of the string passed in
+	 */
 	private ExecutableCommand createQueryCommand(String command) {
 		switch (command) {
 			case "xcor": return new GetXCoordinateCommand();
@@ -100,12 +111,58 @@ public class CommandCreator {
 		}
 		return null;
 	}
+	
+	/**
+	 * Creates the correct math command executable for the given command
+	 * @param command is a {@code String} that contains the command to create
+	 * @return A {@code ExecutableCommand} that is representative of the string passed in
+	 */
 	private ExecutableCommand createMathCommand(String command) {
+		switch(command) {
+			case "sum": return new MathOperationsCommand(command);
+			case "+": return new MathOperationsCommand("sum");
+			case "difference": return new MathOperationsCommand(command);
+			case "-": return new MathOperationsCommand("difference");
+			case "product": return new MathOperationsCommand(command);
+			case "*": return new MathOperationsCommand("product");
+			case "quotient": return new MathOperationsCommand(command);
+			case "/": return new MathOperationsCommand("quotient");
+			case "remainder": return new MathOperationsCommand(command);
+			case "%": return new MathOperationsCommand("remainder");
+			case "minus": return new MathOperationsCommand(command);
+			case "~": return new MathOperationsCommand("minus");
+			case "random": return new RandomNumCommand();
+			case "sin": return new TrigCommand(command);
+			case "cos": return new TrigCommand(command);
+			case "tan": return new TrigCommand(command);
+			case "atan": return new TrigCommand(command);
+			case "log": return new LogCommand();
+			case "pow": return new PowCommand();
+			case "pi": return new PiCommand();
+		}
 		return null;
 	}
 	
+	/**
+	 * Creates the correct boolean command executable for the given command
+	 * @param command is a {@code String} that contains the command to create
+	 * @return A {@code ExecutableCommand} that is representative of the string passed in
+	 */
 	private ExecutableCommand createBooleanCommand(String command) {
-		return null;
+		switch(command) {
+			case "less?": return new BooleanOperationCommand(command);  
+			case "lessp": return new BooleanOperationCommand("less?"); 
+			case "greater?": return new BooleanOperationCommand(command);  
+			case "greaterp": return new BooleanOperationCommand("greater?"); 
+			case "equal?": return new BooleanOperationCommand(command);  
+			case "equalp": return new BooleanOperationCommand("equal?"); 
+			case "notequal?": return new BooleanOperationCommand(command);  
+			case "notequalp": return new BooleanOperationCommand("notequal?"); 
+			case "and": return new BooleanOperationCommand(command);  
+			case "or": return new BooleanOperationCommand(command);  
+			case "not": return new NotOperationCommand();  
+		}
+		return null; 
 	}
 	
 }

@@ -4,6 +4,7 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.ArcType;
+import modelLogic.Turtle;
 
 public class MainScreen extends ScreenDisplay{
 	private static final int CANVAS_WIDTH = 400;

@@ -31,12 +31,4 @@ public class TowardsCommand implements ExecutableCommand {
 	}
 	
 	
-	public static void main(String[] args) {
-		double x = 1;
-		double y = 1; 
-		double[] coordinates = new double[] {0,0}; 
-		double angle = (new TowardsCommand()).getAngleForHeading(x, y, coordinates);
-		System.out.println(angle);
-	}
-	
 }

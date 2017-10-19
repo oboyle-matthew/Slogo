@@ -3,7 +3,10 @@ package commands;
 import java.util.Arrays;
 import java.util.HashSet;
 
-import modelLogic.Turtle;
+/**
+ * The class that is meant to mimic the object factory design pattern. This class takes in
+ * a given string and returns the appropriate ExecutableCommand for that string
+ */
 
 public class CommandCreator {
 	/**

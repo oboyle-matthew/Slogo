@@ -1,7 +1,14 @@
 package modelLogic;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import javafx.animation.PathTransition;
 import javafx.animation.RotateTransition;
 import javafx.scene.image.ImageView;
+import javafx.scene.shape.LineTo;
+import javafx.scene.shape.MoveTo;
+import javafx.scene.shape.Path;
 import javafx.util.Duration;
 
 /**
@@ -15,10 +22,12 @@ public class Turtle {
 	/* Finals */
 	private static final String TURTLE_IMAGE_PATH = ""; 
 	private static final double ROTATION_SPEED = 2 * 1000; 
+	private static final double MOVEMENT_SPEED = 1 * 1000; 
 	
 	/* Instance Variables */ 
 	private ImageView myTurtle; 
 	private boolean penDown; 
+	private List<Path> myPaths; 
 	
 	/**
 	 * Basic constructor that just initializes the myTurtle variable.
@@ -26,6 +35,7 @@ public class Turtle {
 	 */
 	Turtle() {
 		myTurtle = new ImageView(TURTLE_IMAGE_PATH);
+		myPaths = new ArrayList<Path>();
 		penDown = false; 
 	}
 	
@@ -40,9 +50,10 @@ public class Turtle {
 	 */
 	public double setHeading(double angle) {
 		double degreeDiff = angle - myTurtle.getRotate();
-		RotateTransition rotateTransition = new RotateTransition(Duration.millis(ROTATION_SPEED), myTurtle); 
+		RotateTransition rotateTransition = new RotateTransition(Duration.millis(ROTATION_SPEED)); 
 		rotateTransition.setToAngle(angle);
 		rotateTransition.setCycleCount(1);
+		rotateTransition.setNode(myTurtle);
 		rotateTransition.play(); 
 		return degreeDiff; 
 	}
@@ -76,9 +87,29 @@ public class Turtle {
 	public double moveTo(double newXPosition, double newYPosition) {
 		double xDiff = newXPosition - myTurtle.getX();
 		double yDiff = newYPosition - myTurtle.getY(); 
-		myTurtle.setX(newXPosition);
-		myTurtle.setY(newYPosition);
+		Path p = createMovementPath(newXPosition, newYPosition); 
+		PathTransition pt = new PathTransition();
+		pt.setPath(p);
+		pt.setDuration(Duration.millis(MOVEMENT_SPEED));
+		pt.setCycleCount(1);
+		pt.play();
+		myPaths.add(p); 
 		return Math.sqrt(xDiff * xDiff + yDiff * yDiff); 
+	}
+	
+	/**
+	 * Creates the new path for use in the turtle's movement animation 
+	 * @param newXPosition is a {@code double} representing the new x-coordinate of the turtle
+	 * @param newYPosition is a {@code double} representing the new y-coordinate of the turtle
+	 * @return A {@code Path} that corresponds to the line the turtle is moving over 
+	 */
+	public Path createMovementPath(double newXPosition, double newYPosition) {
+		Path p = new Path();
+		MoveTo moveTo = new MoveTo(myTurtle.getX(), myTurtle.getY());
+		p.getElements().add(moveTo);
+		LineTo lineTo = new LineTo(newXPosition, newYPosition); 
+		p.getElements().add(lineTo);
+		return p; 
 	}
 	
 	/**

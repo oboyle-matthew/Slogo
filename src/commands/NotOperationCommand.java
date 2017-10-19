@@ -8,7 +8,7 @@ import modelLogic.Turtle;
  */
 public class NotOperationCommand implements ExecutableCommand {
 
-	private static final double DEFAULT_VALUE = 1;
+	private static final double DEFAULT_VALUE = 15;
 	
 	@Override
 	public double execute(Turtle tortuga, double[] args) {

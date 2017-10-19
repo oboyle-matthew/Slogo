@@ -1,6 +1,8 @@
 package modelLogic;
 
+import javafx.animation.RotateTransition;
 import javafx.scene.image.ImageView;
+import javafx.util.Duration;
 
 /**
  * This class represents the model for the turtle that can
@@ -12,9 +14,11 @@ public class Turtle {
 	
 	/* Finals */
 	private static final String TURTLE_IMAGE_PATH = ""; 
+	private static final double ROTATION_SPEED = 2 * 1000; 
 	
 	/* Instance Variables */ 
 	private ImageView myTurtle; 
+	private boolean penDown; 
 	
 	/**
 	 * Basic constructor that just initializes the myTurtle variable.
@@ -22,6 +26,7 @@ public class Turtle {
 	 */
 	Turtle() {
 		myTurtle = new ImageView(TURTLE_IMAGE_PATH);
+		penDown = false; 
 	}
 	
 /* Rotation Methods */ 
@@ -35,7 +40,10 @@ public class Turtle {
 	 */
 	public double setHeading(double angle) {
 		double degreeDiff = angle - myTurtle.getRotate();
-		myTurtle.setRotate(angle);
+		RotateTransition rotateTransition = new RotateTransition(Duration.millis(ROTATION_SPEED), myTurtle); 
+		rotateTransition.setToAngle(angle);
+		rotateTransition.setCycleCount(1);
+		rotateTransition.play(); 
 		return degreeDiff; 
 	}
 	
@@ -120,6 +128,33 @@ public class Turtle {
 		return myTurtle; 
 	}
 
+/* Turtle Pen Commands */ 
+	
+	/**
+	 * Sets the turtle's pen to be down
+	 * @return 1 always
+	 */
+	public double penDown() {
+		penDown = true; 
+		return 1; 
+	}
+	
+	/**
+	 * Sets the turtle's pen to be up
+	 * @return 0 always
+	 */
+	public double penUp() {
+		penDown = false; 
+		return 0; 
+	}
+	
+	/**
+	 * @return A {@code boolean} representing the current state of the turtle
+	 */
+	public boolean isPenDown() {
+		return penDown; 
+	}
+
 /* Turtle Query Methods */
 	
 	/**
@@ -146,7 +181,3 @@ public class Turtle {
 	}
 	
 }
-
-
-
-

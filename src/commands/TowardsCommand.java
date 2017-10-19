@@ -15,6 +15,7 @@ public class TowardsCommand implements ExecutableCommand {
 		if(args == null || args.length < 2) {
 			
 		}
+		return 0;
 	}
 	
 	private double getAngleForHeading(double x, double y, double[] coordinates) {
@@ -22,9 +23,20 @@ public class TowardsCommand implements ExecutableCommand {
 		double yVector = coordinates[1] - y;
 		double angle = Math.atan(yVector / xVector);
 		if(xVector > 0 && yVector > 0) return angle; 
-		if(xVector < 0 && yVector > 0) return + ANGLE_OFFSET; 
+		if(xVector < 0 && yVector > 0) return angle + ANGLE_OFFSET; 
+		if(xVector < 0 && yVector < 0) return angle + 2 * ANGLE_OFFSET; 
+		return angle + 3 * ANGLE_OFFSET; 
 	//	if(xVector < 0 && yVector < 0)
 		
+	}
+	
+	
+	public static void main(String[] args) {
+		double x = 1;
+		double y = 1; 
+		double[] coordinates = new double[] {0,0}; 
+		double angle = (new TowardsCommand()).getAngleForHeading(x, y, coordinates);
+		System.out.println(angle);
 	}
 	
 }

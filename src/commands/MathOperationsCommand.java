@@ -1,5 +1,7 @@
 package commands;
 
+import java.util.List;
+
 import modelLogic.Turtle;
 
 /** 
@@ -23,12 +25,12 @@ public class MathOperationsCommand implements ExecutableCommand {
 	}
 	
 	@Override
-	public double execute(Turtle tortuga, double[] args) {
+	public double execute(Turtle tortuga, List<Double> args) {
 		double[] nums; 
-		if(args == null || args.length < 2) {
+		if(args == null || args.size() < 2) {
 			nums = new double[] {DEFAULT_ARGUMENTS[0], DEFAULT_ARGUMENTS[1]}; 
 		} else {
-			nums = new double[] {args[0], args[1]};
+			nums = new double[] {args.remove(0), args.remove(0)};
 		}
 		if(myCommand.equals(SUM)) return nums[0] + nums[1]; 
 		if(myCommand.equals(DIFFERENCE)) return nums[0] - nums[1]; 

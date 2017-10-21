@@ -1,5 +1,7 @@
 package commands;
 
+import java.util.List;
+
 import modelLogic.Turtle;
 
 /**
@@ -19,6 +21,6 @@ public interface ExecutableCommand {
 	 * @param args is a {@code double[]} of values to be passed on to the command for its use  
 	 * @return A {@code double} that represents the result of the command after execution 
 	 */
-	public double execute(Turtle tortuga, double[] args); 
+	public double execute(Turtle tortuga, List<Double> args); 
 	
 }

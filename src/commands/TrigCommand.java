@@ -1,5 +1,7 @@
 package commands;
 
+import java.util.List;
+
 import modelLogic.Turtle;
 
 /** 
@@ -21,12 +23,12 @@ public class TrigCommand implements ExecutableCommand {
 	}
 	
 	@Override
-	public double execute(Turtle tortuga, double[] args) {
+	public double execute(Turtle tortuga, List<Double> args) {
 		double angle; 
-		if(args == null || args.length < 1) { 
+		if(args == null || args.size() < 1) { 
 			angle = DEFAULT_DEGREES; 
 		} else {
-			angle = args[0]; 
+			angle = args.remove(0); 
 		}
 		if(myCommand.equals(SINE)) return Math.sin(angle);
 		if(myCommand.equals(COSINE)) return Math.cos(angle);

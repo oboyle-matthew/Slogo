@@ -1,5 +1,7 @@
 package commands;
 
+import java.util.List;
+
 import modelLogic.Turtle;
 
 
@@ -11,9 +13,9 @@ public class NotOperationCommand implements ExecutableCommand {
 	private static final double DEFAULT_VALUE = 15;
 	
 	@Override
-	public double execute(Turtle tortuga, double[] args) {
-		if(args == null || args.length < 1) return ( DEFAULT_VALUE == 0 ? 1 : 0);
-		return ( args[0] == 0 ? 1 : 0);
+	public double execute(Turtle tortuga, List<Double> args) {
+		if(args == null || args.size() < 1) return ( DEFAULT_VALUE == 0 ? 1 : 0);
+		return ( args.remove(0) == 0 ? 1 : 0);
 	}
 
 }

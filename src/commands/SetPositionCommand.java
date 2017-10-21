@@ -1,5 +1,7 @@
 package commands;
 
+import java.util.List;
+
 import modelLogic.Turtle;
 
 /**
@@ -12,9 +14,9 @@ public class SetPositionCommand implements ExecutableCommand {
 	private final static double DEFAULT_Y_POSITION = 0; 
 	
 	@Override
-	public double execute(Turtle tortuga, double[] args) {
-		if(args == null || args.length < 2) return tortuga.moveTo(DEFAULT_X_POSITION, DEFAULT_Y_POSITION);
-		return tortuga.moveTo(args[0], args[1]);
+	public double execute(Turtle tortuga, List<Double> args) {
+		if(args == null || args.size() < 2) return tortuga.moveTo(DEFAULT_X_POSITION, DEFAULT_Y_POSITION);
+		return tortuga.moveTo(args.remove(0), args.remove(0));
 	}
 
 }

@@ -31,13 +31,8 @@ public class TextInputBox extends HBox{
 		runButton.setPrefWidth(50);
 		clearButton.setPrefWidth(50);
 		createRunButton();
-//    	Old way of writing this below
-//    	EventHandler<MouseEvent> eventHandler = new EventHandler<MouseEvent>() {
-//	        @Override public void handle(MouseEvent e) {
-//	        	begin(gametype);}
-//        };
-		EventHandler<? super MouseEvent> eventHandler =  e->readText("test");
-		runButton.addEventHandler(MouseEvent.MOUSE_CLICKED, eventHandler);
+		runButton.addEventHandler(MouseEvent.MOUSE_CLICKED, e->readText());
+		clearButton.addEventHandler(MouseEvent.MOUSE_CLICKED, e->commandField.clear());
     	
 		clearButton.setStyle("-fx-background-color: RED");
 		ButtonBlock = new VBox();
@@ -51,10 +46,11 @@ public class TextInputBox extends HBox{
 		this.setLayoutY(450);
 		}
 
-	private void readText(String test) {
+	private void readText() {
 		String tester = commandField.getText();
 		commandField.clear();
-		System.out.println(tester);
+		Controller.stringInput(tester);
+		
 	}
 	
 	private void createRunButton() {

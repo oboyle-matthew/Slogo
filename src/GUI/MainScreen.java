@@ -4,6 +4,8 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.ArcType;
+import modelLogic.CommandParser;
+import modelLogic.Turtle;
 
 public class MainScreen extends ScreenDisplay{
 	private static final int CANVAS_WIDTH = 400;
@@ -24,6 +26,7 @@ public class MainScreen extends ScreenDisplay{
 		drawShapes(gc);
 		rootAdd(canvasHolder);
 		
+		CommandParser p = new CommandParser("asdfafd");
 		// TODO Auto-generated constructor stub
 	}
 

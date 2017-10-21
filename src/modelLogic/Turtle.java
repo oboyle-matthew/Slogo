@@ -1,10 +1,12 @@
 package modelLogic;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
 import javafx.animation.PathTransition;
 import javafx.animation.RotateTransition;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.shape.LineTo;
 import javafx.scene.shape.MoveTo;
@@ -20,7 +22,7 @@ import javafx.util.Duration;
 public class Turtle {
 	
 	/* Finals */
-	private static final String TURTLE_IMAGE_PATH = ""; 
+	private static final String TURTLE_IMAGE_PATH = "src/turtle.png"; 
 	private static final double ROTATION_SPEED = 2 * 1000; 
 	private static final double MOVEMENT_SPEED = 1 * 1000; 
 	
@@ -33,11 +35,18 @@ public class Turtle {
 	 * Basic constructor that just initializes the myTurtle variable.
 	 * Returns a new {@code Turtle} object
 	 */
-	Turtle() {
-		myTurtle = new ImageView(TURTLE_IMAGE_PATH);
+	public Turtle() {
+		myTurtle = createTurtle(); 
 		myPaths = new ArrayList<Path>();
 		penDown = false; 
 	}
+	
+	private ImageView createTurtle() {
+		File file = new File(TURTLE_IMAGE_PATH);
+		Image turtleImage = new Image(file.toURI().toString());
+		return new ImageView(turtleImage);
+	}
+	
 	
 /* Rotation Methods */ 
 	
@@ -210,5 +219,4 @@ public class Turtle {
 	public boolean isTurtleVisible() {
 		return myTurtle.isVisible();
 	}
-	
 }

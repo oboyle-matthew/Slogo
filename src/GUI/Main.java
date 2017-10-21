@@ -4,6 +4,7 @@ package GUI;
 
 import javafx.application.Application;
 import javafx.scene.Scene;
+import javafx.scene.control.TextField;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
@@ -28,9 +29,6 @@ public class Main extends Application {
 		s.setTitle(TITLE);
 		s.show();
 	}
-
-	
-
 
 	/**
 	 * Start the program.

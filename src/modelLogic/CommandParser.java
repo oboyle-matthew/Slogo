@@ -28,7 +28,6 @@ public class CommandParser {
 		syntaxProperties = loadProperties(SYNTAX_STRING);
 		
 	}
-	
 	private Properties loadProperties(String language) {
 		try {
 			InputStream input = new FileInputStream(RESOURCES_DIR + language + PROPERTIES_EXTENSION);

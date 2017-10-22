@@ -45,16 +45,17 @@ public class LanguageLoader extends HBox {
 		this.getChildren().add(lanLoader);
 		this.getChildren().add(goButton);
 		
+		
 		//Deal With Switch Scene
 		goButton.setOnAction((event) -> {
-			switchScene();
+			switchScene((String)lanLoader.getValue());
 		});
 	}
 
 
 
-	private void switchScene() {
-		ScreenDisplay myScene = new MainScreen(MAINWIDTH,MAINHEIGHT,BACKGROUND);
+	private void switchScene(String inputLanguage) {
+		ScreenDisplay myScene = new MainScreen(MAINWIDTH,MAINHEIGHT,BACKGROUND, inputLanguage);
 		//center the scene
 		Rectangle2D primaryScreenBounds = Screen.getPrimary().getVisualBounds();
 		stage.setX(primaryScreenBounds.getWidth()/2 - MAINWIDTH/2);

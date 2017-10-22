@@ -13,7 +13,7 @@ public class MainScreen extends ScreenDisplay{
 	private MainScreenGUI gui;
 	
 	
-	public MainScreen(int width, int height, Paint background) {
+	public MainScreen(int width, int height, Paint background, String language) {
 		super(width, height, background);
 		// add a css file to customize button
 		//this.getScene().getStylesheets().add("path/stylesheet.css");
@@ -26,7 +26,7 @@ public class MainScreen extends ScreenDisplay{
 		drawShapes(gc);
 		rootAdd(canvasHolder);
 		
-		CommandParser p = new CommandParser("asdfafd");
+		CommandParser p = new CommandParser(language);
 		// TODO Auto-generated constructor stub
 	}
 

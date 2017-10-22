@@ -46,15 +46,7 @@ public class CommandParser {
 		currentUserVariables = new HashMap<String, Double>(); 
 		syntaxProperties = loadProperties(SYNTAX_STRING);
 	}
-	
-	/**
-	 *  Creates a {@code Properties} object for the passed in properties filename
-	 * @param fileName is a {@code String} that represents the properties file to read in. 
-	 * Note: This string should NOT include the ".properties" extension
-	 * @return A {@code Properties} object that corresponds to the properties for the passed
-	 * in file name
-	 */
-	private Properties loadProperties(String fileName) {
+	private Properties loadProperties(String language) {
 		try {
 			InputStream input = new FileInputStream(RESOURCES_DIR + fileName + PROPERTIES_EXTENSION);
 			Properties prop = new Properties(); 

@@ -41,40 +41,38 @@ public class CommandParser {
 		syntaxProperties = loadProperties(SYNTAX_STRING);
 	}
 
-
 	public Map<String, List<?>> getCommandsFromInput(String input) {
-		Map<String, List<?>> ret = new HashMap<String, List<?>>();  
+		Map<String, List<?>> ret = new HashMap<String, List<?>>();
 		LinkedList<String> commands = new LinkedList<String>();
-		LinkedList<Double> constants = new LinkedList<Double>(); 
-		
-		if(!matchesProperty(input, syntaxProperties, "Comment")) {
-			
+		LinkedList<Double> constants = new LinkedList<Double>();
+
+		if (!matchesProperty(input, syntaxProperties, "Comment")) {
+
 			List<String> temp = Arrays.asList(input.split(syntaxProperties.getProperty("Whitespace")));
 			List<String> splitInput = new ArrayList<String>(temp);
-			
-			 while(!splitInput.isEmpty()){
-				
-				 String textItem = splitInput.remove(0);
-				
-				if(matchesProperty(textItem, syntaxProperties, "Constant")) {
-					
+
+			while (!splitInput.isEmpty()) {
+
+				String textItem = splitInput.remove(0);
+
+				if (matchesProperty(textItem, syntaxProperties, "Constant")) {
+
 					constants.addFirst(Double.parseDouble(textItem));
-					
-				} else if(matchesProperty(textItem, syntaxProperties, "Variable")) {
-					
+
+				} else if (matchesProperty(textItem, syntaxProperties, "Variable")) {
+
 					constants.addFirst(currentUserVariables.getOrDefault(textItem, DEFAULT_VARIABLE_VALUE));
-					
-				} else if(matchesProperty(textItem, syntaxProperties, "Command")) {
-			
+
+				} else if (matchesProperty(textItem, syntaxProperties, "Command")) {
+
 					String properCommand = getProperCommandString(textItem);
-					
-					
+
 				}
-			} 
-		} 
-		ret.put("commands", commands); 
-		ret.put("constants", constants); 
-		return ret; 
+			}
+		}
+		ret.put("commands", commands);
+		ret.put("constants", constants);
+		return ret;
 	}
 
 	private String getProperCommandString(String inputCommand) {
@@ -146,7 +144,7 @@ public class CommandParser {
 		ButtonType closeButton = new ButtonType("Close", ButtonData.CANCEL_CLOSE);
 		errorPopup.getDialogPane().getButtonTypes().add(closeButton);
 		errorPopup.showAndWait();
-	}<<<<<<<HEAD
+	}
 
 	public static void main(String[] args) {
 		CommandParser p = new CommandParser("English");

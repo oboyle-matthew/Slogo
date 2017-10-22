@@ -3,7 +3,9 @@ package modelLogic;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -27,6 +29,11 @@ public class CommandParser {
 	private static final String SYNTAX_STRING = "Syntax"; 
 	private static final String PROPERTIES_EXTENSION = ".properties";
 	private static final Double DEFAULT_VARIABLE_VALUE = 0.0;
+	
+	
+	private static final String[] NON_NORMAL_COMMANDS = {"MakeVariable", "Repeat", "DoTimes","For","If","IfElse","MakeUserInstruction"};
+	
+	
 /* Instance Variables */
 	private String languageChoice;
 	private Properties currentLanguageProperties;
@@ -65,20 +72,21 @@ public class CommandParser {
 		Map<String, List<?>> ret = new HashMap<String, List<?>>();  
 		LinkedList<String> commands = new LinkedList<String>();
 		LinkedList<Double> constants = new LinkedList<Double>(); 
-		if(!strMatchesProperty(input, "Comment")) {
-			
-			String[] splitInput = input.split(syntaxProperties.getProperty("Whitespace"));
-			
-			for(String textItem : splitInput) {
-				System.out.println(textItem);
-				if(strMatchesProperty(textItem, "Constant")) {
+		if(!matchesProperty(input, syntaxProperties, "Comment")) {
+			List<String> temp = Arrays.asList(input.split(syntaxProperties.getProperty("Whitespace")));
+			ArrayList<String> splitInput = new ArrayList<String>(temp);
+			 while(!splitInput.isEmpty()){
+				String textItem = splitInput.remove(0);
+				if(matchesProperty(textItem, syntaxProperties, "Constant")) {
 					constants.addFirst(Double.parseDouble(textItem));
-				} else if(strMatchesProperty(textItem, "Variable")) {
+				} else if(matchesProperty(textItem, syntaxProperties, "Variable")) {
 					constants.addFirst(currentUserVariables.getOrDefault(textItem, DEFAULT_VARIABLE_VALUE));
-				} else if(strMatchesProperty(textItem, "Command")) {
-					commands.addFirst(textItem);
+				} else if(matchesProperty(textItem, syntaxProperties, "Command")) {
+					List<String> commandsToAdd = handleCommandInput(textItem, splitInput);
+					for(String s : commandsToAdd) {
+						commands.addFirst(s);
+					}
 				} 
-				
 			}
 		} 
 		ret.put("commands", commands); 
@@ -86,23 +94,29 @@ public class CommandParser {
 		return ret; 
 	}
 
+	private List<String> handleCommandInput(String currCommand, List<String> remainingCommands) {
+		List<String> commandsToAdd = new ArrayList<String>();
+		String properCommand = "";
+		for(Object command : currentLanguageProperties.keySet()) {
+			if(matchesProperty(currCommand, currentLanguageProperties, (String) command)) {
+				properCommand = (String) command; 
+				break; 
+			}
+		}
+		if(properCommand.equals("")) {
+			return null;
+		} else if(properCommand.equals(anObject))
+		return commandsToAdd;
+
+	}
 	
-	private boolean strMatchesProperty(String str, String property) {
-		Pattern p = Pattern.compile(syntaxProperties.getProperty(property));
-		Matcher m = p.matcher(str);
+	
+	private boolean matchesProperty(String str, Properties p, String property) {
+		Pattern pattern = Pattern.compile(p.getProperty(property));
+		Matcher m = pattern.matcher(str);
 		return m.find(); 
 	}
 	
-	/**
-	 * Checks to see if the input is an executable command or if it is a comment
-	 * @param input is a {@code String} representing the input to check
-	 * @return A {@code boolean} denoting whether the input is an executable command
-	 */
-	private boolean isExecutableCommand(String input) {
-		Pattern p = Pattern.compile(syntaxProperties.getProperty("Comment"));
-		Matcher m = p.matcher(input); 
-		return !m.find();
-	}
 	
 	/**
 	 * Creates an error popup window

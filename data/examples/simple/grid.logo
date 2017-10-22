@@ -33,3 +33,9 @@ rt 90
 fd 100
 rt 90
 fd 100
+
+fd fd fd 50
+fd 50 fd 50 fd 50 
+
+
+sum 100 sum 100 100

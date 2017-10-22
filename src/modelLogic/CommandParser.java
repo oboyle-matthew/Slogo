@@ -5,12 +5,10 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
-import java.util.Stack;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -29,11 +27,10 @@ public class CommandParser {
 	private static final String SYNTAX_STRING = "Syntax"; 
 	private static final String PROPERTIES_EXTENSION = ".properties";
 	private static final Double DEFAULT_VARIABLE_VALUE = 0.0;
-	
+	private static final String COMMAND_DNE_ERROR = "Sorry the following command doesn't exist: ";
 	
 	private static final String[] NON_NORMAL_COMMANDS = {"MakeVariable", "Repeat", "DoTimes","For","If","IfElse","MakeUserInstruction"};
-	
-	
+
 /* Instance Variables */
 	private String languageChoice;
 	private Properties currentLanguageProperties;
@@ -46,6 +43,7 @@ public class CommandParser {
 		currentUserVariables = new HashMap<String, Double>(); 
 		syntaxProperties = loadProperties(SYNTAX_STRING);
 	}
+	
 	private Properties loadProperties(String fileName) {
 		try {
 			InputStream input = new FileInputStream(RESOURCES_DIR + fileName + PROPERTIES_EXTENSION);
@@ -60,50 +58,47 @@ public class CommandParser {
 	}
 	
 	public Map<String, List<?>> getCommandsFromInput(String input) {
-		input = input.trim();
 		Map<String, List<?>> ret = new HashMap<String, List<?>>();  
 		LinkedList<String> commands = new LinkedList<String>();
 		LinkedList<Double> constants = new LinkedList<Double>(); 
+		
 		if(!matchesProperty(input, syntaxProperties, "Comment")) {
+			
 			List<String> temp = Arrays.asList(input.split(syntaxProperties.getProperty("Whitespace")));
-			ArrayList<String> splitInput = new ArrayList<String>(temp);
+			List<String> splitInput = new ArrayList<String>(temp);
+			
 			 while(!splitInput.isEmpty()){
-				String textItem = splitInput.remove(0);
+				
+				 String textItem = splitInput.remove(0);
+				
 				if(matchesProperty(textItem, syntaxProperties, "Constant")) {
+					
 					constants.addFirst(Double.parseDouble(textItem));
+					
 				} else if(matchesProperty(textItem, syntaxProperties, "Variable")) {
+					
 					constants.addFirst(currentUserVariables.getOrDefault(textItem, DEFAULT_VARIABLE_VALUE));
+					
 				} else if(matchesProperty(textItem, syntaxProperties, "Command")) {
-					List<String> commandsToAdd = handleCommandInput(textItem, splitInput);
-					for(String s : commandsToAdd) {
-						commands.addFirst(s);
-					}
-				} 
-			}
+			
+					String properCommand = getProperCommandString(textItem);
+					
+					
+				}
+			} 
 		} 
 		ret.put("commands", commands); 
 		ret.put("constants", constants); 
 		return ret; 
 	}
-
-	private List<String> handleCommandInput(String currCommand, List<String> remainingCommands) {
-		List<String> commandsToAdd = new ArrayList<String>();
-		String properCommand = "";
-		for(Object command : currentLanguageProperties.keySet()) {
-			if(matchesProperty(currCommand, currentLanguageProperties, (String) command)) {
-				properCommand = (String) command; 
-				break; 
-			}
-		}
-		if(properCommand.equals("")) {
-			return null;
-		} else if(false) {
-			
-		}
-		return commandsToAdd;
-
-	}
 	
+	
+	private String getProperCommandString(String inputCommand) {
+		for(Object key : currentLanguageProperties.keySet()) {
+			if(matchesProperty(inputCommand, currentLanguageProperties,(String) key)) return (String) key;
+		}
+		return null;
+	}
 	
 	private boolean matchesProperty(String str, Properties p, String property) {
 		Pattern pattern = Pattern.compile(p.getProperty(property));
@@ -127,7 +122,7 @@ public class CommandParser {
 	
 	public static void main(String[] args) {
 		CommandParser p = new CommandParser("English"); 
-		Map<String, List<?>> m = p.getCommandsFromInput("fd sum :shit sum 10 sum 20 20");
+		Map<String, List<?>> m = p.getCommandsFromInput("fd sum [ :shit ] sum 10 sum 20 20");
 		CommandCreator c = new CommandCreator(); 
 		Turtle t = new Turtle(); 
 		List<String> commands = (List<String>) m.get("commands");
@@ -136,15 +131,9 @@ public class CommandParser {
 			System.out.print(commands.get(0) + " was called, and returned: ");
 			ExecutableCommand nextCommand = c.getExecutableCommand(commands.remove(0)); 
 			Double valueReturned = nextCommand.execute(t, constants); 
-			constants.add(0, valueReturned);
+			constants.add(valueReturned);
 			System.out.println(valueReturned);
 		}
-		
-		
-		
-		
-		
 	}
-	
 	
 }

@@ -1,12 +1,16 @@
 package GUI;
 
+import java.util.List;
+
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.collections.ObservableList;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.paint.Paint;
 import javafx.util.Duration;
+import modelLogic.Turtle;
 
 public abstract class ScreenDisplay {
 
@@ -31,7 +35,11 @@ public abstract class ScreenDisplay {
 	public Scene getScene() {
 		return myScene;
 	}
-
+	
+	public ObservableList<Node> getRootChildren() {
+		return root.getChildren();
+	}
+	
 	public abstract void step(double elapsedTime);
 
 	public void init() {

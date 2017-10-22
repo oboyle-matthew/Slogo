@@ -5,12 +5,14 @@ import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.ArcType;
 import modelLogic.CommandParser;
+import modelLogic.Turtle;
 
 public class MainScreen extends ScreenDisplay {
 
 	private static final int CANVAS_WIDTH = 400;
 	private CanvasHolder canvasHolder;
 	private MainScreenGUI gui;
+	private Turtle turtle = new Turtle();
 
 	public MainScreen(int width, int height, Paint background, String language) {
 		super(width, height, background);
@@ -18,15 +20,24 @@ public class MainScreen extends ScreenDisplay {
 		// this.getScene().getStylesheets().add("path/stylesheet.css");
 
 		canvasHolder = new CanvasHolder(CANVAS_WIDTH, CANVAS_WIDTH);
-		GraphicsContext gc = canvasHolder.getGc();
+//		GraphicsContext gc = canvasHolder.getGc();
 		canvasHolder.updateBackgroundColor("white");
 		gui = new MainScreenGUI();
 		rootAdd(gui.getTextBox());
 		CommandParser p = new CommandParser(language);
 		// drawShapes(gc);
 		rootAdd(canvasHolder);
+		addTurtleToScreen();
+		
+		
 
 		// TODO Auto-generated constructor stub
+	}
+
+	private void addTurtleToScreen() {
+		turtle.rotateLeft(90);
+		turtle.rotateRight(180);
+		getRootChildren().add(turtle.getImageViewForScreen());
 	}
 
 	public void step(double elapsedTime) {

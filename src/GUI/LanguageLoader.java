@@ -2,6 +2,7 @@ package GUI;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 
 import javafx.collections.FXCollections;
@@ -36,15 +37,12 @@ public class LanguageLoader extends HBox {
 	}
 
 	private void init() {
-		ArrayList<String> fileNames = createFileList();
+		List<String> fileNames = createFileList();
 		ObservableList<String> LanList = FXCollections.observableArrayList(fileNames);
 		createGoButton();
 		createLanguageLoader(LanList);
 		this.getChildren().add(lanLoader);
 		this.getChildren().add(goButton);
-
-		// Deal With Switch Scene
-		
 	}
 
 	private void createGoButton() {
@@ -54,7 +52,7 @@ public class LanguageLoader extends HBox {
 		});
 	}
 
-	private ArrayList<String> createFileList() {
+	private List<String> createFileList() {
 		File folder = new File(RESOURCE_DIR);
 		File[] listOfFiles = folder.listFiles();
 		ArrayList<String> fileNames = new ArrayList<String>();

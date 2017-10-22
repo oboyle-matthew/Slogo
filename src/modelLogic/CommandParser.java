@@ -56,7 +56,6 @@ public class CommandParser {
 			constants.add(0, valueReturned);
 			System.out.println(valueReturned);
 		}
-
 	}
 
 	public Map<String, List<?>> getCommandsFromInput(String input) {
@@ -99,7 +98,6 @@ public class CommandParser {
 			return null;
 		} else if (properCommand.equals(anObject))
 			return commandsToAdd;
-
 	}
 
 	private boolean matchesProperty(String str, Properties p, String property) {

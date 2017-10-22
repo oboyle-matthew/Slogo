@@ -38,14 +38,6 @@ public class Turtle {
 		penDown = false;
 	}
 
-	private ImageView createTurtle() {
-		return new ImageView();
-		/*
-		 * File file = new File(TURTLE_IMAGE_PATH); Image turtleImage = new
-		 * Image(file.toURI().toString()); return new ImageView(turtleImage);
-		 */
-	}
-
 	/* Rotation Methods */
 
 	/**
@@ -243,5 +235,15 @@ public class Turtle {
 	 */
 	public boolean isTurtleVisible() {
 		return myTurtle.isVisible();
+	}
+
+	/* End of Rotation Methods */
+
+	private ImageView createTurtle() {
+		return new ImageView();
+		/*
+		 * File file = new File(TURTLE_IMAGE_PATH); Image turtleImage = new
+		 * Image(file.toURI().toString()); return new ImageView(turtleImage);
+		 */
 	}
 }

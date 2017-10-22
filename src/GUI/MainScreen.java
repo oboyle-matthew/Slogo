@@ -25,7 +25,7 @@ public class MainScreen extends ScreenDisplay{
 		rootAdd(gui.getTextBox());
 		CommandParser p = new CommandParser(language);
 
-		drawShapes(gc);
+//		drawShapes(gc);
 		rootAdd(canvasHolder);
 		
 		// TODO Auto-generated constructor stub

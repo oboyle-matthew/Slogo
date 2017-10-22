@@ -46,7 +46,7 @@ public class CommandParser {
 		currentUserVariables = new HashMap<String, Double>(); 
 		syntaxProperties = loadProperties(SYNTAX_STRING);
 	}
-	private Properties loadProperties(String language) {
+	private Properties loadProperties(String fileName) {
 		try {
 			InputStream input = new FileInputStream(RESOURCES_DIR + fileName + PROPERTIES_EXTENSION);
 			Properties prop = new Properties(); 
@@ -97,7 +97,9 @@ public class CommandParser {
 		}
 		if(properCommand.equals("")) {
 			return null;
-		} else if(properCommand.equals(anObject))
+		} else if(false) {
+			
+		}
 		return commandsToAdd;
 
 	}

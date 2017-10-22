@@ -13,4 +13,9 @@ public class ShowTurtleCommand implements ExecutableCommand {
 	public double execute(Turtle tortuga, List<Double> args) {
 		return tortuga.showTurtle();
 	}
+	
+	@Override
+	public int paramNumber() {
+		return 0;
+	} 
 }

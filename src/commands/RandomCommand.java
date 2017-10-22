@@ -18,5 +18,10 @@ public class RandomCommand implements ExecutableCommand {
 		if(args == null || args.size() < 1) return rn.nextDouble() * DEFAULT_MAX_VALUE; 
 		return rn.nextDouble() * args.remove(0);
 	}
+	
+	@Override
+	public int paramNumber() {
+		return 1;
+	} 
 
 }

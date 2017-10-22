@@ -12,4 +12,8 @@ public class GreaterThanCommand implements ExecutableCommand {
 		return (new BooleanOperationCommand(GREATER)).execute(tortuga, args);
 	} 
 	
+	@Override
+	public int paramNumber() {
+		return 2;
+	} 
 }

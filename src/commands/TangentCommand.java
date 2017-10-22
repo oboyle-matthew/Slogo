@@ -14,4 +14,10 @@ public class TangentCommand implements ExecutableCommand {
 		return Math.tan(Math.toRadians(args.remove(0))); 
 	}
 
+	@Override
+	public int paramNumber() {
+		return 1;
+	} 
+	
+	
 }

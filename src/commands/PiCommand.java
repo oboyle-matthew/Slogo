@@ -13,4 +13,9 @@ public class PiCommand implements ExecutableCommand {
 	public double execute(Turtle tortuga, List<Double> args) {
 		return Math.PI; 
 	}
+	
+	@Override
+	public int paramNumber() {
+		return 0;
+	} 
 }

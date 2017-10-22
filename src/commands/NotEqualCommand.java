@@ -12,4 +12,8 @@ public class NotEqualCommand implements ExecutableCommand {
 		return (new BooleanOperationCommand(NOTEQUAL)).execute(tortuga, args);
 	} 
 	
+	@Override
+	public int paramNumber() {
+		return 2;
+	} 
 }

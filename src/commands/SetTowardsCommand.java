@@ -32,5 +32,9 @@ public class SetTowardsCommand implements ExecutableCommand {
 		
 	}
 	
+	@Override
+	public int paramNumber() {
+		return 2;
+	} 
 	
 }

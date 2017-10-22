@@ -13,5 +13,10 @@ public class IsShowingCommand implements ExecutableCommand {
 	public double execute(Turtle tortuga, List<Double> args) {
 		return (tortuga.isTurtleVisible() ? 1 : 0);
 	}
+	
+	@Override
+	public int paramNumber() {
+		return 0;
+	} 
 
 }

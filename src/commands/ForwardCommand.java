@@ -18,4 +18,9 @@ public class ForwardCommand implements ExecutableCommand {
 		if(args == null || args.size() == 0) return tortuga.moveForward(DEFAULT_AMOUNT_TO_MOVE_FORWARD);
 		return tortuga.moveForward(args.remove(0));
 	}
+	
+	@Override
+	public int paramNumber() {
+		return 1;
+	} 
 }

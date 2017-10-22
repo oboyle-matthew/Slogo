@@ -16,4 +16,9 @@ public class SetHeadingCommand implements ExecutableCommand {
 		if(args == null || args.size() == 0) return tortuga.setHeading(DEFAULT_DIRECTION);
 		return tortuga.setHeading(args.remove(0));
 	}
+	
+	@Override
+	public int paramNumber() {
+		return 1;
+	} 
 }

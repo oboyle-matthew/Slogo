@@ -38,5 +38,10 @@ public class BooleanOperationCommand implements ExecutableCommand {
 		if(myCommand.equals(OR)) return (args.remove(0) > 0 || args.remove(0) > 0 ? 1 : 0);
 		return 0;
 	}
+	
+	@Override
+	public int paramNumber() {
+		return 0;
+	} 
 
 }

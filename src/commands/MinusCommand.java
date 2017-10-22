@@ -13,4 +13,9 @@ public class MinusCommand implements ExecutableCommand {
 		return -1 * args.remove(0);
 	}
 	
+	@Override
+	public int paramNumber() {
+		return 1;
+	} 
+	
 }

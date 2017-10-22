@@ -16,4 +16,10 @@ public class LeftCommand implements ExecutableCommand {
 		if(args == null || args.size() == 0) return tortuga.rotateLeft(DEFAULT_AMOUNT);
 		return tortuga.rotateLeft(args.remove(0));
 	}
+	
+	@Override
+	public int paramNumber() {
+		return 1;
+	} 
 }
+

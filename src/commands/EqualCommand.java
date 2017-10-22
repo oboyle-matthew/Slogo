@@ -12,4 +12,8 @@ public class EqualCommand implements ExecutableCommand {
 		return (new BooleanOperationCommand(EQUAL)).execute(tortuga, args);
 	} 
 	
+	@Override
+	public int paramNumber() {
+		return 2;
+	} 
 }

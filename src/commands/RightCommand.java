@@ -16,4 +16,9 @@ public class RightCommand implements ExecutableCommand {
 		if(args == null || args.size() == 0) return tortuga.rotateRight(DEFAULT_AMOUNT);
 		return tortuga.rotateRight(args.remove(0));
 	}
+	
+	@Override
+	public int paramNumber() {
+		return 1;
+	} 
 }

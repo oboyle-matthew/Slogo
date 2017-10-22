@@ -13,5 +13,10 @@ public class IsPenDownCommand implements ExecutableCommand {
 	public double execute(Turtle tortuga, List<Double> args) {
 		return (tortuga.isPenDown() ? 1 : 0);
 	}
+	
+	@Override
+	public int paramNumber() {
+		return 0;
+	} 
 
 }

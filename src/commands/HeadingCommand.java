@@ -14,4 +14,8 @@ public class HeadingCommand implements ExecutableCommand {
 		return tortuga.getHeading();
 	}
 
+	@Override
+	public int paramNumber() {
+		return 0;
+	} 
 }

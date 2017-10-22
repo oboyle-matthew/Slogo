@@ -23,4 +23,6 @@ public interface ExecutableCommand {
 	 */
 	public double execute(Turtle tortuga, List<Double> args); 
 	
+	public int paramNumber();
+	
 }

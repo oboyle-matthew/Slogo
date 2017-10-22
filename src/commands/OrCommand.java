@@ -12,4 +12,9 @@ public class OrCommand implements ExecutableCommand {
 		return (new BooleanOperationCommand(OR)).execute(tortuga, args);
 	} 
 	
+	@Override
+	public int paramNumber() {
+		return 2;
+	} 
+	
 }

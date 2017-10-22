@@ -36,5 +36,10 @@ public class TrigCommand implements ExecutableCommand {
 		if(myCommand.equals(ARCTANGENT)) return Math.atan(angle); 
 		return 0; 
 	}
+	
+	@Override
+	public int paramNumber() {
+		return 0;
+	} 
 
 }

@@ -18,5 +18,10 @@ public class SetPositionCommand implements ExecutableCommand {
 		if(args == null || args.size() < 2) return tortuga.moveTo(DEFAULT_X_POSITION, DEFAULT_Y_POSITION);
 		return tortuga.moveTo(args.remove(0), args.remove(0));
 	}
+	
+	@Override
+	public int paramNumber() {
+		return 2;
+	} 
 
 }

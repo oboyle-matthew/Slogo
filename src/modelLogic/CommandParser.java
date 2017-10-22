@@ -24,17 +24,15 @@ public class CommandParser {
 	private static final String PROPERTIES_DNE_ERROR = "Sorry, we can't find the properties for the file: ";
 	private static final String RESOURCES_DIR = "src/resources/languages/";
 	private static final String SYNTAX_STRING = "Syntax";
+	private static final String PARAMETER_STRING = "CommandParameters";
 	private static final String PROPERTIES_EXTENSION = ".properties";
 	private static final Double DEFAULT_VARIABLE_VALUE = 0.0;
-	private static final String COMMAND_DNE_ERROR = "Sorry the following command doesn't exist: ";
-
-	private static final String[] NON_NORMAL_COMMANDS = { "MakeVariable", "Repeat", "DoTimes", "For", "If", "IfElse",
-			"MakeUserInstruction" };
 
 	/* Instance Variables */
 	private String languageChoice;
 	private Properties currentLanguageProperties;
 	private Properties syntaxProperties;
+	private Properties parameterProperties; 
 	private Map<String, Double> currentUserVariables;
 
 	public CommandParser(String language) {
@@ -42,6 +40,7 @@ public class CommandParser {
 		currentLanguageProperties = loadProperties(language);
 		currentUserVariables = new HashMap<String, Double>();
 		syntaxProperties = loadProperties(SYNTAX_STRING);
+		parameterProperties = loadProperties(PARAMETER_STRING); 
 	}
 
 	private Properties loadProperties(String fileName) {

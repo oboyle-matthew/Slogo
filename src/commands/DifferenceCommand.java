@@ -14,4 +14,8 @@ public class DifferenceCommand implements ExecutableCommand {
 		return args.remove(0) - args.remove(0); 
 	}
 	
+	@Override
+	public int paramNumber() {
+		return 2;
+	} 
 }

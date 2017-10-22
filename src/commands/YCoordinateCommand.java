@@ -13,4 +13,9 @@ public class YCoordinateCommand implements ExecutableCommand {
 	public double execute(Turtle tortuga, List<Double> args) {
 		return tortuga.getCoordinates()[1]; 
 	}
+	
+	@Override
+	public int paramNumber() {
+		return 0;
+	} 
 }

@@ -40,5 +40,10 @@ public class MathOperationsCommand implements ExecutableCommand {
 		if(myCommand.equals(MINUS)) return -1 * nums[0] ; 
 		return 0;
 	}
+	
+	@Override
+	public int paramNumber() {
+		return 0;
+	} 
 
 }

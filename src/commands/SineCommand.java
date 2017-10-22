@@ -13,5 +13,10 @@ public class SineCommand implements ExecutableCommand {
 		if(args == null || args.size() < 1) return DEFAULT_RETURN_VALUE;
 		return Math.sin(Math.toRadians(args.remove(0))); 
 	}
+	
+	@Override
+	public int paramNumber() {
+		return 1;
+	} 
 
 }

@@ -15,4 +15,9 @@ public class NaturalLogCommand implements ExecutableCommand {
 		if(args == null || args.size() < 1) return Math.log(DEFAULT_VALUE); 
 		return Math.log(args.remove(0)); 
 	}
+	
+	@Override
+	public int paramNumber() {
+		return 1;
+	} 
 }

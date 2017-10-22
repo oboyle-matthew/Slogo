@@ -13,4 +13,9 @@ public class HomeCommand implements ExecutableCommand {
 	public double execute(Turtle tortuga, List<Double> args) {
 		return tortuga.moveTo(0, 0); 
 	}
+	
+	@Override
+	public int paramNumber() {
+		return 0;
+	} 
 }

@@ -13,4 +13,9 @@ public class HideTurtleCommand implements ExecutableCommand {
 	public double execute(Turtle tortuga, List<Double> args) {
 		return tortuga.hideTurtle();
 	}
+	
+	@Override
+	public int paramNumber() {
+		return 0;
+	} 
 }

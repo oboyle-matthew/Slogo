@@ -14,4 +14,9 @@ public class PenDownCommand implements ExecutableCommand {
 	public double execute(Turtle tortuga, List<Double> args) {
 		return tortuga.penDown();
 	}
+	
+	@Override
+	public int paramNumber() {
+		return 0;
+	} 
 }

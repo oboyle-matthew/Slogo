@@ -17,4 +17,9 @@ public class BackwardCommand implements ExecutableCommand {
 		if(args == null || args.size() == 0) return tortuga.moveBackwards(DEFAULT_AMOUNT_TO_MOVE_BACKWARDS); 
 		return tortuga.moveBackwards(args.remove(0));
 	}
+	
+	@Override
+	public int paramNumber() {
+		return 1;
+	} 
 }

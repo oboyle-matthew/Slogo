@@ -8,8 +8,11 @@ public class ClearScreenCommand implements ExecutableCommand {
 
 	@Override
 	public double execute(Turtle tortuga, List<Double> args) {
-		// TODO Auto-generated method stub
 		return 0;
 	}
-
+	
+	@Override
+	public int paramNumber() {
+		return 0;
+	} 
 }

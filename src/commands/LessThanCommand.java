@@ -12,5 +12,9 @@ public class LessThanCommand implements ExecutableCommand {
 		return (new BooleanOperationCommand(LESS)).execute(tortuga, args);
 	} 
 	
+	@Override
+	public int paramNumber() {
+		return 2;
+	} 
 	
 }

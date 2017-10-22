@@ -13,5 +13,10 @@ public class ArcTangentCommand implements ExecutableCommand {
 		if(args == null || args.size() < 1) return DEFAULT_RETURN_VALUE;
 		return Math.atan(args.remove(0)); 
 	}
+	
+	@Override
+	public int paramNumber() {
+		return 1;
+	} 
 
 }

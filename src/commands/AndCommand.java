@@ -11,6 +11,10 @@ public class AndCommand implements ExecutableCommand {
 	@Override
 	public double execute(Turtle tortuga, List<Double> args) {
 		return (new BooleanOperationCommand(AND)).execute(tortuga, args);
+	}
+
+	@Override
+	public int paramNumber() {
+		return 2;
 	} 
-	
 }

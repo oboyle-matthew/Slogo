@@ -17,5 +17,10 @@ public class PowerCommand implements ExecutableCommand {
 		if(args == null || args.size() < 2) return Math.pow(DEFAULT_BASE, DEFAULT_EXPONENT);
 		return Math.pow(args.remove(0), args.remove(0));
 	}
+	
+	@Override
+	public int paramNumber() {
+		return 2;
+	} 
 
 }

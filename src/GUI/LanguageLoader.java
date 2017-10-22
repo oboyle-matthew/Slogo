@@ -1,11 +1,7 @@
 package GUI;
 
-import java.awt.Dimension;
-import java.awt.Toolkit;
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Arrays;
-
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Rectangle2D;
@@ -23,9 +19,8 @@ public class LanguageLoader extends HBox {
 	private static final int MAINHEIGHT = 600;
 	private static final Paint BACKGROUND = Color.LIGHTBLUE;
 	private static final String RESOURCE_DIR = System.getProperty("user.dir") + "/src/resources";
-	private ComboBox lanLoader = new ComboBox<String>();
+	private ComboBox<String> lanLoader = new ComboBox<String>();
 	private Button goButton;
-	private ObservableList<String> LanList;
 	private Stage stage;
 
 	public LanguageLoader(double xPos, double yPos, Stage currentStage) {
@@ -39,10 +34,10 @@ public class LanguageLoader extends HBox {
 		File folder = new File(RESOURCE_DIR + "/languages");
 		File[] listOfFiles = folder.listFiles();
 		ArrayList<String> fileNames = new ArrayList<String>();
-		for(File file: listOfFiles) {
+		for (File file : listOfFiles) {
 			fileNames.add(file.getName().replaceAll(".properties", ""));
 		}
-		LanList = FXCollections.observableArrayList(fileNames);
+		ObservableList<String> LanList = FXCollections.observableArrayList(fileNames);
 		goButton = new Button("GO");
 		lanLoader.setPromptText("Choose Language");
 		lanLoader.setEditable(true);
@@ -65,5 +60,4 @@ public class LanguageLoader extends HBox {
 		stage.setY(primaryScreenBounds.getHeight() / 2 - MAINHEIGHT / 2);
 		stage.setScene(myScene.getScene());
 	}
-
 }

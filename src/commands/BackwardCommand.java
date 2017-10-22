@@ -7,7 +7,7 @@ import modelLogic.Turtle;
 /**
  *  Tells the turtle to move backwards by the specified amount
  */
-public class BackwardsCommand implements ExecutableCommand {
+public class BackwardCommand implements ExecutableCommand {
 
 /* Final Variables */
 	private static final double DEFAULT_AMOUNT_TO_MOVE_BACKWARDS = 30; 

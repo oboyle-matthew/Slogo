@@ -6,7 +6,7 @@ import modelLogic.Turtle;
 /**
  * Sets the turtle to face a particular point
  */
-public class TowardsCommand implements ExecutableCommand {
+public class SetTowardsCommand implements ExecutableCommand {
 
 	private static final double DEFAULT_X_COORDINATE = 0; 
 	private static final double DEFAULT_Y_COORDINATE = 0; 

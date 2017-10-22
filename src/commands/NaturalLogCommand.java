@@ -6,7 +6,7 @@ import modelLogic.Turtle;
 /** 
  * Executable Command representing the Log command
  */
-public class LogCommand implements ExecutableCommand {
+public class NaturalLogCommand implements ExecutableCommand {
 
 	private static double DEFAULT_VALUE = 100; 
 	

@@ -7,7 +7,7 @@ import modelLogic.Turtle;
 /**
  * Executable Command for retrieving the up or down status of the pen
  */
-public class GetPenDownCommand implements ExecutableCommand {
+public class IsPenDownCommand implements ExecutableCommand {
 
 	@Override
 	public double execute(Turtle tortuga, List<Double> args) {

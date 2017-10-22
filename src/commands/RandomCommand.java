@@ -8,7 +8,7 @@ import modelLogic.Turtle;
 /**
  * Executable Command that generates a random number 
  */
-public class RandomNumCommand implements ExecutableCommand {
+public class RandomCommand implements ExecutableCommand {
 
 	private static final double DEFAULT_MAX_VALUE = 100; 
 	

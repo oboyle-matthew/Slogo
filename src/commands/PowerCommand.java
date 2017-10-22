@@ -7,7 +7,7 @@ import modelLogic.Turtle;
 /** 
  * Executable Command representing the pow command
  */
-public class PowCommand implements ExecutableCommand {
+public class PowerCommand implements ExecutableCommand {
 	
 	private static double DEFAULT_BASE = 2; 
 	private static double DEFAULT_EXPONENT = 4; 

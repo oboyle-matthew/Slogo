@@ -7,7 +7,7 @@ import modelLogic.Turtle;
 /**
  * Executable Command for retrieving the turtle's y coordinate
  */
-public class GetYCoordinateCommand implements ExecutableCommand {
+public class YCoordinateCommand implements ExecutableCommand {
 
 	@Override
 	public double execute(Turtle tortuga, List<Double> args) {

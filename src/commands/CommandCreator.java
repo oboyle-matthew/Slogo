@@ -76,15 +76,15 @@ public class CommandCreator {
 		switch (command) {
 			case "forward": return new ForwardCommand();
 			case "fd": return new ForwardCommand();
-			case "back" : return new BackwardsCommand();
-			case "bk" : return new BackwardsCommand();
-			case "left" : return new LeftRotateCommand();
-			case "lt" : return new LeftRotateCommand();
-			case "right" : return new RightRotateCommand();
-			case "rt" : return new RightRotateCommand();
+			case "back" : return new BackwardCommand();
+			case "bk" : return new BackwardCommand();
+			case "left" : return new LeftCommand();
+			case "lt" : return new LeftCommand();
+			case "right" : return new RightCommand();
+			case "rt" : return new RightCommand();
 			case "setheading" : return new SetHeadingCommand();
 			case "seth" : return new SetHeadingCommand();
-			case "towards" : return new TowardsCommand();
+			case "towards" : return new SetTowardsCommand();
 			case "setxy" : return new SetPositionCommand();
 			case "goto" : return new SetPositionCommand();
 			case "pendown" : return new PenDownCommand();
@@ -109,13 +109,13 @@ public class CommandCreator {
 	 */
 	private ExecutableCommand createQueryCommand(String command) {
 		switch (command) {
-			case "xcor": return new GetXCoordinateCommand();
-			case "ycor": return new GetYCoordinateCommand();
-			case "heading": return new GetHeadingCommand();
-			case "pendown?": return new GetPenDownCommand();
-			case "pendownp": return new GetPenDownCommand();
-			case "showing?": return new GetVisibilityCommand();
-			case "showingp": return new GetVisibilityCommand();
+			case "xcor": return new XCoordinateCommand();
+			case "ycor": return new YCoordinateCommand();
+			case "heading": return new HeadingCommand();
+			case "pendown?": return new IsPenDownCommand();
+			case "pendownp": return new IsPenDownCommand();
+			case "showing?": return new IsShowingCommand();
+			case "showingp": return new IsShowingCommand();
 		}
 		return null;
 	}
@@ -139,13 +139,13 @@ public class CommandCreator {
 			case "%": return new MathOperationsCommand("remainder");
 			case "minus": return new MathOperationsCommand(command);
 			case "~": return new MathOperationsCommand("minus");
-			case "random": return new RandomNumCommand();
+			case "random": return new RandomCommand();
 			case "sin": return new TrigCommand(command);
 			case "cos": return new TrigCommand(command);
 			case "tan": return new TrigCommand(command);
 			case "atan": return new TrigCommand(command);
-			case "log": return new LogCommand();
-			case "pow": return new PowCommand();
+			case "log": return new NaturalLogCommand();
+			case "pow": return new PowerCommand();
 			case "pi": return new PiCommand();
 		}
 		return null;
@@ -168,7 +168,7 @@ public class CommandCreator {
 			case "notequalp": return new BooleanOperationCommand("notequal?"); 
 			case "and": return new BooleanOperationCommand(command);  
 			case "or": return new BooleanOperationCommand(command);  
-			case "not": return new NotOperationCommand();  
+			case "not": return new NotCommand();  
 		}
 		return null; 
 	}

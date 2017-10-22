@@ -1,5 +1,7 @@
 package commands;
 
+import java.util.List;
+
 import modelLogic.Turtle;
 
 /** 
@@ -11,9 +13,9 @@ public class PowCommand implements ExecutableCommand {
 	private static double DEFAULT_EXPONENT = 4; 
 	
 	@Override
-	public double execute(Turtle tortuga, double[] args) {
-		if(args == null || args.length < 2) return Math.pow(DEFAULT_BASE, DEFAULT_EXPONENT);
-		return Math.pow(args[0], args[1]);
+	public double execute(Turtle tortuga, List<Double> args) {
+		if(args == null || args.size() < 2) return Math.pow(DEFAULT_BASE, DEFAULT_EXPONENT);
+		return Math.pow(args.remove(0), args.remove(0));
 	}
 
 }

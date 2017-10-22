@@ -1,5 +1,7 @@
 package commands;
 
+import java.util.List;
+
 import modelLogic.Turtle;
 
 /**
@@ -8,7 +10,7 @@ import modelLogic.Turtle;
 public class HideTurtleCommand implements ExecutableCommand {
 
 	@Override
-	public double execute(Turtle tortuga, double[] args) {
+	public double execute(Turtle tortuga, List<Double> args) {
 		return tortuga.hideTurtle();
 	}
 }

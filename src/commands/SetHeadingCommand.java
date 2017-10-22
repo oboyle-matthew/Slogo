@@ -1,5 +1,7 @@
 package commands;
 
+import java.util.List;
+
 import modelLogic.Turtle;
 
 /**
@@ -10,8 +12,8 @@ public class SetHeadingCommand implements ExecutableCommand {
 	private static final double DEFAULT_DIRECTION = 90;
 
 	@Override
-	public double execute(Turtle tortuga, double[] args) {
-		if(args == null || args.length == 0) return tortuga.setHeading(DEFAULT_DIRECTION);
-		return tortuga.setHeading(args[0]);
+	public double execute(Turtle tortuga, List<Double> args) {
+		if(args == null || args.size() == 0) return tortuga.setHeading(DEFAULT_DIRECTION);
+		return tortuga.setHeading(args.remove(0));
 	}
 }

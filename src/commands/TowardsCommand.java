@@ -1,5 +1,7 @@
 package commands;
 
+import java.util.List;
+
 import modelLogic.Turtle;
 /**
  * Sets the turtle to face a particular point
@@ -11,8 +13,8 @@ public class TowardsCommand implements ExecutableCommand {
 	private static final double ANGLE_OFFSET = 90;
 	
 	@Override
-	public double execute(Turtle tortuga, double[] args) {
-		if(args == null || args.length < 2) {
+	public double execute(Turtle tortuga, List<Double> args) {
+		if(args == null || args.size() < 2) {
 			
 		}
 		return 0;

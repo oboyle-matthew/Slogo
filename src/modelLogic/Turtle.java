@@ -1,10 +1,11 @@
 package modelLogic;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
-
 import javafx.animation.PathTransition;
 import javafx.animation.RotateTransition;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.shape.LineTo;
 import javafx.scene.shape.MoveTo;
@@ -240,10 +241,8 @@ public class Turtle {
 	/* End of Rotation Methods */
 
 	private ImageView createTurtle() {
-		return new ImageView();
-		/*
-		 * File file = new File(TURTLE_IMAGE_PATH); Image turtleImage = new
-		 * Image(file.toURI().toString()); return new ImageView(turtleImage);
-		 */
+		File file = new File(TURTLE_IMAGE_PATH);
+		Image turtleImage = new Image(file.toURI().toString());
+		return new ImageView(turtleImage);
 	}
 }

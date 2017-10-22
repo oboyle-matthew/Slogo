@@ -26,7 +26,6 @@ public class MainScreen extends ScreenDisplay{
 		drawShapes(gc);
 		rootAdd(canvasHolder);
 		
-		CommandParser p = new CommandParser(language);
 		// TODO Auto-generated constructor stub
 	}
 

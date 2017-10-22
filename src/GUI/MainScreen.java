@@ -23,7 +23,9 @@ public class MainScreen extends ScreenDisplay{
 		canvasHolder.updateBackgroundColor("white");
 		gui = new MainScreenGUI();
 		rootAdd(gui.getTextBox());
-		drawShapes(gc);
+		CommandParser p = new CommandParser(language);
+
+//		drawShapes(gc);
 		rootAdd(canvasHolder);
 		
 		// TODO Auto-generated constructor stub

@@ -33,9 +33,6 @@ public class Main extends Application {
 		s.show();
 	}
 
-	//Test
-
-
 	/**
 	 * Start the program.
 	 */

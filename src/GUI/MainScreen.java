@@ -23,7 +23,6 @@ public class MainScreen extends ScreenDisplay {
 		gui = new MainScreenGUI();
 		rootAdd(gui.getTextBox());
 		CommandParser p = new CommandParser(language);
-
 		// drawShapes(gc);
 		rootAdd(canvasHolder);
 

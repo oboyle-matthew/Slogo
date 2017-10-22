@@ -2,6 +2,7 @@ package commands;
 
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.ResourceBundle;
 
 /**
  * The class that is meant to mimic the object factory design pattern. This class takes in
@@ -9,6 +10,10 @@ import java.util.HashSet;
  */
 
 public class CommandCreator {
+    public static final String DEFAULT_RESOURCE_PACKAGE = "resources.languages/";
+	public String language = "English";
+	private ResourceBundle myResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + language);
+	
 	/**
 	 * In order to optimize the speed of this class, the commands are broken down into 
 	 * their separate categories, which allows them to get routed initially to methods 

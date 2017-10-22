@@ -35,8 +35,8 @@ public class MainScreen extends ScreenDisplay {
 	}
 
 	private void addTurtleToScreen() {
-		turtle.rotateLeft(90);
-		turtle.rotateRight(180);
+		turtle.moveToSimple(200, 200);
+		turtle.rotateRight(360);
 		getRootChildren().add(turtle.getImageViewForScreen());
 	}
 

@@ -110,6 +110,12 @@ public class Turtle {
 		myPaths.add(p);
 		return Math.sqrt(xDiff * xDiff + yDiff * yDiff);
 	}
+	
+	public void moveToSimple(double newXPosition, double newYPosition) {
+		myTurtle.setX(newXPosition);
+		myTurtle.setY(newYPosition);
+		
+	}
 
 	/**
 	 * Move the turtle forward by a certain amount

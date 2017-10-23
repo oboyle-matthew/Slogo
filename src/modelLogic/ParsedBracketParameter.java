@@ -2,6 +2,7 @@ package modelLogic;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class ParsedBracketParameter extends ParsedItem {
 	
@@ -19,9 +20,9 @@ public class ParsedBracketParameter extends ParsedItem {
 	
 	
 	
-	public double executeCommands(Turtle tortuga) {
+	public double executeCommands(Turtle tortuga, Map<String, Double> variables) {
 		CommandParser p = new CommandParser(currLanguage);
-		return p.executeCommands(myContents, tortuga);
+		return p.executeCommands(myContents, tortuga, variables);
 	}
 
 	@Override

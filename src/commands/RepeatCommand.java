@@ -17,8 +17,7 @@ public class RepeatCommand extends ExecutableCommand {
 		for(int i = 0; i < repeat; i++) {
 			ParsedBracketParameter temp = (ParsedBracketParameter) p.getCopy();
 			variables.put(":repcount", i + 1.0);
-			ret = p.executeCommands(tortuga);
-			System.out.println(variables.get(":repcount"));
+			ret = p.executeCommands(tortuga, variables);
 			p = temp; 
 		}
 		return ret;

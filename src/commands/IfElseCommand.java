@@ -15,10 +15,10 @@ public class IfElseCommand extends ExecutableCommand {
 		double ret = 0; 
 		if(value != 0) {
 			ParsedBracketParameter p = (ParsedBracketParameter) params[1];
-			ret = p.executeCommands(tortuga);
+			ret = p.executeCommands(tortuga, variables);
 		} else {
 			ParsedBracketParameter p = (ParsedBracketParameter) params[2];
-			ret = p.executeCommands(tortuga);
+			ret = p.executeCommands(tortuga, variables);
 		}
 		return ret;
 	}

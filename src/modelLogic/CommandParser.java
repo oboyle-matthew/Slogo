@@ -336,18 +336,13 @@ public class CommandParser {
 		errorPopup.getDialogPane().getButtonTypes().add(closeButton);
 		errorPopup.showAndWait();
 	}
-
+	
 	public static void main(String[] args) {
 		CommandParser p = new CommandParser("English");
-		
 		Turtle t = new Turtle();
 		String command = "fd 10 fd 10 sum 10 10";
 		p.parseInput(command, t);
 		//System.out.println(Arrays.toString(ret));
 	}
-<<<<<<< HEAD
-	
 
-=======
->>>>>>> c68d3b3e4286dbcb95794a25209fd7bc382130f1
 }

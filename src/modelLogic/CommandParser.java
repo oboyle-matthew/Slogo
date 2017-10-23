@@ -64,61 +64,86 @@ public class CommandParser {
 			for(int i = 0; i < splitInputList.size(); i++) {
 				if(isCommand(splitInputList.get(i))) {
 					ExecutableCommand newCommand = createExecutableCommand(getProperCommandString(splitInputList.get(i)));
-					list.add(new ParsedCommand(newCommand));
+					list.add(new ParsedCommand(newCommand, getProperCommandString(splitInputList.get(i))));
 				} else if(matchesProperty(splitInputList.get(i), syntaxProperties, "Constant")) {
 					list.add(new ParsedRegularParameter(splitInputList.get(i), false));
 				} else if(matchesProperty(splitInputList.get(i), syntaxProperties, "Variable")) {
 					list.add(new ParsedRegularParameter(splitInputList.get(i), true));
-				} else {
+				} else if(matchesProperty(splitInputList.get(i), syntaxProperties, "ListStart")) {
 					String innerInput = getBracketContent(i, splitInputList);
 					List<ParsedItem> l = getParsedItemList(innerInput); 
-					list.add(new ParsedBracketParameter(l));
-					i = i + l.size() + 2; 
+					list.add(new ParsedBracketParameter(l, languageChoice));
+					i = i + l.size() + 1; 
 				}
 			}
 		}
 		return list;
 	}
 	
+	public double executeCommands(List<ParsedItem> items, Turtle tortuga) {
+		double val = cleanList(items); 
+		while(items.size() > 0 && notAllParams(items)) {
+			executeNextCommand(items, tortuga); 
+			val = cleanList(items);
+		}
+		return val;
+	}
+	
+	private boolean notAllParams(List<ParsedItem> items) {
+		for(int i = 0; i < items.size(); i++) {
+			if(items.get(i).getItemType().equals("command")) return true;
+		}
+		return false;
+	}
+	
 	public void parseInput(String input, Turtle tortuga) {
 		List<ParsedItem> p = getParsedItemList(input);
-		cleanList(p); 
-		while(p.size() > 0) {
-			executeNextCommand(p, tortuga); 
-			cleanList(p);
-		}
+		executeCommands(p, tortuga);
 	}
 	
 	private void executeNextCommand(List<ParsedItem> list, Turtle tortuga) {
 		for(int i = 0; i < list.size(); i++) {
 			if(list.get(i).getItemType().equals("command")) {
+//				for(ParsedItem s : list)
+//					System.out.print(s.getName() + " ");
+//				System.out.println("");
 				ParsedCommand p = (ParsedCommand) list.get(i);
 				int canExecute = checkNextParams(list, i, p.getParameterOrder());
 				if(canExecute == -1) return; 
 				if(canExecute == 0) continue; 
 				ParsedItem[] params = new ParsedItem[p.getParameterOrder().length];
 				for(int j = 0; j < params.length; j++)
-					params[j + i + 1] = list.remove(i + 1); 
+					params[j] = list.remove(i + 1); 
+				System.out.println(userVariables.get(":repcount"));
 				double value = p.execute(params, tortuga, userVariables);
+				System.out.println(p.getName() + " returned " + value);
 				list.set(i, new ParsedRegularParameter("" + value, false));
+//				for(ParsedItem s : list)
+//					System.out.print(s.getName() + " ");
+//				System.out.println("");
+				return; 
 			}
 		}
 	}
 	
 	private int checkNextParams(List<ParsedItem> list, int currIndex, String[] paramsNeeded) {
 		if(currIndex + paramsNeeded.length >= list.size()) return -1; 
-		for(int i = currIndex + 1; i < paramsNeeded.length; i++) {
+		for(int i = currIndex + 1; i < paramsNeeded.length + currIndex + 1; i++) {
 			if(!list.get(i).getItemType().equals(paramsNeeded[i - currIndex - 1])) return 0;
 		}
 		return 1; 
 	}
 	
-	private void cleanList(List<ParsedItem> list) {
+	private double cleanList(List<ParsedItem> list) {
 		ParsedItem curr = list.get(0); 
-		while(!curr.getItemType().equals("command")) {
+		double val = 0;
+		if(list.size() == 1 && !notAllParams(list)) return Double.parseDouble( ((ParsedRegularParameter)curr).getValue());
+		while(list.size() > 1 && !curr.getItemType().equals("command")) {
 			list.remove(0);
+			val = Double.parseDouble( ((ParsedRegularParameter)curr).getValue());
 			curr = list.get(0);
 		}
+		return val;
 	}
 	
 	
@@ -128,9 +153,9 @@ public class CommandParser {
 		int index = currIndex + 1; 
 		while(bracketNum != 0) {
 			String curr = splitInputList.get(index);
-			if(matchesProperty(curr, syntaxProperties, "LeftBracket")) {
+			if(matchesProperty(curr, syntaxProperties, "ListStart")) {
 				bracketNum++;
-			} else if(matchesProperty(curr, syntaxProperties, "RightBracket")) {
+			} else if(matchesProperty(curr, syntaxProperties, "ListEnd")) {
 				bracketNum--;
 			} else {
 				s = s + " " + curr; 
@@ -319,7 +344,7 @@ public class CommandParser {
 	private boolean matchesProperty(String str, Properties p, String property) {
 		Pattern pattern = Pattern.compile(p.getProperty(property));
 		Matcher m = pattern.matcher(str);
-		return m.find();
+		return m.matches();
 	}
 
 	/**
@@ -341,7 +366,8 @@ public class CommandParser {
 		CommandParser p = new CommandParser("English");
 		
 		Turtle t = new Turtle();
-		String command = "fd 10 fd 10 sum 10 10";
+		String test = "]";
+		String command = "repeat 10 [ sum 10 :repcount ] ";
 		p.parseInput(command, t);
 		//System.out.println(Arrays.toString(ret));
 	}

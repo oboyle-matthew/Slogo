@@ -104,9 +104,6 @@ public class CommandParser {
 	private void executeNextCommand(List<ParsedItem> list, Turtle tortuga) {
 		for(int i = 0; i < list.size(); i++) {
 			if(list.get(i).getItemType().equals("command")) {
-//				for(ParsedItem s : list)
-//					System.out.print(s.getName() + " ");
-//				System.out.println("");
 				ParsedCommand p = (ParsedCommand) list.get(i);
 				int canExecute = checkNextParams(list, i, p.getParameterOrder());
 				if(canExecute == -1) return; 
@@ -116,11 +113,8 @@ public class CommandParser {
 					params[j] = list.remove(i + 1); 
 				System.out.println(userVariables.get(":repcount"));
 				double value = p.execute(params, tortuga, userVariables);
-				System.out.println(p.getName() + " returned " + value);
 				list.set(i, new ParsedRegularParameter("" + value, false));
-//				for(ParsedItem s : list)
-//					System.out.print(s.getName() + " ");
-//				System.out.println("");
+				System.out.println(value);
 				return; 
 			}
 		}
@@ -227,7 +221,7 @@ public class CommandParser {
 		
 		Turtle t = new Turtle();
 		String test = "]";
-		String command = "repeat 10 [ sum 10 :repcount ] ";
+		String command = "sum :test make :test 10";
 		p.parseInput(command, t);
 		//System.out.println(Arrays.toString(ret));
 	}

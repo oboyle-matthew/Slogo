@@ -215,14 +215,14 @@ public class CommandParser {
 		errorPopup.getDialogPane().getButtonTypes().add(closeButton);
 		errorPopup.showAndWait();
 	}
-
+	
 	public static void main(String[] args) {
 		CommandParser p = new CommandParser("English");
-		
 		Turtle t = new Turtle();
 		String test = "]";
 		String command = "sum :test make :test 10";
 		p.parseInput(command, t);
 		//System.out.println(Arrays.toString(ret));
 	}
+
 }

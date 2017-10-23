@@ -114,7 +114,6 @@ public class Turtle {
 	public void moveToSimple(double newXPosition, double newYPosition) {
 		myTurtle.setX(newXPosition);
 		myTurtle.setY(newYPosition);
-		
 	}
 
 	/**

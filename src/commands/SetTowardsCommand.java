@@ -1,22 +1,17 @@
 package commands;
 
-import java.util.List;
+import java.util.Map;
 
+import modelLogic.ParsedItem;
 import modelLogic.Turtle;
 /**
  * Sets the turtle to face a particular point
  */
-public class SetTowardsCommand implements ExecutableCommand {
+public class SetTowardsCommand extends ExecutableCommand {
 
-	private static final double DEFAULT_X_COORDINATE = 0; 
-	private static final double DEFAULT_Y_COORDINATE = 0; 
-	private static final double ANGLE_OFFSET = 90;
 	
 	@Override
-	public double execute(Turtle tortuga, List<Double> args) {
-		if(args == null || args.size() < 2) {
-			
-		}
+	public double execute(ParsedItem[] params, Turtle tortuga, Map<String, Double> variables) {
 		return 0;
 	}
 	
@@ -33,8 +28,8 @@ public class SetTowardsCommand implements ExecutableCommand {
 	}
 	
 	@Override
-	public int paramNumber() {
-		return 2;
+	public String[] paramNumber() {
+		return new String[] {REGULAR_PARAM, REGULAR_PARAM};
 	} 
 	
 }

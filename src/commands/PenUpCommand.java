@@ -1,24 +1,18 @@
 package commands;
 
-import java.util.List;
+import java.util.Map;
 
+import modelLogic.ParsedItem;
 import modelLogic.Turtle;
 
 /**
  * Executable Command for putting the Turtle's pen up
  */
 
-public class PenUpCommand implements ExecutableCommand {
+public class PenUpCommand extends ExecutableCommand {
 
 	@Override
-	public double execute(Turtle tortuga, List<Double> args) {
+	public double execute(ParsedItem[] params, Turtle tortuga, Map<String, Double> variables) {
 		return tortuga.penUp();
 	}
-	
-	@Override
-	public int paramNumber() {
-		return 0;
-	} 
-	
-	
 }

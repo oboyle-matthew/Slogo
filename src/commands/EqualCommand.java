@@ -1,19 +1,20 @@
 package commands;
 
-import java.util.List;
+import java.util.Map;
 
+import modelLogic.ParsedItem;
 import modelLogic.Turtle;
 
-public class EqualCommand implements ExecutableCommand {
+public class EqualCommand extends ExecutableCommand {
 	private static final String EQUAL = "equal?";
 
 	@Override
-	public double execute(Turtle tortuga, List<Double> args) {
-		return (new BooleanOperationCommand(EQUAL)).execute(tortuga, args);
+	public double execute(ParsedItem[] params, Turtle tortuga, Map<String, Double> variables) {
+		return (new BooleanOperationCommand(EQUAL)).execute(params, tortuga, variables);
 	} 
 	
 	@Override
-	public int paramNumber() {
-		return 2;
+	public String[] paramNumber() {
+		return new String[] {REGULAR_PARAM, REGULAR_PARAM};
 	} 
 }

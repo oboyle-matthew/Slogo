@@ -1,22 +1,18 @@
 package commands;
 
-import java.util.List;
+import java.util.Map;
 
+import modelLogic.ParsedItem;
 import modelLogic.Turtle;
 
 /**
  * Executable Command for retrieving the up or down status of the pen
  */
-public class IsPenDownCommand implements ExecutableCommand {
+public class IsPenDownCommand extends ExecutableCommand {
 
 	@Override
-	public double execute(Turtle tortuga, List<Double> args) {
+	public double execute(ParsedItem[] params, Turtle tortuga, Map<String, Double> variables) {
 		return (tortuga.isPenDown() ? 1 : 0);
 	}
-	
-	@Override
-	public int paramNumber() {
-		return 0;
-	} 
 
 }

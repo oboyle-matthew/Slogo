@@ -1,22 +1,18 @@
 package commands;
 
-import java.util.List;
+import java.util.Map;
 
+import modelLogic.ParsedItem;
 import modelLogic.Turtle;
 
 /**
  * Executable Command for retrieving the state of the turtle's visibility
  */
-public class IsShowingCommand implements ExecutableCommand {
+public class IsShowingCommand extends ExecutableCommand {
 
 	@Override
-	public double execute(Turtle tortuga, List<Double> args) {
+	public double execute(ParsedItem[] params, Turtle tortuga, Map<String, Double> variables) {
 		return (tortuga.isTurtleVisible() ? 1 : 0);
 	}
-	
-	@Override
-	public int paramNumber() {
-		return 0;
-	} 
 
 }

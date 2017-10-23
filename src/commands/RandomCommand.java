@@ -1,27 +1,28 @@
 package commands;
 
-import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
+import modelLogic.ParsedItem;
+import modelLogic.ParsedRegularParameter;
 import modelLogic.Turtle;
 
 /**
  * Executable Command that generates a random number 
  */
-public class RandomCommand implements ExecutableCommand {
+public class RandomCommand extends ExecutableCommand {
 
-	private static final double DEFAULT_MAX_VALUE = 100; 
 	
 	@Override
-	public double execute(Turtle tortuga, List<Double> args) {
+	public double execute(ParsedItem[] params, Turtle tortuga, Map<String, Double> variables) {
+		double value = Double.parseDouble(((ParsedRegularParameter) params[0]).getValue());
 		Random rn = new Random(); 
-		if(args == null || args.size() < 1) return rn.nextDouble() * DEFAULT_MAX_VALUE; 
-		return rn.nextDouble() * args.remove(0);
+		return rn.nextDouble() * value;
 	}
 	
 	@Override
-	public int paramNumber() {
-		return 1;
+	public String[] paramNumber() {
+		return new String[] {REGULAR_PARAM};
 	} 
 
 }

@@ -1,22 +1,22 @@
 package commands;
 
-import java.util.List;
+import java.util.Map;
 
+import modelLogic.ParsedItem;
+import modelLogic.ParsedRegularParameter;
 import modelLogic.Turtle;
 
-public class ArcTangentCommand implements ExecutableCommand {
-
-	public static final double DEFAULT_RETURN_VALUE = 0; 
+public class ArcTangentCommand extends ExecutableCommand {
 	
 	@Override
-	public double execute(Turtle tortuga, List<Double> args) {
-		if(args == null || args.size() < 1) return DEFAULT_RETURN_VALUE;
-		return Math.atan(args.remove(0)); 
+	public double execute(ParsedItem[] params, Turtle tortuga, Map<String, Double> variables) {
+		double value = Double.parseDouble(((ParsedRegularParameter) params[0]).getValue());
+		return Math.atan(value); 
 	}
 	
 	@Override
-	public int paramNumber() {
-		return 1;
+	public String[] paramNumber() {
+		return new String[] {REGULAR_PARAM};
 	} 
 
 }

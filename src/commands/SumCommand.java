@@ -1,22 +1,23 @@
 package commands;
 
-import java.util.List;
+import java.util.Map;
 
+import modelLogic.ParsedItem;
+import modelLogic.ParsedRegularParameter;
 import modelLogic.Turtle;
 
-public class SumCommand implements ExecutableCommand {
-
-	private static final double DEFAULT_SUM = 0; 
+public class SumCommand extends ExecutableCommand {
 	
 	@Override
-	public double execute(Turtle tortuga, List<Double> args) {
-		if(args == null || args.size() < 2) return DEFAULT_SUM; 
-		return args.remove(0) + args.remove(0);
+	public double execute(ParsedItem[] params, Turtle tortuga, Map<String, Double> variables) {
+		double value1 = Double.parseDouble(((ParsedRegularParameter) params[0]).getValue());
+		double value2 = Double.parseDouble(((ParsedRegularParameter) params[1]).getValue());
+		return value1 + value2;
 	}
 	
 	@Override
-	public int paramNumber() {
-		return 2;
+	public String[] paramNumber() {
+		return new String[] {REGULAR_PARAM, REGULAR_PARAM};
 	} 
 	
 	

@@ -3,7 +3,7 @@ package GUI;
 public class MainScreenGUI {
 	// private TextArea commandField;
 	private TextInputBox textBox;
-	private HistoryBox historyBox;
+	
 
 	public MainScreenGUI() {
 		/*
@@ -13,15 +13,16 @@ public class MainScreenGUI {
 		 * commandField.setLayoutX(200); commandField.setLayoutY(450);
 		 */
 		textBox = new TextInputBox();
-		historyBox = new HistoryBox();
+		
+		
 	}
-
+	
 	public TextInputBox getTextBox() {
 		return textBox;
 	}
 	
 	public HistoryBox getHistoryBox() {
-		return historyBox;
+		return textBox.getHistoryBox();
 	}
 	
 

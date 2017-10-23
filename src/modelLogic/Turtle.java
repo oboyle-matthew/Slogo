@@ -28,6 +28,9 @@ public class Turtle {
 	private ImageView myTurtle;
 	private boolean penDown;
 	private List<Path> myPaths;
+	private int myColor;
+	private double myPenSize;
+	private double myPenStyle;
 
 	/**
 	 * Basic constructor that just initializes the myTurtle variable. Returns a new
@@ -107,25 +110,11 @@ public class Turtle {
 		myPaths.add(p);
 		return Math.sqrt(xDiff * xDiff + yDiff * yDiff);
 	}
-
-	/**
-	 * Creates the new path for use in the turtle's movement animation
-	 * 
-	 * @param newXPosition
-	 *            is a {@code double} representing the new x-coordinate of the
-	 *            turtle
-	 * @param newYPosition
-	 *            is a {@code double} representing the new y-coordinate of the
-	 *            turtle
-	 * @return A {@code Path} that corresponds to the line the turtle is moving over
-	 */
-	public Path createMovementPath(double newXPosition, double newYPosition) {
-		Path p = new Path();
-		MoveTo moveTo = new MoveTo(myTurtle.getX(), myTurtle.getY());
-		p.getElements().add(moveTo);
-		LineTo lineTo = new LineTo(newXPosition, newYPosition);
-		p.getElements().add(lineTo);
-		return p;
+	
+	public void moveToSimple(double newXPosition, double newYPosition) {
+		myTurtle.setX(newXPosition);
+		myTurtle.setY(newYPosition);
+		
 	}
 
 	/**
@@ -206,13 +195,6 @@ public class Turtle {
 		return 0;
 	}
 
-	/**
-	 * @return A {@code boolean} representing the current state of the turtle
-	 */
-	public boolean isPenDown() {
-		return penDown;
-	}
-
 	/* Turtle Query Methods */
 
 	/**
@@ -238,12 +220,59 @@ public class Turtle {
 		return myTurtle.isVisible();
 	}
 
-	/* End of Rotation Methods */
+	public double getDirection() {
+		return 1.4;
+	}
+
+	public double getXPos() {
+		return 100.;
+	}
+
+	public double getYPos() {
+		return 50.;
+	}
+	
+	/**
+	 * @return A {@code boolean} representing the current state of the turtle
+	 */
+	public boolean getPenInfo() {
+		return penDown;
+	}
+
+	public double getPenSize() {
+		return 1.2;
+	}
+
+	public String getPenStyle() {
+		return "SOLID";
+	}
+
+	/* Private Methods */
 
 	private ImageView createTurtle() {
 		return new ImageView(); 
 	/*	File file = new File(TURTLE_IMAGE_PATH);
 		Image turtleImage = new Image(file.toURI().toString());
 		return new ImageView(turtleImage); */
+	}
+
+	/**
+	 * Creates the new path for use in the turtle's movement animation
+	 * 
+	 * @param newXPosition
+	 *            is a {@code double} representing the new x-coordinate of the
+	 *            turtle
+	 * @param newYPosition
+	 *            is a {@code double} representing the new y-coordinate of the
+	 *            turtle
+	 * @return A {@code Path} that corresponds to the line the turtle is moving over
+	 */
+	private Path createMovementPath(double newXPosition, double newYPosition) {
+		Path p = new Path();
+		MoveTo moveTo = new MoveTo(myTurtle.getX(), myTurtle.getY());
+		p.getElements().add(moveTo);
+		LineTo lineTo = new LineTo(newXPosition, newYPosition);
+		p.getElements().add(lineTo);
+		return p;
 	}
 }

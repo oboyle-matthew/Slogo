@@ -2,6 +2,9 @@ package GUI;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.ResourceBundle;
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Rectangle2D;
@@ -14,16 +17,19 @@ import javafx.stage.Screen;
 import javafx.stage.Stage;
 
 public class LanguageLoader extends HBox {
-
+	public static final String DEFAULT_RESOURCE_PACKAGE = "resources/languages/";
+    public static String language = "Instructions";
+    private ResourceBundle myResources;
 	private static final int MAINWIDTH = 800;
 	private static final int MAINHEIGHT = 600;
 	private static final Paint BACKGROUND = Color.LIGHTBLUE;
-	private static final String RESOURCE_DIR = System.getProperty("user.dir") + "/src/resources";
+	private static final String RESOURCE_DIR = System.getProperty("user.dir") + "/src/resources/languages";
 	private ComboBox<String> lanLoader = new ComboBox<String>();
 	private Button goButton;
 	private Stage stage;
 
 	public LanguageLoader(double xPos, double yPos, Stage currentStage) {
+		myResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + language);
 		stage = currentStage;
 		this.setLayoutX(xPos);
 		this.setLayoutY(yPos);
@@ -31,25 +37,36 @@ public class LanguageLoader extends HBox {
 	}
 
 	private void init() {
-		File folder = new File(RESOURCE_DIR + "/languages");
+		List<String> fileNames = createFileList();
+		ObservableList<String> LanList = FXCollections.observableArrayList(fileNames);
+		createGoButton();
+		createLanguageLoader(LanList);
+		this.getChildren().add(lanLoader);
+		this.getChildren().add(goButton);
+	}
+
+	private void createGoButton() {
+		goButton = new Button(myResources.getString("Go"));
+		goButton.setOnAction((event) -> {
+			switchScene((String) lanLoader.getValue());
+		});
+	}
+
+	private List<String> createFileList() {
+		File folder = new File(RESOURCE_DIR);
 		File[] listOfFiles = folder.listFiles();
 		ArrayList<String> fileNames = new ArrayList<String>();
 		for (File file : listOfFiles) {
 			fileNames.add(file.getName().replaceAll(".properties", ""));
 		}
-		ObservableList<String> LanList = FXCollections.observableArrayList(fileNames);
-		goButton = new Button("GO");
-		lanLoader.setPromptText("Choose Language");
+		return fileNames;
+	}
+
+	private void createLanguageLoader(ObservableList<String> LanList) {
+		lanLoader.setPromptText(myResources.getString("LanguagePrompt"));
 		lanLoader.setEditable(true);
 		lanLoader.setVisibleRowCount(3);
 		lanLoader.setItems(LanList);
-		this.getChildren().add(lanLoader);
-		this.getChildren().add(goButton);
-
-		// Deal With Switch Scene
-		goButton.setOnAction((event) -> {
-			switchScene((String) lanLoader.getValue());
-		});
 	}
 
 	private void switchScene(String inputLanguage) {

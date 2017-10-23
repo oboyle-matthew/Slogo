@@ -33,4 +33,8 @@ public abstract class ExecutableCommand {
 		return new String[] {};
 	}
 	
+	public ExecutableCommand getCopy() {
+		return this;
+	}
+	
 }

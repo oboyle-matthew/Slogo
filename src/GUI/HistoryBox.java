@@ -1,6 +1,12 @@
 package GUI;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import javafx.collections.ObservableList;
 import javafx.scene.control.Button;
+import javafx.scene.control.ListView;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextArea;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
@@ -8,68 +14,24 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 
 public class HistoryBox extends HBox{
-	private TextArea commandField;
-	private Button runButton;
-	private Button clearButton;
-	private VBox ButtonBlock;
+//	private ListView<String> myHistoryPaneView;
+	private List<String> myHistory;
+	private ScrollPane myCommandHistoryPane;
 	
-	public HistoryBox () {
-		createCommandField();
-		createButtons();
-		createTextInputBox();
-		}
+	public HistoryBox() {
+		myCommandHistoryPane = new ScrollPane();
+		this.getChildren().add(myCommandHistoryPane);
+		this.setLayoutX(500);
+//		this.getChildren().add(commandField);
+//		this.setLayoutX(30);
+//		this.setLayoutY(450);
+	}
 
-	private void createTextInputBox() {
-		this.getChildren().add(commandField);
+	private void createHistoryBox() {
+//		this.getChildren().add(commandField);
 		this.getChildren().add(ButtonBlock);
-		this.setLayoutX(100);
-		this.setLayoutY(450);
-	}
-
-	private void createButtons() {
-		createRunButton();
-		createClearButton();
-		createButtonBlock();
-	}
-
-	private void createButtonBlock() {
-		ButtonBlock = new VBox();
-		ButtonBlock.getChildren().add(runButton);
-		ButtonBlock.getChildren().add(clearButton);
-	}
-
-	private void createClearButton() {
-		clearButton = new Button ("clear");
-		clearButton.setPrefWidth(50);
-		clearButton.addEventHandler(MouseEvent.MOUSE_CLICKED, e->commandField.clear());
-		clearButton.setStyle("-fx-background-color: RED");
-	}
-
-	private void createCommandField() {
-		commandField = new TextArea();
-		commandField.setPrefColumnCount(15);
-		commandField.setPromptText("Enter your command....");
-		commandField.setPrefWidth(80);
-		commandField.setPrefHeight(100);
-	}
-
-	private void readText() {
-		String tester = commandField.getText();
-		commandField.clear();
-		Controller.stringInput(tester);
-		
-	}
-	
-	private void createRunButton() {
-		runButton = new Button("run");
-		runButton.setPrefWidth(50);
-		runButton.setStyle("-fx-font-family: Andale Mono");
-		runButton.setStyle("-fx-padding: 6");
-		runButton.setStyle("-fx-font-size: 1em");
-		runButton.setTextFill(Color.WHITE);
-		runButton.setStyle("-fx-background-color: #001A57;");
-		runButton.setStyle("-fx-effect: dropshadow(gaussian, rgba(67,96,156,0.25) , 0,0,2,2 )");
-		runButton.addEventHandler(MouseEvent.MOUSE_CLICKED, e->readText());
+		this.setLayoutX(500);
+		this.setLayoutY(50);
 	}
 
 }

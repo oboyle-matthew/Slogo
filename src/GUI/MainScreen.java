@@ -24,10 +24,11 @@ public class MainScreen extends ScreenDisplay {
 		canvasHolder.updateBackgroundColor("white");
 		gui = new MainScreenGUI();
 		rootAdd(gui.getTextBox());
-		rootAdd(gui.getHistoryBox());
+		
 		CommandParser p = new CommandParser(language);
 		// drawShapes(gc);
 		rootAdd(canvasHolder);
+		rootAdd(gui.getHistoryBox());
 		addTurtleToScreen();
 		
 		

@@ -16,28 +16,36 @@ import javafx.scene.paint.Color;
 
 public class HistoryBox extends HBox{
 //	private ListView<String> myHistoryPaneView;
-	private List<String> myHistory;
-	private ScrollPane myCommandHistoryPane;
-	private ListView<String> myHistoryPaneView;
+	private List<String> commandHistory;
+	private ScrollPane myCommandHistoryBox;
+	private ListView<String> commandHistoryView;
 	
 	public HistoryBox() {
-		myCommandHistoryPane = new ScrollPane();
-		myHistoryPaneView = new ListView<String>();
-		myHistory = new ArrayList<String>();
-		myHistory.add("Command One");
-		myHistory.add("Command Two");
-		myHistory.add("Command Three");
-		myHistory.add("Command Four");
-		myHistory.add("Command Five");
-		ObservableList<String> items =FXCollections.observableArrayList(myHistory);
-        myHistoryPaneView.setItems(items);
-        myCommandHistoryPane.setContent(myHistoryPaneView);
-		this.getChildren().add(myCommandHistoryPane);
+		myCommandHistoryBox = new ScrollPane();
+		commandHistoryView = new ListView<String>();
+		commandHistory = new ArrayList<String>();
+		addRandomCommands();
+		ObservableList<String> items =FXCollections.observableArrayList(commandHistory);
+        commandHistoryView.setItems(items);
+        myCommandHistoryBox.setContent(commandHistoryView);
+		this.getChildren().add(myCommandHistoryBox);
 		this.setLayoutX(500);
 		this.setLayoutY(30);
 //		this.getChildren().add(commandField);
 //		this.setLayoutX(30);
 //		this.setLayoutY(450);
+	}
+
+	private void addRandomCommands() {
+		addCommandToHistoryBox("Command One");
+		addCommandToHistoryBox("Command Two");
+		addCommandToHistoryBox("Command Three");
+		addCommandToHistoryBox("Command Four");
+		addCommandToHistoryBox("Command Five");
+	}
+	
+	public void addCommandToHistoryBox(String command) {
+		commandHistory.add(command);
 	}
 
 }

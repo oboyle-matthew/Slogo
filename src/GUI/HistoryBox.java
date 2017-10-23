@@ -3,6 +3,8 @@ package GUI;
 import java.util.ArrayList;
 import java.util.List;
 
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.Button;
@@ -27,6 +29,8 @@ public class HistoryBox extends HBox{
 		ObservableList<String> items =FXCollections.observableArrayList(commandHistory);
         commandHistoryView.setItems(items);
         myCommandHistoryBox.setContent(commandHistoryView);
+        commandHistoryView.getSelectionModel().selectedItemProperty().addListener(
+        		e->System.out.println(commandHistoryView.getSelectionModel().getSelectedItem()));
 		this.getChildren().add(myCommandHistoryBox);
 		this.setLayoutX(500);
 		this.setLayoutY(30);

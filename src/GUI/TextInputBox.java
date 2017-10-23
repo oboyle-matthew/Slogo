@@ -58,10 +58,15 @@ public class TextInputBox extends HBox{
 
 	private void readText() {
 		String tester = commandField.getText();
+		executeText(tester);
+	}
+
+	private void executeText(String tester) {
 		commandField.clear();
 		Controller.stringInput(tester);
 		historyBox.addCommandToHistoryBox(tester);
 	}
+	
 	
 
 

@@ -1,26 +1,25 @@
 package commands;
 
-import java.util.List;
+import java.util.Map;
 
+import modelLogic.ParsedItem;
+import modelLogic.ParsedRegularParameter;
 import modelLogic.Turtle;
 
 /**
  *  Tells the turtle to move forward by the specified amount
  */
 
-public class ForwardCommand implements ExecutableCommand {
+public class ForwardCommand extends ExecutableCommand {
 
-/* Final Variables */
-	private static final double DEFAULT_AMOUNT_TO_MOVE_FORWARD = 30; 
-	
 	@Override
-	public double execute(Turtle tortuga, List<Double> args) {
-		if(args == null || args.size() == 0) return tortuga.moveForward(DEFAULT_AMOUNT_TO_MOVE_FORWARD);
-		return tortuga.moveForward(args.remove(0));
+	public double execute(ParsedItem[] params, Turtle tortuga, Map<String, Double> variables) {
+		double value = Double.parseDouble(((ParsedRegularParameter) params[0]).getValue());
+		return tortuga.moveForward(value);
 	}
 	
 	@Override
-	public int paramNumber() {
-		return 1;
+	public String[] paramNumber() {
+		return new String[] {REGULAR_PARAM};
 	} 
 }

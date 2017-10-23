@@ -1,21 +1,17 @@
 package commands;
 
-import java.util.List;
+import java.util.Map;
 
+import modelLogic.ParsedItem;
 import modelLogic.Turtle;
 
 /**
  * Executable Command for moving the turtle to the home position, (0,0). 
  */
-public class HomeCommand implements ExecutableCommand {
+public class HomeCommand extends ExecutableCommand {
 
 	@Override
-	public double execute(Turtle tortuga, List<Double> args) {
+	public double execute(ParsedItem[] params, Turtle tortuga, Map<String, Double> variables) {
 		return tortuga.moveTo(0, 0); 
 	}
-	
-	@Override
-	public int paramNumber() {
-		return 0;
-	} 
 }

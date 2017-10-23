@@ -1,21 +1,18 @@
 package commands;
 
-import java.util.List;
+import java.util.Map;
 
+import modelLogic.ParsedItem;
 import modelLogic.Turtle;
 
 /**
  * Executable Command for retrieving the turtle's y coordinate
  */
-public class YCoordinateCommand implements ExecutableCommand {
+public class YCoordinateCommand extends ExecutableCommand {
 
 	@Override
-	public double execute(Turtle tortuga, List<Double> args) {
+	public double execute(ParsedItem[] params, Turtle tortuga, Map<String, Double> variables) {
 		return tortuga.getCoordinates()[1]; 
 	}
-	
-	@Override
-	public int paramNumber() {
-		return 0;
-	} 
+
 }

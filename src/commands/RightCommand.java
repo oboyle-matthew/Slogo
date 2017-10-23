@@ -1,24 +1,24 @@
 package commands;
 
-import java.util.List;
+import java.util.Map;
 
+import modelLogic.ParsedItem;
+import modelLogic.ParsedRegularParameter;
 import modelLogic.Turtle;
 
 /**
  * Executable command for rotating the turtle to the left
  */
-public class RightCommand implements ExecutableCommand {
-
-	private static final double DEFAULT_AMOUNT = 10;
+public class RightCommand extends ExecutableCommand {
 
 	@Override
-	public double execute(Turtle tortuga, List<Double> args) {
-		if(args == null || args.size() == 0) return tortuga.rotateRight(DEFAULT_AMOUNT);
-		return tortuga.rotateRight(args.remove(0));
+	public double execute(ParsedItem[] params, Turtle tortuga, Map<String, Double> variables) {
+		double value = Double.parseDouble(((ParsedRegularParameter) params[0]).getValue());
+		return tortuga.rotateRight(value);
 	}
 	
 	@Override
-	public int paramNumber() {
-		return 1;
+	public String[] paramNumber() {
+		return new String[] {REGULAR_PARAM};
 	} 
 }

@@ -1,21 +1,17 @@
 package commands;
 
-import java.util.List;
+import java.util.Map;
 
+import modelLogic.ParsedItem;
 import modelLogic.Turtle;
 
 /**
  * Executable Command for making the turtle visible
  */
-public class ShowTurtleCommand implements ExecutableCommand {
+public class ShowTurtleCommand extends ExecutableCommand {
 
 	@Override
-	public double execute(Turtle tortuga, List<Double> args) {
+	public double execute(ParsedItem[] params, Turtle tortuga, Map<String, Double> variables) {
 		return tortuga.showTurtle();
 	}
-	
-	@Override
-	public int paramNumber() {
-		return 0;
-	} 
 }

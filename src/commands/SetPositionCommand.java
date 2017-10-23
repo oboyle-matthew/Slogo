@@ -1,27 +1,27 @@
 package commands;
 
-import java.util.List;
+import java.util.Map;
 
+import modelLogic.ParsedItem;
+import modelLogic.ParsedRegularParameter;
 import modelLogic.Turtle;
 
 /**
  * ExecutableCommand for setting the position of the turtle
  */
 
-public class SetPositionCommand implements ExecutableCommand {
-	
-	private final static double DEFAULT_X_POSITION = 0; 
-	private final static double DEFAULT_Y_POSITION = 0; 
+public class SetPositionCommand extends ExecutableCommand {
 	
 	@Override
-	public double execute(Turtle tortuga, List<Double> args) {
-		if(args == null || args.size() < 2) return tortuga.moveTo(DEFAULT_X_POSITION, DEFAULT_Y_POSITION);
-		return tortuga.moveTo(args.remove(0), args.remove(0));
+	public double execute(ParsedItem[] params, Turtle tortuga, Map<String, Double> variables) {
+		double value1 = Double.parseDouble(((ParsedRegularParameter) params[0]).getValue());
+		double value2 = Double.parseDouble(((ParsedRegularParameter) params[1]).getValue());
+		return tortuga.moveTo(value1, value2);
 	}
 	
 	@Override
-	public int paramNumber() {
-		return 2;
+	public String[] paramNumber() {
+		return new String[] {REGULAR_PARAM, REGULAR_PARAM};
 	} 
 
 }

@@ -24,28 +24,19 @@ public class HistoryBox extends HBox{
 		myCommandHistoryBox = new ScrollPane();
 		commandHistoryView = new ListView<String>();
 		commandHistory = new ArrayList<String>();
-		addRandomCommands();
 		ObservableList<String> items =FXCollections.observableArrayList(commandHistory);
         commandHistoryView.setItems(items);
         myCommandHistoryBox.setContent(commandHistoryView);
 		this.getChildren().add(myCommandHistoryBox);
 		this.setLayoutX(500);
 		this.setLayoutY(30);
-//		this.getChildren().add(commandField);
-//		this.setLayoutX(30);
-//		this.setLayoutY(450);
 	}
 
-	private void addRandomCommands() {
-		addCommandToHistoryBox("Command One");
-		addCommandToHistoryBox("Command Two");
-		addCommandToHistoryBox("Command Three");
-		addCommandToHistoryBox("Command Four");
-		addCommandToHistoryBox("Command Five");
-	}
 	
 	public void addCommandToHistoryBox(String command) {
 		commandHistory.add(command);
+		ObservableList<String> items =FXCollections.observableArrayList(commandHistory);
+        commandHistoryView.setItems(items);
 	}
 
 }

@@ -59,7 +59,7 @@ public class Turtle {
 	public double setHeading(double angle) {
 		double degreeDiff = angle - myTurtle.getRotate();
 		RotateTransition rotateTransition = new RotateTransition(Duration.millis(ROTATION_SPEED));
-		myTurtle.setRotate(angle + myTurtle.getRotate());
+		myTurtle.setRotate(angle);
 		rotateTransition.setToAngle(angle);
 		rotateTransition.setCycleCount(1);
 		rotateTransition.setNode(myTurtle);
@@ -153,11 +153,8 @@ public class Turtle {
 	 * @return A {@code double} that reflects the distance moved by the turtle
 	 */
 	public double moveForward(double pixels) {
-		System.out.println("Current Heading is " + myTurtle.getRotate());
-		System.out.println("Current position is " + myTurtle.getX() + " and " + myTurtle.getY());
-		double x = myTurtle.getX() + pixels * Math.sin(myTurtle.getRotate()*Math.PI/180);
-		double y = myTurtle.getY() - pixels * Math.cos(myTurtle.getRotate()*Math.PI/180);
-		System.out.println("move forward to " + x + " and " + y);
+		double x = myTurtle.getX() + pixels * Math.sin(myTurtle.getRotate() * Math.PI / 180);
+		double y = myTurtle.getY() - pixels * Math.cos(myTurtle.getRotate() * Math.PI / 180);
 		return moveTo(x, y);
 	}
 
@@ -170,8 +167,9 @@ public class Turtle {
 	 * @return A {@code double} that reflects the distance moved by the turtle
 	 */
 	public double moveBackwards(double pixels) {
-		return moveTo(myTurtle.getX(), myTurtle.getY() - pixels);
-	}
+		double x = myTurtle.getX() - pixels * Math.sin(myTurtle.getRotate() * Math.PI / 180);
+		double y = myTurtle.getY() + pixels * Math.cos(myTurtle.getRotate() * Math.PI / 180);
+		return moveTo(x, y);	}
 
 	/* Visbility Settings */
 

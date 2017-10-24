@@ -11,7 +11,8 @@ import javafx.scene.text.FontWeight;
 
 public class MainScreenGUI {
 	// private TextArea commandField;
-	private TextInputBox textBox;
+	private InputBox textBox;
+	private GUIDelegate app;
 	
 	
 
@@ -22,14 +23,14 @@ public class MainScreenGUI {
 		 * commandField.setPrefWidth(400); commandField.setPrefHeight(100);
 		 * commandField.setLayoutX(200); commandField.setLayoutY(450);
 		 */
-		textBox = new TextInputBox();
+		textBox = new InputBox(app);
 		
 		
 	}
 	
 	
 	
-	public TextInputBox getTextBox() {
+	public InputBox getTextBox() {
 		return textBox;
 	}
 	

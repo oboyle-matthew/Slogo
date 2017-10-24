@@ -145,7 +145,7 @@ public class MainScreen extends ScreenDisplay implements GUIDelegate{
 	@Override
 	public void clearButtonPressed() {
 		// TODO Auto-generated method stub
-		
+		this.gui.getTextBox().clearText();
 	}
 
 	@Override

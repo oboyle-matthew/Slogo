@@ -5,12 +5,12 @@ public abstract class ParsedItem {
 	protected static final String COMMAND = "command";
 	protected static final String BRACKET_PARAM = "bracket parameter";
 	protected static final String REGULAR_PARAM = "regular parameter";
-	protected String myName; 
+	protected String myString; 
 	
 	public abstract String getItemType();
 	
-	public String getName() {
-		return myName;
+	public String toString() {
+		return myString;
 	}
 	
 	public abstract ParsedItem getCopy();

@@ -34,7 +34,7 @@ public class ParsedCommand extends ParsedItem {
 	}
 	
 	public double execute(ParsedItem[] params, Turtle tortuga, Map<String, Double> variables) {
-		if(!myName.equals("MakeVariable")) updateParams(params, variables);
+		if(!myString.equals("MakeVariable")) updateParams(params, variables);
 		return createExecutableCommand(command).execute(params, tortuga, variables);
 	}
 	

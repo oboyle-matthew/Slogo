@@ -32,6 +32,9 @@ public class MainScreen extends ScreenDisplay implements GUIDelegate{
 	private NewHistoryBox myHistoryBox;
 	private InstructionsButton myInstructionButton;
 	private NewProjectButton myNewProjectButton;
+	private ForwardButton myForwardButton;
+	private BackButton myBackButton;
+
 
 
 	public MainScreen(int width, int height, Paint background, String language) {
@@ -58,12 +61,15 @@ public class MainScreen extends ScreenDisplay implements GUIDelegate{
 		myHistoryBox = new NewHistoryBox(this);
 		myInstructionButton = new InstructionsButton(this);
 		myNewProjectButton = new NewProjectButton(this);
+		myForwardButton = new ForwardButton(this);
+		myBackButton = new BackButton(this);
 		rootAdd(myRunButton);
 		rootAdd(myClearButton);
 		rootAdd(myHistoryBox);
 		rootAdd(myInstructionButton);
 		rootAdd(myNewProjectButton);
-		
+		rootAdd(myForwardButton);
+		rootAdd(myBackButton);
 	}
 	
 

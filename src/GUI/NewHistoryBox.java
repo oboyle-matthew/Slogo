@@ -22,7 +22,7 @@ public class NewHistoryBox extends HBox {
 	
 	public NewHistoryBox(GUIDelegate app) {
 		this.app = app;
-		this.setPrefWidth(100);
+		this.setPrefWidth(300);
 		this.setLayoutX(500);
 		this.setLayoutY(30);
 		myCommandHistoryBox = new ScrollPane();

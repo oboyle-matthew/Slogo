@@ -43,7 +43,7 @@ public class MainScreen extends ScreenDisplay {
 		canvasHolder.updateBackgroundColor("white");
 		gui = new MainScreenGUI();
 		rootAdd(gui.getTextBox());
-//		createInstructionsButton();
+		createInstructionsButton();
 		createNewProjectButton();
 		CommandParser p = new CommandParser(language);
 		// drawShapes(gc);
@@ -54,6 +54,7 @@ public class MainScreen extends ScreenDisplay {
 	
 	public void createInstructionsButton() {
 		Button instructions = new Button("Instructions");
+		instructions.setLayoutX(50);
 		instructions.addEventHandler(MouseEvent.MOUSE_CLICKED, 
 				e->showInstructions());
 		rootAdd(instructions);
@@ -68,7 +69,7 @@ public class MainScreen extends ScreenDisplay {
 	
 	public void createNewProject() {
 		newProject = new VBox();
-		newProject.getChildren().add(new Label("new project"));
+//		newProject.getChildren().add(new Label("new project"));
 		newScene = new Scene(newProject, 400, 400);
 		myStage = new Stage();
 		myStage.setScene(newScene);
@@ -79,7 +80,7 @@ public class MainScreen extends ScreenDisplay {
 	
 	public void showInstructions() {
 		instructionsPane = new VBox();
-		instructionsPane.getChildren().add(new Label("Test"));
+		instructionsPane.getChildren().add(new Label("Insert Instructions Here"));
 		newScene = new Scene(instructionsPane, 400, 400);
 		myStage = new Stage();
 		myStage.setScene(newScene);

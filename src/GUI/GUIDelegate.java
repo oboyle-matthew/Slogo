@@ -7,5 +7,7 @@ public interface GUIDelegate {
 	
 	String getText();
 	
+	void runCommand(String text);
+	
 	
 }

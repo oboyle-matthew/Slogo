@@ -16,7 +16,8 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 
-public class HistoryBox extends HBox{
+public class HistoryBox extends ScrollPane {
+	private GUIDelegate app;
 //	private ListView<String> myHistoryPaneView;
 	private List<String> commandHistory;
 	private ScrollPane myCommandHistoryBox;
@@ -34,6 +35,20 @@ public class HistoryBox extends HBox{
 		this.getChildren().add(myCommandHistoryBox);
 		this.setLayoutX(500);
 		this.setLayoutY(30);
+	}
+	
+	public HistoryBox() {
+		this.app = app;
+		this.setLayoutX(500);
+		this.setLayoutY(30);
+		this.addEventHandler(MouseEvent.MOUSE_CLICKED, e->clearText());
+		commandHistoryView = new ListView<String>();
+		commandHistory = new ArrayList<String>();
+		ObservableList<String> items =FXCollections.observableArrayList(commandHistory);
+        commandHistoryView.setItems(items);
+	}
+	
+	public void clearText() {
 	}
 
 	

@@ -30,6 +30,10 @@ public class MainScreen extends ScreenDisplay implements GUIDelegate{
 	private Scene newScene;
 	private Stage myStage;
 	private CommandParser parser;
+	private RunButton myRunButton;
+	private ClearButton myClearButton;
+	private NewHistoryBox myHistoryBox;
+
 
 	public MainScreen(int width, int height, Paint background, String language) {
 		super(width, height, background);
@@ -52,9 +56,12 @@ public class MainScreen extends ScreenDisplay implements GUIDelegate{
 		rootAdd(canvasHolder);
 //		rootAdd(gui.getHistoryBox());
 		addTurtleToScreen();
-		
-		rootAdd(new RunButton(this));
-		rootAdd(new ClearButton(this));
+		myRunButton = new RunButton(this);
+		myClearButton = new ClearButton(this);
+		myHistoryBox = new NewHistoryBox(this);
+		rootAdd(myRunButton);
+		rootAdd(myClearButton);
+		rootAdd(myHistoryBox);
 		
 	}
 	
@@ -138,6 +145,7 @@ public class MainScreen extends ScreenDisplay implements GUIDelegate{
 	@Override
 	public void runButtonPressed() {
 		parser.executeInput(getText(), turtle);
+		myHistoryBox.addCommandToHistoryBox(getText());
 		clearButtonPressed();
 		System.out.println(getText());
 		// TODO Auto-generated method stub
@@ -154,5 +162,12 @@ public class MainScreen extends ScreenDisplay implements GUIDelegate{
 	public String getText() {
 		// TODO Auto-generated method stub
 		return this.gui.getTextBox().readText();
+	}
+
+	@Override
+	public void runCommand(String text) {
+		// TODO Auto-generated method stub
+		parser.executeInput(text,  turtle);
+		
 	}
 }

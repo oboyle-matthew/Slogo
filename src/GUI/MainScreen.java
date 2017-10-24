@@ -19,7 +19,7 @@ import javafx.stage.Stage;
 import modelLogic.CommandParser;
 import modelLogic.Turtle;
 
-public class MainScreen extends ScreenDisplay {
+public class MainScreen extends ScreenDisplay implements GUIDelegate{
 
 	private static final int CANVAS_WIDTH = 400;
 	private CanvasHolder canvasHolder;
@@ -29,9 +29,11 @@ public class MainScreen extends ScreenDisplay {
 	private VBox newProject;
 	private Scene newScene;
 	private Stage myStage;
+	private CommandParser parser;
 
 	public MainScreen(int width, int height, Paint background, String language) {
 		super(width, height, background);
+		parser = new CommandParser(language);
 		createMainScreen(language);
 	}
 
@@ -48,8 +50,11 @@ public class MainScreen extends ScreenDisplay {
 		CommandParser p = new CommandParser(language);
 		// drawShapes(gc);
 		rootAdd(canvasHolder);
-		rootAdd(gui.getHistoryBox());
+//		rootAdd(gui.getHistoryBox());
 		addTurtleToScreen();
+		
+		rootAdd(new RunButton(this));
+		
 	}
 	
 	public void createInstructionsButton() {
@@ -101,8 +106,13 @@ public class MainScreen extends ScreenDisplay {
 
 	public void step(double elapsedTime) {
 		// TODO Auto-generated method stub
-
 	}
+	
+	public void executeCommand(String input, Turtle turtle) {
+		parser.executeInput("left 90", turtle);
+		parser.executeInput("right 90", turtle);
+	}
+	
 
 	private void drawShapes(GraphicsContext gc) {
 		gc.setFill(Color.GREEN);
@@ -122,5 +132,25 @@ public class MainScreen extends ScreenDisplay {
 		gc.fillPolygon(new double[] { 10, 40, 10, 40 }, new double[] { 210, 210, 240, 240 }, 4);
 		gc.strokePolygon(new double[] { 60, 90, 60, 90 }, new double[] { 210, 210, 240, 240 }, 4);
 		gc.strokePolyline(new double[] { 110, 140, 110, 140 }, new double[] { 210, 210, 240, 240 }, 4);
+	}
+
+	@Override
+	public void runButtonPressed() {
+		parser.executeInput(getText(), turtle);
+		System.out.println(getText());
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void clearButtonPressed() {
+		// TODO Auto-generated method stub
+		this.gui.getTextBox().clearText();
+	}
+
+	@Override
+	public String getText() {
+		// TODO Auto-generated method stub
+		return this.gui.getTextBox().readText();
 	}
 }

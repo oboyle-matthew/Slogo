@@ -144,10 +144,9 @@ public class MainScreen extends ScreenDisplay implements GUIDelegate{
 
 	@Override
 	public void runButtonPressed() {
-		parser.executeInput(getText(), turtle);
 		myHistoryBox.addCommandToHistoryBox(getText());
+		parser.executeInput(getText(), turtle);
 		clearButtonPressed();
-		System.out.println(getText());
 		// TODO Auto-generated method stub
 		
 	}

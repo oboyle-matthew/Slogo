@@ -1,8 +1,18 @@
 package GUI;
 
+import java.util.ResourceBundle;
+
+import javafx.event.EventHandler;
+import javafx.scene.control.Button;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
+
 public class MainScreenGUI {
 	// private TextArea commandField;
 	private TextInputBox textBox;
+	
 	
 
 	public MainScreenGUI() {
@@ -16,6 +26,8 @@ public class MainScreenGUI {
 		
 		
 	}
+	
+	
 	
 	public TextInputBox getTextBox() {
 		return textBox;

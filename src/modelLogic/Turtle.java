@@ -249,10 +249,10 @@ public class Turtle {
 	/* Private Methods */
 
 	private ImageView createTurtle() {
-		return new ImageView(); 
-	/*	File file = new File(TURTLE_IMAGE_PATH);
+//		return new ImageView(); 
+		File file = new File(TURTLE_IMAGE_PATH);
 		Image turtleImage = new Image(file.toURI().toString());
-		return new ImageView(turtleImage); */
+		return new ImageView(turtleImage); 
 	}
 
 	/**

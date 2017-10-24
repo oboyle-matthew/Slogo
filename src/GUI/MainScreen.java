@@ -92,10 +92,11 @@ public class MainScreen extends ScreenDisplay {
 
 	private void addTurtleToScreen() {
 		getRootChildren().add(turtle.getImageViewForScreen());
-		//turtle.moveToSimple(200, 200);
-		turtle.rotateRight(360);
+		turtle.moveTo(200, 200);
+		turtle.rotateLeft(210);
 		turtle.moveForward(200);
-		
+		turtle.rotateRight(210);
+		turtle.moveForward(200);
 	}
 
 	public void step(double elapsedTime) {

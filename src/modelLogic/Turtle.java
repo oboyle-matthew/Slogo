@@ -7,7 +7,6 @@ import javafx.animation.PathTransition;
 import javafx.animation.RotateTransition;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.shape.ClosePath;
 import javafx.scene.shape.LineTo;
 import javafx.scene.shape.MoveTo;
 import javafx.scene.shape.Path;
@@ -16,6 +15,7 @@ import javafx.util.Duration;
 /**
  * This class represents the model for the turtle that can be interacted with
  * through both the controller, and the command classes
+ * 
  * @author Walker and Simran
  */
 public class Turtle {
@@ -33,13 +33,14 @@ public class Turtle {
 	private double myPenSize;
 	private double myPenStyle;
 	private boolean animationRunning;
+
 	/**
 	 * Basic constructor that just initializes the myTurtle variable. Returns a new
 	 * {@code Turtle} object
 	 */
 	public Turtle() {
 		myTurtle = createTurtle();
-		animationRunning = false; 
+		animationRunning = false;
 		myPaths = new ArrayList<Path>();
 		penDown = false;
 	}
@@ -48,14 +49,17 @@ public class Turtle {
 
 	/**
 	 * Sets the heading of my turtle to the specified angle
-	 * @param angle is an {@code double} representing the angle to set the turtle to face. 
-	 * The function expects an angle in degrees, and the angle is measured counter-clockwise 
-	 * from an x-axis centered on the turtle.
+	 * 
+	 * @param angle
+	 *            is an {@code double} representing the angle to set the turtle to
+	 *            face. The function expects an angle in degrees, and the angle is
+	 *            measured counter-clockwise from an x-axis centered on the turtle.
 	 * @return A {@code double} representing the number of degrees rotated
 	 */
 	public double setHeading(double angle) {
 		double degreeDiff = angle - myTurtle.getRotate();
 		RotateTransition rotateTransition = new RotateTransition(Duration.millis(ROTATION_SPEED));
+		myTurtle.setRotate(angle + myTurtle.getRotate());
 		rotateTransition.setToAngle(angle);
 		rotateTransition.setCycleCount(1);
 		rotateTransition.setNode(myTurtle);
@@ -72,7 +76,7 @@ public class Turtle {
 	 * @return A {@code double} that is the number of degrees just rotated
 	 */
 	public double rotateLeft(double angle) {
-		return setHeading(myTurtle.getRotate() + angle);
+		return setHeading(myTurtle.getRotate() - angle);
 	}
 
 	/**
@@ -84,7 +88,7 @@ public class Turtle {
 	 * @return A {@code double} that is the number of degrees just rotated
 	 */
 	public double rotateRight(double angle) {
-		return setHeading(myTurtle.getRotate() - angle);
+		return setHeading(myTurtle.getRotate() + angle);
 	}
 
 	/* Movement Methods */
@@ -103,22 +107,26 @@ public class Turtle {
 		double yDiff = newYPosition - myTurtle.getY();
 		Path p = createMovementPath(newXPosition, newYPosition);
 		PathTransition pt = new PathTransition();
+		myTurtle.setX(newXPosition);
+		myTurtle.setY(newYPosition);
 		pt.setNode(myTurtle);
 		pt.setPath(p);
 		pt.setDuration(Duration.millis(MOVEMENT_SPEED));
 		pt.setCycleCount(1);
 		pt.play();
-		
-		System.out.println("move to called");
 		myPaths.add(p);
 		return Math.sqrt(xDiff * xDiff + yDiff * yDiff);
 	}
-	
+
 	/**
 	 * Creates the new path for use in the turtle's movement animation
 	 * 
-	 * @param newXPosition is a {@code double} representing the new x-coordinate of the turtle
-	 * @param newYPosition is a {@code double} representing the new y-coordinate of the turtle
+	 * @param newXPosition
+	 *            is a {@code double} representing the new x-coordinate of the
+	 *            turtle
+	 * @param newYPosition
+	 *            is a {@code double} representing the new y-coordinate of the
+	 *            turtle
 	 * @return A {@code Path} that corresponds to the line the turtle is moving over
 	 */
 	private Path createMovementPath(double newXPosition, double newYPosition) {
@@ -127,13 +135,13 @@ public class Turtle {
 		p.getElements().add(moveTo);
 		LineTo lineTo = new LineTo(newXPosition, newYPosition);
 		p.getElements().add(lineTo);
-		p.getElements().add(new ClosePath());
 		return p;
 	}
-	
-	public void moveToSimple(double newXPosition, double newYPosition) {
+
+	public double moveToSimple(double newXPosition, double newYPosition) {
 		myTurtle.setX(newXPosition);
 		myTurtle.setY(newYPosition);
+		return 0.;
 	}
 
 	/**
@@ -145,7 +153,12 @@ public class Turtle {
 	 * @return A {@code double} that reflects the distance moved by the turtle
 	 */
 	public double moveForward(double pixels) {
-		return moveTo(myTurtle.getX(), myTurtle.getY() + pixels);
+		System.out.println("Current Heading is " + myTurtle.getRotate());
+		System.out.println("Current position is " + myTurtle.getX() + " and " + myTurtle.getY());
+		double x = myTurtle.getX() + pixels * Math.sin(myTurtle.getRotate()*Math.PI/180);
+		double y = myTurtle.getY() - pixels * Math.cos(myTurtle.getRotate()*Math.PI/180);
+		System.out.println("move forward to " + x + " and " + y);
+		return moveTo(x, y);
 	}
 
 	/**
@@ -250,7 +263,7 @@ public class Turtle {
 	public double getYPos() {
 		return 50.;
 	}
-	
+
 	/**
 	 * @return A {@code boolean} representing the current state of the turtle
 	 */
@@ -269,6 +282,6 @@ public class Turtle {
 	private ImageView createTurtle() {
 		File file = new File(TURTLE_IMAGE_PATH);
 		Image turtleImage = new Image(file.toURI().toString());
-		return new ImageView(turtleImage); 
+		return new ImageView(turtleImage);
 	}
 }

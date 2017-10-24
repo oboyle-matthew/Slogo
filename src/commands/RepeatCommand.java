@@ -11,7 +11,7 @@ public class RepeatCommand extends ExecutableCommand {
 
 	@Override
 	public double execute(ParsedItem[] params, Turtle tortuga, Map<String, Double> variables) {
-		double repeat = Double.parseDouble(((ParsedRegularParameter) params[0]).getValue());
+		double repeat = Double.parseDouble(((ParsedRegularParameter) params[0]).toString());
 		double ret = 0; 
 		ParsedBracketParameter p = (ParsedBracketParameter) params[1];
 		for(int i = 0; i < repeat; i++) {

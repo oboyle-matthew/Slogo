@@ -15,8 +15,9 @@ import javafx.util.Duration;
 /**
  * This class represents the model for the turtle that can be interacted with
  * through both the controller, and the command classes
+ * 
+ * @author Walker and Simran
  */
-
 public class Turtle {
 
 	/* Finals */
@@ -31,6 +32,7 @@ public class Turtle {
 	private int myColor;
 	private double myPenSize;
 	private double myPenStyle;
+	private boolean animationRunning;
 
 	/**
 	 * Basic constructor that just initializes the myTurtle variable. Returns a new
@@ -38,6 +40,7 @@ public class Turtle {
 	 */
 	public Turtle() {
 		myTurtle = createTurtle();
+		animationRunning = false;
 		myPaths = new ArrayList<Path>();
 		penDown = false;
 	}
@@ -56,6 +59,7 @@ public class Turtle {
 	public double setHeading(double angle) {
 		double degreeDiff = angle - myTurtle.getRotate();
 		RotateTransition rotateTransition = new RotateTransition(Duration.millis(ROTATION_SPEED));
+		myTurtle.setRotate(angle);
 		rotateTransition.setToAngle(angle);
 		rotateTransition.setCycleCount(1);
 		rotateTransition.setNode(myTurtle);
@@ -72,7 +76,7 @@ public class Turtle {
 	 * @return A {@code double} that is the number of degrees just rotated
 	 */
 	public double rotateLeft(double angle) {
-		return setHeading(myTurtle.getRotate() + angle);
+		return setHeading(myTurtle.getRotate() - angle);
 	}
 
 	/**
@@ -84,7 +88,7 @@ public class Turtle {
 	 * @return A {@code double} that is the number of degrees just rotated
 	 */
 	public double rotateRight(double angle) {
-		return setHeading(myTurtle.getRotate() - angle);
+		return setHeading(myTurtle.getRotate() + angle);
 	}
 
 	/* Movement Methods */
@@ -103,6 +107,9 @@ public class Turtle {
 		double yDiff = newYPosition - myTurtle.getY();
 		Path p = createMovementPath(newXPosition, newYPosition);
 		PathTransition pt = new PathTransition();
+		myTurtle.setX(newXPosition);
+		myTurtle.setY(newYPosition);
+		pt.setNode(myTurtle);
 		pt.setPath(p);
 		pt.setDuration(Duration.millis(MOVEMENT_SPEED));
 		pt.setCycleCount(1);
@@ -110,10 +117,31 @@ public class Turtle {
 		myPaths.add(p);
 		return Math.sqrt(xDiff * xDiff + yDiff * yDiff);
 	}
-	
-	public void moveToSimple(double newXPosition, double newYPosition) {
+
+	/**
+	 * Creates the new path for use in the turtle's movement animation
+	 * 
+	 * @param newXPosition
+	 *            is a {@code double} representing the new x-coordinate of the
+	 *            turtle
+	 * @param newYPosition
+	 *            is a {@code double} representing the new y-coordinate of the
+	 *            turtle
+	 * @return A {@code Path} that corresponds to the line the turtle is moving over
+	 */
+	private Path createMovementPath(double newXPosition, double newYPosition) {
+		Path p = new Path();
+		MoveTo moveTo = new MoveTo(myTurtle.getX(), myTurtle.getY());
+		p.getElements().add(moveTo);
+		LineTo lineTo = new LineTo(newXPosition, newYPosition);
+		p.getElements().add(lineTo);
+		return p;
+	}
+
+	public double moveToSimple(double newXPosition, double newYPosition) {
 		myTurtle.setX(newXPosition);
 		myTurtle.setY(newYPosition);
+		return 0.;
 	}
 
 	/**
@@ -125,7 +153,9 @@ public class Turtle {
 	 * @return A {@code double} that reflects the distance moved by the turtle
 	 */
 	public double moveForward(double pixels) {
-		return moveTo(myTurtle.getX(), myTurtle.getY() + pixels);
+		double x = myTurtle.getX() + pixels * Math.sin(myTurtle.getRotate() * Math.PI / 180);
+		double y = myTurtle.getY() - pixels * Math.cos(myTurtle.getRotate() * Math.PI / 180);
+		return moveTo(x, y);
 	}
 
 	/**
@@ -137,8 +167,9 @@ public class Turtle {
 	 * @return A {@code double} that reflects the distance moved by the turtle
 	 */
 	public double moveBackwards(double pixels) {
-		return moveTo(myTurtle.getX(), myTurtle.getY() - pixels);
-	}
+		double x = myTurtle.getX() - pixels * Math.sin(myTurtle.getRotate() * Math.PI / 180);
+		double y = myTurtle.getY() + pixels * Math.cos(myTurtle.getRotate() * Math.PI / 180);
+		return moveTo(x, y);	}
 
 	/* Visbility Settings */
 
@@ -230,7 +261,7 @@ public class Turtle {
 	public double getYPos() {
 		return 50.;
 	}
-	
+
 	/**
 	 * @return A {@code boolean} representing the current state of the turtle
 	 */
@@ -246,32 +277,9 @@ public class Turtle {
 		return "SOLID";
 	}
 
-	/* Private Methods */
-
 	private ImageView createTurtle() {
-//		return new ImageView(); 
 		File file = new File(TURTLE_IMAGE_PATH);
 		Image turtleImage = new Image(file.toURI().toString());
-		return new ImageView(turtleImage); 
-	}
-
-	/**
-	 * Creates the new path for use in the turtle's movement animation
-	 * 
-	 * @param newXPosition
-	 *            is a {@code double} representing the new x-coordinate of the
-	 *            turtle
-	 * @param newYPosition
-	 *            is a {@code double} representing the new y-coordinate of the
-	 *            turtle
-	 * @return A {@code Path} that corresponds to the line the turtle is moving over
-	 */
-	private Path createMovementPath(double newXPosition, double newYPosition) {
-		Path p = new Path();
-		MoveTo moveTo = new MoveTo(myTurtle.getX(), myTurtle.getY());
-		p.getElements().add(moveTo);
-		LineTo lineTo = new LineTo(newXPosition, newYPosition);
-		p.getElements().add(lineTo);
-		return p;
+		return new ImageView(turtleImage);
 	}
 }

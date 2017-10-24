@@ -15,7 +15,7 @@ public class RandomCommand extends ExecutableCommand {
 	
 	@Override
 	public double execute(ParsedItem[] params, Turtle tortuga, Map<String, Double> variables) {
-		double value = Double.parseDouble(((ParsedRegularParameter) params[0]).getValue());
+		double value = Double.parseDouble(((ParsedRegularParameter) params[0]).toString());
 		Random rn = new Random(); 
 		return rn.nextDouble() * value;
 	}

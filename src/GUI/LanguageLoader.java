@@ -17,14 +17,14 @@ import javafx.stage.Screen;
 import javafx.stage.Stage;
 
 public class LanguageLoader extends HBox {
-	public static final String DEFAULT_RESOURCE_PACKAGE = "resources/languages/";
-    public static String language = "Instructions";
-    private ResourceBundle myResources;
+	private static final String DEFAULT_RESOURCE_PACKAGE = "resources/languages/";
+    private static final String language = "Instructions";
 	private static final int MAINWIDTH = 800;
 	private static final int MAINHEIGHT = 600;
 	private static final Paint BACKGROUND = Color.LIGHTBLUE;
 	private static final String RESOURCE_DIR = System.getProperty("user.dir") + "/src/resources/languages";
 	private ComboBox<String> lanLoader = new ComboBox<String>();
+	private ResourceBundle myResources;
 	private Button goButton;
 	private Stage stage;
 
@@ -57,7 +57,8 @@ public class LanguageLoader extends HBox {
 		File[] listOfFiles = folder.listFiles();
 		ArrayList<String> fileNames = new ArrayList<String>();
 		for (File file : listOfFiles) {
-			fileNames.add(file.getName().replaceAll(".properties", ""));
+			if(!file.getName().equals("Syntax.properties"))
+				fileNames.add(file.getName().replaceAll(".properties", ""));
 		}
 		return fileNames;
 	}

@@ -12,8 +12,8 @@ public class MakeVariableCommand extends ExecutableCommand {
 	@Override
 	public double execute(ParsedItem[] params, Turtle tortuga, Map<String, Double> variables) {
 		ParsedRegularParameter p = (ParsedRegularParameter) params[0];
-		double value = Double.parseDouble(((ParsedRegularParameter) params[1]).getValue());
-		variables.put(p.getValue(), value);
+		double value = Double.parseDouble(((ParsedRegularParameter) params[1]).toString());
+		variables.put(p.toString(), value);
 		return value;
 	}
 	

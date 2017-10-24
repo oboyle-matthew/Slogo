@@ -206,7 +206,7 @@ public class CommandParser {
 	 * Retrieves the contents within a pair of brackets in a list
 	*  @param splitInputlist is a {@code List<ParsedItem>} that represents the current state of execution for a SLOGO command
 	 * @param currIndex is a {@code int} that represents the index of the first bracket for a pair of brackets within the list
-	 * @return
+	 * @return A {@code String} that contains everything within the brackets
 	 */
 	private String getBracketContent(List<String> splitInputList, int currIndex) {
 		String s = ""; 
@@ -252,7 +252,7 @@ public class CommandParser {
 
 	/**
 	 * Determines if the string passed in matches the given property in the properties list 
-	 * @param str is a {@code String} that represents the string you're checking 
+	 * @param str is a {@code String} that represents the string being checked 
 	 * @param p is a {@code Properties} object that contains the property passed in the third parameter
 	 * @param property is a {@code String} that contains the property that you want to see if the str matches
 	 * @return {@code true} if the input string does indeed match the property, and false otherwise

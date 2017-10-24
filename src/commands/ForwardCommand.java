@@ -14,7 +14,7 @@ public class ForwardCommand extends ExecutableCommand {
 
 	@Override
 	public double execute(ParsedItem[] params, Turtle tortuga, Map<String, Double> variables) {
-		double value = Double.parseDouble(((ParsedRegularParameter) params[0]).getValue());
+		double value = Double.parseDouble(((ParsedRegularParameter) params[0]).toString());
 		return tortuga.moveForward(value);
 	}
 	

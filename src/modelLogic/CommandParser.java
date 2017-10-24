@@ -193,10 +193,10 @@ public class CommandParser {
 	private double cleanList(List<ParsedItem> list) {
 		ParsedItem curr = list.get(0); 
 		double val = 0;
-		if(list.size() == 1 && !notAllParams(list)) return Double.parseDouble( ((ParsedRegularParameter)curr).getValue());
+		if(list.size() == 1 && !notAllParams(list)) return Double.parseDouble( ((ParsedRegularParameter)curr).toString());
 		while(list.size() > 1 && !curr.getItemType().equals(COMMAND_ITEM)) {
 			list.remove(0);
-			val = Double.parseDouble( ((ParsedRegularParameter)curr).getValue());
+			val = Double.parseDouble( ((ParsedRegularParameter)curr).toString());
 			curr = list.get(0);
 		}
 		return val;

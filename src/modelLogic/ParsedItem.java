@@ -1,6 +1,5 @@
 package modelLogic;
 
-
 /**
  * The abstract class representing a parsed item from a user input string
  * @author Walker and Simran

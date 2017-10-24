@@ -10,18 +10,13 @@ import commands.ExecutableCommand;
  */
 public class ParsedCommand extends ParsedItem {
 
-
-
 /* Final Variables */
 	private static final double DEFAULT_VARIABLE_VALUE = 0;
 	private static final String COMMAND_POSTFIX = "Command";
 	private static final String COMMANDS_DIR = "commands.";
-
-/* Instance Variables */ 
-	private String command; 
 	
 	ParsedCommand(String commandName) {
-		command = commandName; 
+		myString = commandName;
 	}
 	
 	/**
@@ -48,7 +43,7 @@ public class ParsedCommand extends ParsedItem {
 		for(int i = 0; i < params.length; i++) {
 			if(!params[i].getItemType().equals(COMMAND) && params[i].getItemType().equals(REGULAR_PARAM)) {
 				ParsedRegularParameter p = (ParsedRegularParameter) params[i];
-				if(p.isVariable()) params[i] = new ParsedRegularParameter("" + variables.getOrDefault(p.getValue(), DEFAULT_VARIABLE_VALUE), false);
+				if(p.isVariable()) params[i] = new ParsedRegularParameter("" + variables.getOrDefault(p.toString(), DEFAULT_VARIABLE_VALUE), false);
 			}
 		}
 	}
@@ -62,14 +57,14 @@ public class ParsedCommand extends ParsedItem {
 	 */
 	public double execute(ParsedItem[] params, Turtle tortuga, Map<String, Double> variables) {
 		if(!myString.equals("MakeVariable")) updateParams(params, variables);
-		return createExecutableCommand(command).execute(params, tortuga, variables);
+		return createExecutableCommand(myString).execute(params, tortuga, variables);
 	}
 	
 	/**
 	 * @return A {@code String[]} that contains the parameters needed for the command to execute
 	 */
 	public String[] getParameterOrder() {
-		return createExecutableCommand(command).paramNumber();
+		return createExecutableCommand(myString).paramNumber();
 	}
 
 	@Override
@@ -79,6 +74,6 @@ public class ParsedCommand extends ParsedItem {
 
 	@Override
 	public ParsedItem getCopy() {
-		return new ParsedCommand(command);
+		return new ParsedCommand(myString);
 	}
 }

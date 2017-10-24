@@ -7,11 +7,24 @@ import commands.ExecutableCommand;
 public class ParsedCommand extends ParsedItem {
 	
 	private static final double DEFAULT_VARIABLE_VALUE = 0;
-	private ExecutableCommand myCommand; 
+	private String command; 
 	
-	ParsedCommand(ExecutableCommand command, String commandName) {
-		myName = commandName;
-		myCommand = command; 
+	ParsedCommand(String commandName) {
+		command = commandName; 
+	}
+	
+	/**
+	 * Creates an ExecutableCommand object from the given Command 
+	 * @param command
+	 * @return
+	 */
+	private ExecutableCommand createExecutableCommand(String command) {
+		try {
+			Class<?> c = Class.forName("commands." + command + "Command");
+			return (ExecutableCommand) c.newInstance();
+		} catch (Exception e) {
+			return null; 
+		}
 	}
 
 	
@@ -21,8 +34,8 @@ public class ParsedCommand extends ParsedItem {
 	}
 	
 	public double execute(ParsedItem[] params, Turtle tortuga, Map<String, Double> variables) {
-		if(!myName.equals("MakeVariable"))updateParams(params, variables);
-		return myCommand.execute(params, tortuga, variables);
+		if(!myName.equals("MakeVariable")) updateParams(params, variables);
+		return createExecutableCommand(command).execute(params, tortuga, variables);
 	}
 	
 	private void updateParams(ParsedItem[] params, Map<String, Double> variables) {
@@ -42,13 +55,13 @@ public class ParsedCommand extends ParsedItem {
 	}
 	
 	public String[] getParameterOrder() {
-		return myCommand.paramNumber();
+		return createExecutableCommand(command).paramNumber();
 	}
 
 
 	@Override
 	public ParsedItem getCopy() {
-		return new ParsedCommand(myCommand.getCopy(), myName);
+		return new ParsedCommand(command);
 	}
 
 }

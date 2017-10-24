@@ -219,7 +219,7 @@ public class CommandParser {
 	public static void main(String[] args) {
 		CommandParser p = new CommandParser("English");
 		Turtle t = new Turtle();
-		String command = "dotimes [ :test 5 ] [ sum 10 10 ]";
+		String command = "for [ :test 1 2 1 ] [ sum 20 10 ]";
 		p.parseInput(command, t);
 		//System.out.println(Arrays.toString(ret));
 	}

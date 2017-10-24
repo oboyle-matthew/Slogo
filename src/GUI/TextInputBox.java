@@ -6,14 +6,17 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import GUI.HistoryBox;
 
 public class TextInputBox extends HBox{
 	private TextArea commandField;
 	private Button runButton;
 	private Button clearButton;
 	private VBox ButtonBlock;
+	private HistoryBox historyBox;
 	
 	public TextInputBox () {
+		historyBox = new HistoryBox();
 		createCommandField();
 		createButtons();
 		createTextInputBox();
@@ -57,9 +60,16 @@ public class TextInputBox extends HBox{
 		String tester = commandField.getText();
 		commandField.clear();
 		Controller.stringInput(tester);
-		
+		executeText(tester);
+	}
+
+	private void executeText(String tester) {
+		historyBox.addCommandToHistoryBox(tester);
 	}
 	
+	
+
+
 	private void createRunButton() {
 		runButton = new Button("run");
 		runButton.setPrefWidth(50);
@@ -70,6 +80,10 @@ public class TextInputBox extends HBox{
 		runButton.setStyle("-fx-background-color: #001A57;");
 		runButton.setStyle("-fx-effect: dropshadow(gaussian, rgba(67,96,156,0.25) , 0,0,2,2 )");
 		runButton.addEventHandler(MouseEvent.MOUSE_CLICKED, e->readText());
+	}
+	
+	public HistoryBox getHistoryBox() {
+		return historyBox;
 	}
 
 }

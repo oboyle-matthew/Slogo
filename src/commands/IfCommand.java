@@ -17,7 +17,6 @@ public class IfCommand extends ExecutableCommand {
 			ParsedBracketParameter p = (ParsedBracketParameter) params[1];
 			ret = p.executeCommands(tortuga, variables);
 		}
-		
 		return ret;
 	}
 	

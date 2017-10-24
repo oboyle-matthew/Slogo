@@ -114,7 +114,6 @@ public class Turtle {
 	public void moveToSimple(double newXPosition, double newYPosition) {
 		myTurtle.setX(newXPosition);
 		myTurtle.setY(newYPosition);
-		
 	}
 
 	/**
@@ -250,6 +249,7 @@ public class Turtle {
 	/* Private Methods */
 
 	private ImageView createTurtle() {
+//		return new ImageView(); 
 		File file = new File(TURTLE_IMAGE_PATH);
 		Image turtleImage = new Image(file.toURI().toString());
 		return new ImageView(turtleImage); 

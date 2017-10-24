@@ -11,6 +11,9 @@ public class RunButton extends Button {
 	public RunButton(GUIDelegate app) {
 		this.app = app;
 		this.setPrefWidth(50);
+		this.setText("Run");
+		this.setLayoutX(600);
+		this.setLayoutY(500);
 		this.setStyle("-fx-font-family: Andale Mono");
 		this.setStyle("-fx-padding: 6");
 		this.setStyle("-fx-font-size: 1em");

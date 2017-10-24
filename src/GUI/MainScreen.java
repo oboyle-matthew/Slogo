@@ -54,6 +54,7 @@ public class MainScreen extends ScreenDisplay implements GUIDelegate{
 		addTurtleToScreen();
 		
 		rootAdd(new RunButton(this));
+		rootAdd(new ClearButton(this));
 		
 	}
 	
@@ -137,6 +138,7 @@ public class MainScreen extends ScreenDisplay implements GUIDelegate{
 	@Override
 	public void runButtonPressed() {
 		parser.executeInput(getText(), turtle);
+		clearButtonPressed();
 		System.out.println(getText());
 		// TODO Auto-generated method stub
 		

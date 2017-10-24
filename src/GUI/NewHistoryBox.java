@@ -9,9 +9,10 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 
-public class NewHistoryBox extends ScrollPane {
+public class NewHistoryBox extends HBox {
 	
 	private GUIDelegate app;
 //	private ListView<String> myHistoryPaneView;
@@ -21,27 +22,25 @@ public class NewHistoryBox extends ScrollPane {
 	
 	public NewHistoryBox(GUIDelegate app) {
 		this.app = app;
-		this.setPrefWidth(300);
+		this.setPrefWidth(100);
 		this.setLayoutX(500);
 		this.setLayoutY(30);
 		myCommandHistoryBox = new ScrollPane();
 		commandHistoryView = new ListView<String>();
 		commandHistory = new ArrayList<String>();
+		commandHistory.add("test");
 		ObservableList<String> items =FXCollections.observableArrayList(commandHistory);
         commandHistoryView.setItems(items);
         myCommandHistoryBox.setContent(commandHistoryView);
 		commandHistoryView.getSelectionModel().selectedItemProperty().addListener(
         		e->readHistory(commandHistoryView.getSelectionModel().getSelectedItem()));
+		this.getChildren().add(myCommandHistoryBox);
 	}
 	
 	public void addCommandToHistoryBox(String command) {
 		commandHistory.add(command);
 		ObservableList<String> items =FXCollections.observableArrayList(commandHistory);
         commandHistoryView.setItems(items);
-	}
-	
-	private void clearText() {
-		app.clearButtonPressed();
 	}
 	
 	private void readHistory(String text) {

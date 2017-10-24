@@ -6,8 +6,10 @@ import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.FlowPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.ArcType;
@@ -23,28 +25,17 @@ public class MainScreen extends ScreenDisplay {
 	private CanvasHolder canvasHolder;
 	private MainScreenGUI gui;
 	private Turtle turtle = new Turtle();
-	private FlowPane instructionsPane;
+	private VBox instructionsPane;
+	private VBox newProject;
 	private Scene newScene;
 	private Stage myStage;
-	
-	
-//    public void createGenericButton(int columnindex, int rowindex, String label,
-//    		EventHandler<? super MouseEvent> eventHandler) {
-//    	Button button = new Button(label);  
-//    	button.setTextFill(Color.BLUE);
-//    	scene1.setOnKeyPressed(e -> handleKeyInput(e.getCode()));
-//    	button.addEventHandler(MouseEvent.MOUSE_CLICKED, eventHandler);
-//    }
-//    
-//    public void showInstructions() {
-//    	createLabel("test"), 1, 1, NORMAL_FONT);
-//    	createLabel(myResources.getString("rightkey"), 1, 2, NORMAL_FONT);
-//    	createLabel(myResources.getString("esckey"), 1, 3, NORMAL_FONT);
-//    	createLabel(myResources.getString("buttons"), 1, 4, NORMAL_FONT);
-//    }
 
 	public MainScreen(int width, int height, Paint background, String language) {
 		super(width, height, background);
+		createMainScreen(language);
+	}
+
+	public void createMainScreen(String language) {
 		// add a css file to customize button
 		// this.getScene().getStylesheets().add("path/stylesheet.css");
 		canvasHolder = new CanvasHolder(CANVAS_WIDTH, CANVAS_WIDTH);
@@ -52,27 +43,43 @@ public class MainScreen extends ScreenDisplay {
 		canvasHolder.updateBackgroundColor("white");
 		gui = new MainScreenGUI();
 		rootAdd(gui.getTextBox());
-		createInstructionsButton();
-		
+//		createInstructionsButton();
+		createNewProjectButton();
 		CommandParser p = new CommandParser(language);
 		// drawShapes(gc);
 		rootAdd(canvasHolder);
 		rootAdd(gui.getHistoryBox());
 		addTurtleToScreen();
-		
-		
-
-		// TODO Auto-generated constructor stub
 	}
 	
 	public void createInstructionsButton() {
 		Button instructions = new Button("Instructions");
-		instructions.addEventHandler(MouseEvent.MOUSE_CLICKED, e->showInstructions());
+		instructions.addEventHandler(MouseEvent.MOUSE_CLICKED, 
+				e->showInstructions());
 		rootAdd(instructions);
 	}
 	
+	public void createNewProjectButton() {
+		Button newProjectButton = new Button("+");
+		newProjectButton.addEventHandler(MouseEvent.MOUSE_CLICKED, e->createNewProject());
+//		newProjectButton.addEventHandler(MouseEvent.MOUSE_CLICKED, e->createMainScreen());
+		rootAdd(newProjectButton);
+	}
+	
+	public void createNewProject() {
+		newProject = new VBox();
+		newProject.getChildren().add(new Label("new project"));
+		newScene = new Scene(newProject, 400, 400);
+		myStage = new Stage();
+		myStage.setScene(newScene);
+		myStage.show();
+		Main restart = new Main();
+		restart.start(myStage);
+	}
+	
 	public void showInstructions() {
-		instructionsPane = new FlowPane();
+		instructionsPane = new VBox();
+		instructionsPane.getChildren().add(new Label("Test"));
 		newScene = new Scene(instructionsPane, 400, 400);
 		myStage = new Stage();
 		myStage.setScene(newScene);

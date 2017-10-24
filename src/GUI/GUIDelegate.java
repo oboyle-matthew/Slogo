@@ -10,6 +10,8 @@ public interface GUIDelegate {
 	void runCommand(String text);
 
 	void createInstructionsWindow();
+
+	void createNewProject();
 	
 	
 }

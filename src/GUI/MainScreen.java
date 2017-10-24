@@ -31,6 +31,7 @@ public class MainScreen extends ScreenDisplay implements GUIDelegate{
 	private ClearButton myClearButton;
 	private NewHistoryBox myHistoryBox;
 	private InstructionsButton myInstructionButton;
+	private NewProjectButton myNewProjectButton;
 
 
 	public MainScreen(int width, int height, Paint background, String language) {
@@ -47,8 +48,6 @@ public class MainScreen extends ScreenDisplay implements GUIDelegate{
 		canvasHolder.updateBackgroundColor("white");
 		gui = new MainScreenGUI();
 		rootAdd(gui.getTextBox());
-//		createInstructionsButton();
-		createNewProjectButton();
 		CommandParser p = new CommandParser(language);
 		// drawShapes(gc);
 		rootAdd(canvasHolder);
@@ -58,38 +57,18 @@ public class MainScreen extends ScreenDisplay implements GUIDelegate{
 		myClearButton = new ClearButton(this);
 		myHistoryBox = new NewHistoryBox(this);
 		myInstructionButton = new InstructionsButton(this);
+		myNewProjectButton = new NewProjectButton(this);
 		rootAdd(myRunButton);
 		rootAdd(myClearButton);
 		rootAdd(myHistoryBox);
 		rootAdd(myInstructionButton);
+		rootAdd(myNewProjectButton);
 		
 	}
 	
-//	public void createInstructionsButton() {
-//		Button instructions = new Button("Instructions");
-//		instructions.setLayoutX(50);
-//		instructions.addEventHandler(MouseEvent.MOUSE_CLICKED, 
-//				e->showInstructions());
-//		rootAdd(instructions);
-//	}
+
 	
-	public void createNewProjectButton() {
-		Button newProjectButton = new Button("+");
-		newProjectButton.addEventHandler(MouseEvent.MOUSE_CLICKED, e->createNewProject());
-//		newProjectButton.addEventHandler(MouseEvent.MOUSE_CLICKED, e->createMainScreen());
-		rootAdd(newProjectButton);
-	}
-	
-	public void createNewProject() {
-		newProject = new VBox();
-//		newProject.getChildren().add(new Label("new project"));
-		newScene = new Scene(newProject, 400, 400);
-		myStage = new Stage();
-		myStage.setScene(newScene);
-		myStage.show();
-		Main restart = new Main();
-		restart.start(myStage);
-	}
+
 	
 
 	
@@ -170,5 +149,16 @@ public class MainScreen extends ScreenDisplay implements GUIDelegate{
 		myStage = new Stage();
 		myStage.setScene(newScene);
 		myStage.show();
+	}
+
+	@Override
+	public void createNewProject() {
+		newProject = new VBox();
+		newScene = new Scene(newProject, 400, 400);
+		myStage = new Stage();
+		myStage.setScene(newScene);
+		myStage.show();
+		Main restart = new Main();
+		restart.start(myStage);
 	}
 }

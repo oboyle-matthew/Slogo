@@ -21,7 +21,6 @@ public class RunButton extends Button {
 		this.setStyle("-fx-background-color: #001A57;");
 		this.setStyle("-fx-effect: dropshadow(gaussian, rgba(67,96,156,0.25) , 0,0,2,2 )");
 		this.addEventHandler(MouseEvent.MOUSE_CLICKED, e->readText());
-
 	}
 	
 	private void readText() {

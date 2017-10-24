@@ -33,9 +33,9 @@ public class MainScreenGUI {
 		return textBox;
 	}
 	
-	public HistoryBox getHistoryBox() {
-		return textBox.getHistoryBox();
-	}
+//	public HistoryBox getHistoryBox() {
+//		return textBox.getHistoryBox();
+//	}
 	
 
 }

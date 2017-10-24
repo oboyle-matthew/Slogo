@@ -6,6 +6,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import modelLogic.Turtle;
 import GUI.HistoryBox;
 
 public class TextInputBox extends HBox{
@@ -13,14 +14,14 @@ public class TextInputBox extends HBox{
 	private Button runButton;
 	private Button clearButton;
 	private VBox ButtonBlock;
-	private HistoryBox historyBox;
+//	private HistoryBox historyBox;
 	
 	public TextInputBox () {
-		historyBox = new HistoryBox();
+//		historyBox = new HistoryBox();
 		createCommandField();
 		createButtons();
 		createTextInputBox();
-		}
+	}
 
 	private void createTextInputBox() {
 		this.getChildren().add(commandField);
@@ -56,15 +57,11 @@ public class TextInputBox extends HBox{
 		commandField.setPrefHeight(100);
 	}
 
-	private void readText() {
-		String tester = commandField.getText();
-		commandField.clear();
-		Controller.stringInput(tester);
-		executeText(tester);
-	}
-
-	private void executeText(String tester) {
-		historyBox.addCommandToHistoryBox(tester);
+	public String readText() {
+		return commandField.getText();
+//		commandField.clear();
+//		main.executeCommand(tester);
+//		executeText(userText);
 	}
 	
 	
@@ -82,8 +79,8 @@ public class TextInputBox extends HBox{
 		runButton.addEventHandler(MouseEvent.MOUSE_CLICKED, e->readText());
 	}
 	
-	public HistoryBox getHistoryBox() {
-		return historyBox;
-	}
+//	public HistoryBox getHistoryBox() {
+//		return historyBox;
+//	}
 
 }

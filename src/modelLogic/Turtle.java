@@ -64,7 +64,7 @@ public class Turtle {
 		rotateTransition.setCycleCount(1);
 		rotateTransition.setNode(myTurtle);
 		rotateTransition.play();
-		return degreeDiff;
+		return Math.abs(degreeDiff);
 	}
 
 	/**

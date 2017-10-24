@@ -8,13 +8,10 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.ArcType;
-import javafx.scene.text.Font;
-import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 import modelLogic.CommandParser;
 import modelLogic.Turtle;
@@ -33,6 +30,7 @@ public class MainScreen extends ScreenDisplay implements GUIDelegate{
 	private RunButton myRunButton;
 	private ClearButton myClearButton;
 	private NewHistoryBox myHistoryBox;
+	private InstructionsButton myInstructionButton;
 
 
 	public MainScreen(int width, int height, Paint background, String language) {
@@ -49,7 +47,7 @@ public class MainScreen extends ScreenDisplay implements GUIDelegate{
 		canvasHolder.updateBackgroundColor("white");
 		gui = new MainScreenGUI();
 		rootAdd(gui.getTextBox());
-		createInstructionsButton();
+//		createInstructionsButton();
 		createNewProjectButton();
 		CommandParser p = new CommandParser(language);
 		// drawShapes(gc);
@@ -59,19 +57,21 @@ public class MainScreen extends ScreenDisplay implements GUIDelegate{
 		myRunButton = new RunButton(this);
 		myClearButton = new ClearButton(this);
 		myHistoryBox = new NewHistoryBox(this);
+		myInstructionButton = new InstructionsButton(this);
 		rootAdd(myRunButton);
 		rootAdd(myClearButton);
 		rootAdd(myHistoryBox);
+		rootAdd(myInstructionButton);
 		
 	}
 	
-	public void createInstructionsButton() {
-		Button instructions = new Button("Instructions");
-		instructions.setLayoutX(50);
-		instructions.addEventHandler(MouseEvent.MOUSE_CLICKED, 
-				e->showInstructions());
-		rootAdd(instructions);
-	}
+//	public void createInstructionsButton() {
+//		Button instructions = new Button("Instructions");
+//		instructions.setLayoutX(50);
+//		instructions.addEventHandler(MouseEvent.MOUSE_CLICKED, 
+//				e->showInstructions());
+//		rootAdd(instructions);
+//	}
 	
 	public void createNewProjectButton() {
 		Button newProjectButton = new Button("+");
@@ -91,16 +91,7 @@ public class MainScreen extends ScreenDisplay implements GUIDelegate{
 		restart.start(myStage);
 	}
 	
-	public void showInstructions() {
-		instructionsPane = new VBox();
-		instructionsPane.getChildren().add(new Label("Insert Instructions Here"));
-		newScene = new Scene(instructionsPane, 400, 400);
-		myStage = new Stage();
-		myStage.setScene(newScene);
-		myStage.show();
-		
-	}
-	
+
 	
 
 	private void addTurtleToScreen() {
@@ -168,5 +159,16 @@ public class MainScreen extends ScreenDisplay implements GUIDelegate{
 		// TODO Auto-generated method stub
 		parser.executeInput(text,  turtle);
 		
+	}
+
+	@Override
+	public void createInstructionsWindow() {
+		// TODO Auto-generated method stub
+		instructionsPane = new VBox();
+		instructionsPane.getChildren().add(new Label("Insert Instructions Here"));
+		newScene = new Scene(instructionsPane, 400, 400);
+		myStage = new Stage();
+		myStage.setScene(newScene);
+		myStage.show();
 	}
 }

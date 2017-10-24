@@ -79,6 +79,7 @@ public class TextInputBox extends HBox{
 		runButton.addEventHandler(MouseEvent.MOUSE_CLICKED, e->readText());
 	}
 	
+	
 //	public HistoryBox getHistoryBox() {
 //		return historyBox;
 //	}

@@ -13,7 +13,7 @@ public class BackwardCommand extends ExecutableCommand {
 		
 	@Override
 	public double execute(ParsedItem[] params, Turtle tortuga, Map<String, Double> variables) {
-		double value = Double.parseDouble(((ParsedRegularParameter) params[0]).getValue());
+		double value = Double.parseDouble(((ParsedRegularParameter) params[0]).toString());
 		return tortuga.moveBackwards(value);
 	}
 	

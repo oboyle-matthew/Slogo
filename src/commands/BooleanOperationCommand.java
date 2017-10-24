@@ -26,8 +26,8 @@ public class BooleanOperationCommand extends ExecutableCommand {
 	@Override
 	public double execute(ParsedItem[] params, Turtle tortuga, Map<String, Double> variables) {
 		
-		double value1 = Double.parseDouble(((ParsedRegularParameter) params[0]).getValue());
-		double value2 = Double.parseDouble(((ParsedRegularParameter) params[1]).getValue());
+		double value1 = Double.parseDouble(((ParsedRegularParameter) params[0]).toString());
+		double value2 = Double.parseDouble(((ParsedRegularParameter) params[1]).toString());
 
 		if(myCommand.equals(LESS)) return (value1 < value2 ? 1 : 0);
 		if(myCommand.equals(GREATER)) return (value1 > value2 ? 1 : 0);

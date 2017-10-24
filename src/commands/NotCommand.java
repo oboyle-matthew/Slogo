@@ -14,7 +14,7 @@ public class NotCommand extends ExecutableCommand {
 
 	@Override
 	public double execute(ParsedItem[] params, Turtle tortuga, Map<String, Double> variables) {
-		double value = Double.parseDouble(((ParsedRegularParameter) params[0]).getValue());
+		double value = Double.parseDouble(((ParsedRegularParameter) params[0]).toString());
 		return ( value == 0 ? 1 : 0);
 	}
 	

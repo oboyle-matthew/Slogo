@@ -11,7 +11,7 @@ public class IfCommand extends ExecutableCommand {
 
 	@Override
 	public double execute(ParsedItem[] params, Turtle tortuga, Map<String, Double> variables) {
-		double value = Double.parseDouble(((ParsedRegularParameter) params[0]).getValue());
+		double value = Double.parseDouble(((ParsedRegularParameter) params[0]).toString());
 		double ret = 0; 
 		if(value != 0) {
 			ParsedBracketParameter p = (ParsedBracketParameter) params[1];

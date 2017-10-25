@@ -8,8 +8,8 @@ public class InputBox extends TextArea {
 	
 	public InputBox(GUIDelegate app) {
 //		this.app = app;
-		this.setWidth(200);
-		this.setHeight(100);
+		this.setWidth(150);
+		this.setHeight(30);
 		this.setLayoutY(400);
 	}
 

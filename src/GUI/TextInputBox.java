@@ -7,7 +7,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import modelLogic.Turtle;
-import GUI.HistoryBox;
+import GUI.OldHistoryBox;
 
 public class TextInputBox extends HBox{
 	private TextArea commandField;

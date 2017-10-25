@@ -14,12 +14,12 @@ import javafx.scene.paint.Color;
 public class TabToolBar extends TabPane {
 	
 	private GUIDelegate app;
-	private NewHistoryBox historyBox;
+	private HistoryBox historyBox;
 	
 	public TabToolBar(GUIDelegate app) {
 		this.app = app;
 		//addTab();
-		historyBox = new NewHistoryBox(app);
+		historyBox = new HistoryBox(app);
 		this.setStyle("-fx-padding: 1; -fx-background-color: black, -fx-control-inner-background; -fx-background-insets: 0, 1;");
 		this.setLayoutX(450);
 		this.setLayoutY(30);
@@ -28,7 +28,7 @@ public class TabToolBar extends TabPane {
 		addTab("CommandHistory",this.historyCommand());
 	}
 	
-	public NewHistoryBox getHistoryBox() {
+	public HistoryBox getHistoryBox() {
 		return historyBox;
 	}
 	

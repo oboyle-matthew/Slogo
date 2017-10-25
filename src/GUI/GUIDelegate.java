@@ -19,5 +19,9 @@ public interface GUIDelegate {
 	
 	void setDirection(Double angle);
 	
+	void changeBackground(String color);
+	
+	void createTurtle();
+	
 	
 }

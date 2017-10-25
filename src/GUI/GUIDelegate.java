@@ -24,6 +24,10 @@ public interface GUIDelegate {
 	void createTurtle();
 	
 	void startProject();
+
+	void forwardButtonPressed();
+
+	void backwardButtonPressed();
 	
 	
 }

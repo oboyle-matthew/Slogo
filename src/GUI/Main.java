@@ -9,7 +9,6 @@ import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 
-
 public class Main extends Application {
 	public static final String TITLE = "SLOGO";
 	public static final int HEIGHT = 450;

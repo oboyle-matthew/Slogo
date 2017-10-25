@@ -20,8 +20,7 @@ public class MainScreen extends ScreenDisplay implements GUIDelegate{
 	private ResourceBundle languageResources;
 	private CanvasHolder canvasHolder;
 	private String myLanguage;
-	private HBox turtleBox;
-	private Turtle turtle = new Turtle();
+	private Turtle ogTurtle = new Turtle();
 	private VBox instructionsPane;
 	private VBox newProject;
 	private Scene newScene;
@@ -82,9 +81,9 @@ public class MainScreen extends ScreenDisplay implements GUIDelegate{
 	
 	private void createFirstTurtle() {
 		turtleArray = new ArrayList<Turtle>();
-		getRootChildren().add(turtle.getImageViewForScreen());
-		turtle.moveTo(200, 200);
-		turtleArray.add(turtle);
+		getRootChildren().add(ogTurtle.getImageViewForScreen());
+		ogTurtle.moveTo(200, 200);
+		turtleArray.add(ogTurtle);
 	}
 
 	
@@ -99,9 +98,7 @@ public class MainScreen extends ScreenDisplay implements GUIDelegate{
 	@Override
 	public void runButtonPressed() {
 		myTabToolBar.getHistoryBox().addCommandToHistoryBox(getText());
-		for (Turtle t : turtleArray) {
-			parser.executeInput(getText(), t);
-		}
+		runCommand(getText());
 		clearButtonPressed();
 	}
 
@@ -165,11 +162,11 @@ public class MainScreen extends ScreenDisplay implements GUIDelegate{
 
 	@Override
 	public void moveX(Double newLocation) {
-		turtle.moveToSimple(newLocation, turtle.getYPos());
+		ogTurtle.moveToSimple(newLocation, ogTurtle.getYPos());
 	}
 	
 	public void setDirection(Double angle) {
-		turtle.rotateLeft(angle);
+		ogTurtle.rotateLeft(angle);
 	}
 	
 	public void instructionMaker(VBox instructionsPane, String language) {

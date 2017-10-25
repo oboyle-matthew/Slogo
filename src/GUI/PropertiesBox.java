@@ -2,7 +2,7 @@ package GUI;
 
 
 
-import GUI.TableViewSample.EditingCell;
+//import GUI.TableViewSample.EditingCell;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.Label;

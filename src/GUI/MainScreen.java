@@ -1,5 +1,7 @@
 package GUI;
 
+import java.util.ResourceBundle;
+
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
@@ -10,9 +12,11 @@ import modelLogic.CommandParser;
 import modelLogic.Turtle;
 
 public class MainScreen extends ScreenDisplay implements GUIDelegate{
-
+	public static final String DEFAULT_RESOURCE_PACKAGE = "resources/languages/";
 	private static final int CANVAS_WIDTH = 400;
+	private ResourceBundle myResources;
 	private CanvasHolder canvasHolder;
+	private String myLanguage;
 	private HBox turtleBox;
 	private MainScreenGUI gui;
 	private Turtle turtle = new Turtle();
@@ -38,6 +42,7 @@ public class MainScreen extends ScreenDisplay implements GUIDelegate{
 
 	public MainScreen(int width, int height, Paint background, String language) {
 		super(width, height, background);
+		myLanguage = language;
 		parser = new CommandParser(language);
 		createMainScreen(language);
 	}
@@ -105,12 +110,13 @@ public class MainScreen extends ScreenDisplay implements GUIDelegate{
 	@Override
 	public void createInstructionsWindow() {
 		instructionsPane = new VBox();
-		instructionsPane.getChildren().add(new Label("Insert Instructions Here"));
 		newScene = new Scene(instructionsPane, 400, 400);
 		myStage = new Stage();
 		myStage.setScene(newScene);
 		myStage.show();
+		instructionMaker(instructionsPane, myLanguage);
 	}
+	
 
 	@Override
 	public void createNewProject() {
@@ -150,5 +156,17 @@ public class MainScreen extends ScreenDisplay implements GUIDelegate{
 	
 	public void setDirection(Double angle) {
 		turtle.setHeading(angle);
+	}
+	
+	public void instructionMaker(VBox instructionsPane, String language) {
+		myResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + language);
+		createInstruction(instructionsPane, "Forward");
+		createInstruction(instructionsPane, "Backward");
+		createInstruction(instructionsPane, "Left");
+		createInstruction(instructionsPane, "Right");
+		createInstruction(instructionsPane, "SetHeading");
+	}
+	public void createInstruction(VBox instructionsPane, String instruction) {
+		instructionsPane.getChildren().add(new Label(instruction + "=" + myResources.getString(instruction)));
 	}
 }

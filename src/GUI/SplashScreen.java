@@ -17,6 +17,7 @@ public class SplashScreen extends ScreenDisplay {
 	private static final int PREFSIZE = 80;
 	private static final String TITLEFONT = "Verdana";
 	private static final String TURTLRIMAGE = "turtle.gif";
+	private static final String TITLE = "Welcome to SLOGO";
 	private HBox titleBox = new HBox();
 	private VBox screenBox;
 	private Text SlogoTitle;
@@ -37,8 +38,7 @@ public class SplashScreen extends ScreenDisplay {
 	}
 
 	private void basicSetup() {
-
-		SlogoTitle = new Text(10, 20, "WELCOME TO SLOGO!");
+		SlogoTitle = new Text(10, 20, TITLE);
 		SlogoTitle.setFont(Font.font(TITLEFONT, FontPosture.ITALIC, 30));
 		SlogoTitle.setFill(Color.DARKBLUE);
 		titleBox = new HBox();
@@ -59,11 +59,11 @@ public class SplashScreen extends ScreenDisplay {
 		screenBox.setSpacing(30);
 		screenBox.setAlignment(Pos.CENTER);
 		screenBox.setLayoutX(50);
-
 	}
 
 	@Override
 	public void step(double elapsedTime) {
-		// Do not need to do anything in splash screen
+		// TODO Auto-generated method stub
+		
 	}
 }

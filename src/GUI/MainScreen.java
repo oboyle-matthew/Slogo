@@ -185,4 +185,9 @@ public class MainScreen extends ScreenDisplay implements GUIDelegate{
 	public void changeBackground(String color) {
 		canvasHolder.updateBackgroundColor(color);
 	}
+
+	@Override
+	public void startProject() {
+		
+	}
 }

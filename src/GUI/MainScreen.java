@@ -1,5 +1,7 @@
 package GUI;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 
 import javafx.scene.Scene;
@@ -19,7 +21,6 @@ public class MainScreen extends ScreenDisplay implements GUIDelegate{
 	private CanvasHolder canvasHolder;
 	private String myLanguage;
 	private HBox turtleBox;
-	private MainScreenGUI gui;
 	private Turtle turtle = new Turtle();
 	private VBox instructionsPane;
 	private VBox newProject;
@@ -29,7 +30,7 @@ public class MainScreen extends ScreenDisplay implements GUIDelegate{
 	private InputBox myInputBox;
 	private RunButton myRunButton;
 	private ClearButton myClearButton;
-	private NewHistoryBox myHistoryBox;
+	private HistoryBox myHistoryBox;
 	private InstructionsButton myInstructionButton;
 	private NewProjectButton myNewProjectButton;
 	private ForwardButton myForwardButton;
@@ -38,6 +39,8 @@ public class MainScreen extends ScreenDisplay implements GUIDelegate{
 	private FontColorButton myFontColorButton;
 	private TabToolBar myTabToolBar;
 	private CustomizeButton myCustomizeButton;
+	private CreateNewTurtleButton myNewTurtleButton;
+	private List<Turtle> turtleArray;
 
 
 
@@ -52,18 +55,18 @@ public class MainScreen extends ScreenDisplay implements GUIDelegate{
 		myTabToolBar = new TabToolBar(this);
 		canvasHolder = new CanvasHolder(CANVAS_WIDTH, CANVAS_WIDTH);
 		canvasHolder.updateBackgroundColor("white");
-		gui = new MainScreenGUI();
 		rootAdd(canvasHolder);
-		addTurtleToScreen();
+		createFirstTurtle();
 		myInputBox = new InputBox(this);
 		myRunButton = new RunButton(this);
 		myClearButton = new ClearButton(this);
-		myHistoryBox = new NewHistoryBox(this);
+		myHistoryBox = new HistoryBox(this);
 		myInstructionButton = new InstructionsButton(this);
 		myNewProjectButton = new NewProjectButton(this);
 		myForwardButton = new ForwardButton(this);
 		myBackButton = new BackButton(this);
 		myCustomizeButton = new CustomizeButton(this);
+		myNewTurtleButton = new CreateNewTurtleButton(this);
 		rootAdd(myInputBox);
 		rootAdd(myRunButton);
 		rootAdd(myClearButton);
@@ -74,22 +77,31 @@ public class MainScreen extends ScreenDisplay implements GUIDelegate{
 		rootAdd(myBackButton);
 		rootAdd(myTabToolBar);
 		rootAdd(myCustomizeButton);
-	}
-
-	private void addTurtleToScreen() {
-		getRootChildren().add(turtle.getImageViewForScreen());
-		turtle.moveTo(200, 200);
+		rootAdd(myNewTurtleButton);
 	}
 	
-	public void executeCommand(String input, Turtle turtle) {
-		parser.executeInput("left 90", turtle);
-		parser.executeInput("right 90", turtle);
+	private void createFirstTurtle() {
+		turtleArray = new ArrayList<Turtle>();
+		getRootChildren().add(turtle.getImageViewForScreen());
+		turtle.moveTo(200, 200);
+		turtleArray.add(turtle);
+	}
+
+	
+	@Override
+	public void createTurtle() {
+		Turtle newTurtle = new Turtle();
+		getRootChildren().add(newTurtle.getImageViewForScreen());
+		newTurtle.moveTo(200, 200);
+		turtleArray.add(newTurtle);
 	}
 	
 	@Override
 	public void runButtonPressed() {
 		myTabToolBar.getHistoryBox().addCommandToHistoryBox(getText());
-		parser.executeInput(getText(), turtle);
+		for (Turtle t : turtleArray) {
+			parser.executeInput(getText(), t);
+		}
 		clearButtonPressed();
 	}
 
@@ -105,7 +117,9 @@ public class MainScreen extends ScreenDisplay implements GUIDelegate{
 
 	@Override
 	public void runCommand(String text) {
-		parser.executeInput(text,  turtle);
+		for (Turtle t : turtleArray) {
+			parser.executeInput(text,  t);
+		}
 	}
 
 	@Override
@@ -147,7 +161,6 @@ public class MainScreen extends ScreenDisplay implements GUIDelegate{
 		newProject.getChildren().add(myBackgroundColorButton);
 		myFontColorButton = new FontColorButton(this);
 		newProject.getChildren().add(myFontColorButton);
-		
 	}
 
 	@Override
@@ -169,5 +182,10 @@ public class MainScreen extends ScreenDisplay implements GUIDelegate{
 	}
 	public void createInstruction(VBox instructionsPane, String instruction) {
 		instructionsPane.getChildren().add(new Label(instruction + "=" + languageResources.getString(instruction)));
+	}
+
+	@Override
+	public void changeBackground(String color) {
+		canvasHolder.updateBackgroundColor(color);
 	}
 }

@@ -29,6 +29,6 @@ public class BackgroundColorButton extends ComboBox<String> {
 	}
 	
 	public void changeBackgroundColor(String color) {
-		System.out.println("Background Test");
+		app.changeBackground(color);
 	}
 }

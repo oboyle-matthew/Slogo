@@ -28,7 +28,7 @@ public class FontColorButton extends ComboBox<String> {
 		this.setItems(colorList);
 	}
 	
-	public void changeBackgroundColor(String color) {
+	public void changeFontColor(String color) {
 		System.out.println("Font Test");
 	}
 }

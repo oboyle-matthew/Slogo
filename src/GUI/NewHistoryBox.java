@@ -28,7 +28,6 @@ public class NewHistoryBox extends HBox {
 		myCommandHistoryBox = new ScrollPane();
 		commandHistoryView = new ListView<String>();
 		commandHistory = new ArrayList<String>();
-		commandHistory.add("test");
 		ObservableList<String> items =FXCollections.observableArrayList(commandHistory);
         commandHistoryView.setItems(items);
         myCommandHistoryBox.setContent(commandHistoryView);

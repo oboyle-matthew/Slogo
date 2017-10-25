@@ -2,6 +2,9 @@ package GUI;
 
 
 
+import java.util.ArrayList;
+import java.util.Arrays;
+
 //import GUI.TableViewSample.EditingCell;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -22,6 +25,8 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 
 public class PropertiesBox extends VBox {
+	public static final String[] properties = {"Direction", "X Position", "Pen Down", "Pen Color", "Pen Size", "Pen Style"};
+
 	private GUIDelegate app;
 	private Label text;
 	private TableView propertyTable;
@@ -42,14 +47,17 @@ public class PropertiesBox extends VBox {
         TableColumn lastCol = new TableColumn("Value");
         propertyTable.getColumns().addAll(firstCol, lastCol);
         
-     
-		ObservableList<TurProperty> displayList =FXCollections.observableArrayList (
-			   new TurProperty( "Direction ",propertyArr[0]),
-			   new TurProperty("X position ",propertyArr[1]), 
-			   new TurProperty( 	"Pen Down ",propertyArr[2]), 
-			   new TurProperty( 	"Pen Color ", propertyArr[3]), 
-			   new TurProperty( 	"PenSize ", propertyArr[4]),
-			   new TurProperty(	"PenStyle " , propertyArr[5]));
+        
+		ObservableList<TurProperty> displayList =FXCollections.observableArrayList ();
+			for (int i = 0; i < 6; i++) {
+	        	displayList.add(new TurProperty(properties[i], propertyArr[i]));
+	        }
+//			   new TurProperty( "Direction ",propertyArr[0]),
+//			   new TurProperty("X position ",propertyArr[1]), 
+//			   new TurProperty( 	"Pen Down ",propertyArr[2]), 
+//			   new TurProperty( 	"Pen Color ", propertyArr[3]), 
+//			   new TurProperty( 	"PenSize ", propertyArr[4]),
+//			   new TurProperty(	"PenStyle " , propertyArr[5]));
 		
 		
 		
@@ -74,7 +82,25 @@ public class PropertiesBox extends VBox {
                     ((TurProperty) t.getTableView().getItems().get(
                         t.getTablePosition().getRow())
                         ).setMyName(t.getNewValue());
+                    
+
+
+                    int rowNum = t.getTablePosition().getRow();
+                    String val = t.getNewValue();
+                    System.out.print(rowNum + " : ");
+                    System.out.println(val);
+                    System.out.println(properties[rowNum]+"(" + val + ")" + "\n");
+                    
+//                    for (Command c : Command.values()) {
+//                    	System.out.print(c + " : ");
+//                    	System.out.println(c.name());
+//                    }
+
+                    
                     app.moveX(Double.parseDouble(t.getNewValue()));
+                    
+                    
+//                    app.moveX(Double.parseDouble(t.getNewValue()));
 //                    System.out.println(t.getNewValue());
                 }
             }

@@ -14,7 +14,8 @@ import modelLogic.Turtle;
 public class MainScreen extends ScreenDisplay implements GUIDelegate{
 	public static final String DEFAULT_RESOURCE_PACKAGE = "resources/languages/";
 	private static final int CANVAS_WIDTH = 400;
-	private ResourceBundle myResources;
+	private ResourceBundle instructionsResources;
+	private ResourceBundle languageResources;
 	private CanvasHolder canvasHolder;
 	private String myLanguage;
 	private HBox turtleBox;
@@ -155,11 +156,11 @@ public class MainScreen extends ScreenDisplay implements GUIDelegate{
 	}
 	
 	public void setDirection(Double angle) {
-		turtle.setHeading(angle);
+		turtle.rotateLeft(angle);
 	}
 	
 	public void instructionMaker(VBox instructionsPane, String language) {
-		myResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + language);
+		languageResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + language);
 		createInstruction(instructionsPane, "Forward");
 		createInstruction(instructionsPane, "Backward");
 		createInstruction(instructionsPane, "Left");
@@ -167,6 +168,6 @@ public class MainScreen extends ScreenDisplay implements GUIDelegate{
 		createInstruction(instructionsPane, "SetHeading");
 	}
 	public void createInstruction(VBox instructionsPane, String instruction) {
-		instructionsPane.getChildren().add(new Label(instruction + "=" + myResources.getString(instruction)));
+		instructionsPane.getChildren().add(new Label(instruction + "=" + languageResources.getString(instruction)));
 	}
 }

@@ -17,7 +17,7 @@ import javafx.stage.Screen;
 import javafx.stage.Stage;
 
 public class LanguageLoader extends HBox {
-	private static final String DEFAULT_RESOURCE_PACKAGE = "resources/languages/";
+	private static final String DEFAULT_RESOURCE_PACKAGE = "resources/";
     private static final String language = "Instructions";
 	private static final int MAINWIDTH = 800;
 	private static final int MAINHEIGHT = 600;

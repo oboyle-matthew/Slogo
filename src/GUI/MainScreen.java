@@ -4,16 +4,16 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
-import javafx.geometry.Insets;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 import modelLogic.CommandParser;
@@ -104,6 +104,46 @@ public class MainScreen extends ScreenDisplay implements GUIDelegate{
 	    myDirectionGrid.add(myBackButton, 1, 2);
 		rootAdd(myTabToolBar);
 	}
+	
+	
+	
+	private void ButtonInit() {
+		myRunButton = new RunButton(this);
+		myClearButton = new ClearButton(this);
+		myInstructionButton = new InstructionsButton(this);
+		myNewProjectButton = new NewProjectButton(this);
+		myForwardButton = new ForwardButton(this);
+		myBackButton = new BackwardButton(this);
+		myCustomizeButton = new CustomizeButton(this);
+		myNewTurtleButton = new CreateNewTurtleButton(this);
+		Button redButton = new Button("RED");
+		redButton.addEventHandler(MouseEvent.MOUSE_CLICKED, e->changeBackground("red"));
+		Button whiteButton = new Button("WHITE");
+		whiteButton.addEventHandler(MouseEvent.MOUSE_CLICKED, e->changeBackground("white"));
+		
+		// add all the things into an button bar hbox
+		ButtonBar = new HBox();
+		ButtonBar.getChildren().add(myRunButton);
+		ButtonBar.getChildren().add(myClearButton);
+		ButtonBar.getChildren().add(myNewTurtleButton);
+		ButtonBar.getChildren().add(myNewProjectButton);
+		ButtonBar.getChildren().add(myInstructionButton);
+		ButtonBar.getChildren().add(myCustomizeButton);
+		ButtonBar.getChildren().add(redButton);
+		ButtonBar.getChildren().add(whiteButton);
+		ButtonBar.setSpacing(0);
+		Pane ToolBar = new Pane();
+		ToolBar.getChildren().add(ButtonBar);
+		ToolBar.setPrefSize(805, 30);
+		ToolBar.setLayoutX(-1);
+		ToolBar.setLayoutY(-1);
+		ToolBar.setStyle(  "-fx-border-width: 1px; -fx-border-color: #4d4d4d; -fx-background-color: #e6e6e6;");
+		
+		rootAdd(ToolBar);
+		
+		
+	}
+	
 	private void createFirstTurtle() {
 		turtleArray = new ArrayList<Turtle>();
 		getRootChildren().add(ogTurtle.getImageViewForScreen());
@@ -155,6 +195,17 @@ public class MainScreen extends ScreenDisplay implements GUIDelegate{
 		instructionMaker(instructionsPane, myLanguage);
 	}
 	
+	private void instructionMaker(VBox instructionsPane, String language) {
+		languageResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + language);
+		createInstruction(instructionsPane, "Forward");
+		createInstruction(instructionsPane, "Backward");
+		createInstruction(instructionsPane, "Left");
+		createInstruction(instructionsPane, "Right");
+		createInstruction(instructionsPane, "SetHeading");
+	}
+	private void createInstruction(VBox instructionsPane, String instruction) {
+		instructionsPane.getChildren().add(new Label(instruction + "=" + languageResources.getString(instruction)));
+	}
 
 	@Override
 	public void createNewProject() {
@@ -193,56 +244,6 @@ public class MainScreen extends ScreenDisplay implements GUIDelegate{
 	
 	public void setDirection(Double angle) {
 		ogTurtle.rotateLeft(angle);
-	}
-	
-	public void instructionMaker(VBox instructionsPane, String language) {
-		languageResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + language);
-		createInstruction(instructionsPane, "Forward");
-		createInstruction(instructionsPane, "Backward");
-		createInstruction(instructionsPane, "Left");
-		createInstruction(instructionsPane, "Right");
-		createInstruction(instructionsPane, "SetHeading");
-	}
-	public void createInstruction(VBox instructionsPane, String instruction) {
-		instructionsPane.getChildren().add(new Label(instruction + "=" + languageResources.getString(instruction)));
-	}
-	
-	
-	
-	private void ButtonInit() {
-		myRunButton = new RunButton(this);
-		myClearButton = new ClearButton(this);
-		myInstructionButton = new InstructionsButton(this);
-		myNewProjectButton = new NewProjectButton(this);
-		myForwardButton = new ForwardButton(this);
-		myBackButton = new BackwardButton(this);
-		myCustomizeButton = new CustomizeButton(this);
-		myNewTurtleButton = new CreateNewTurtleButton(this);
-		
-		// add all the things into an button bar hbox
-		ButtonBar = new HBox();
-		ButtonBar.getChildren().add(myRunButton);
-		ButtonBar.getChildren().add(myClearButton);
-		//ButtonBar.getChildren().add(myBackButton);
-		ButtonBar.getChildren().add(myNewTurtleButton);
-		//ButtonBar.getChildren().add(myForwardButton);
-		ButtonBar.getChildren().add(myNewProjectButton);
-		ButtonBar.getChildren().add(myInstructionButton);
-		ButtonBar.getChildren().add(myCustomizeButton);
-		ButtonBar.setSpacing(0);
-		Pane ToolBar = new Pane();
-		ToolBar.getChildren().add(ButtonBar);
-		ToolBar.setPrefSize(805, 30);
-		ToolBar.setLayoutX(-1);
-		ToolBar.setLayoutY(-1);
-		ToolBar.setStyle(  "-fx-border-width: 1px; -fx-border-color: #4d4d4d; -fx-background-color: #e6e6e6;");
-		
-		
-		
-		rootAdd(ToolBar);
-		
-		
-		
 	}
 
 	@Override

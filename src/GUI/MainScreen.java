@@ -20,8 +20,7 @@ public class MainScreen extends ScreenDisplay implements GUIDelegate{
 	private ResourceBundle languageResources;
 	private CanvasHolder canvasHolder;
 	private String myLanguage;
-	
-	private Turtle ogTurtle = new Turtle("turtle.png");
+	private Turtle ogTurtle = new Turtle();
 	private VBox instructionsPane;
 	private VBox newProject;
 	private Scene newScene;
@@ -90,7 +89,7 @@ public class MainScreen extends ScreenDisplay implements GUIDelegate{
 	
 	@Override
 	public void createTurtle() {
-		Turtle newTurtle = new Turtle("turtle.png");
+		Turtle newTurtle = new Turtle();
 		getRootChildren().add(newTurtle.getImageViewForScreen());
 		newTurtle.moveTo(200, 200);
 		turtleArray.add(newTurtle);

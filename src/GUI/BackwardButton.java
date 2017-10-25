@@ -5,17 +5,17 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 
-public class BackButton extends Button {
+public class BackwardButton extends Button {
 	
 //	private GUIDelegate app;
 	
-	public BackButton(GUIDelegate app) {
+	public BackwardButton(GUIDelegate app) {
 //		this.app = app;
 		this.setPrefWidth(100);
 		//this.setText("Back");
 		this.setLayoutX(600);
 		this.setLayoutY(450);
-		this.addEventHandler(MouseEvent.MOUSE_CLICKED, e->app.runCommand("back 50"));
+		this.addEventHandler(MouseEvent.MOUSE_CLICKED, e->app.backwardButtonPressed());
 		
 		//deal with background
 		Image image = new Image(getClass().getResourceAsStream("downButton.png"));

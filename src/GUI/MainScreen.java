@@ -40,7 +40,7 @@ public class MainScreen extends ScreenDisplay implements GUIDelegate{
 	private InstructionsButton myInstructionButton;
 	private NewProjectButton myNewProjectButton;
 	private ForwardButton myForwardButton;
-	private BackButton myBackButton;
+	private BackwardButton myBackButton;
 	private BackgroundColorButton myBackgroundColorButton;
 	private FontColorButton myFontColorButton;
 	private TabToolBar myTabToolBar;
@@ -215,7 +215,7 @@ public class MainScreen extends ScreenDisplay implements GUIDelegate{
 		myInstructionButton = new InstructionsButton(this);
 		myNewProjectButton = new NewProjectButton(this);
 		myForwardButton = new ForwardButton(this);
-		myBackButton = new BackButton(this);
+		myBackButton = new BackwardButton(this);
 		myCustomizeButton = new CustomizeButton(this);
 		myNewTurtleButton = new CreateNewTurtleButton(this);
 		
@@ -248,5 +248,20 @@ public class MainScreen extends ScreenDisplay implements GUIDelegate{
 	@Override
 	public void changeBackground(String color) {
 		canvasHolder.updateBackgroundColor(color);
+	}
+
+	@Override
+	public void startProject() {
+		
+	}
+
+	@Override
+	public void forwardButtonPressed() {
+		ogTurtle.moveForward(50);
+	}
+
+	@Override
+	public void backwardButtonPressed() {
+		ogTurtle.moveBackwards(50);
 	}
 }

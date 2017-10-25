@@ -15,7 +15,7 @@ public class ForwardButton extends Button {
 		//this.setText("Forward");
 		this.setLayoutX(600);
 		this.setLayoutY(400);
-		this.addEventHandler(MouseEvent.MOUSE_CLICKED, e->app.runCommand("fd 50"));
+		this.addEventHandler(MouseEvent.MOUSE_CLICKED, e->app.forwardButtonPressed());
 		
 		//customize the image
 		Image image = new Image(getClass().getResourceAsStream("upButton.png"));

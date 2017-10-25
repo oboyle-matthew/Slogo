@@ -62,12 +62,12 @@ public class PropertiesBox extends VBox {
 		
 		
 		//first col
-		firstCol.setPrefWidth(140);
+		firstCol.setPrefWidth(189);
         firstCol.setCellValueFactory(
                 new PropertyValueFactory<TurProperty, String>("myName"));
         
         // last col
-        lastCol.setPrefWidth(140);
+        lastCol.setPrefWidth(189);
         lastCol.setCellValueFactory(
                 new PropertyValueFactory<TurProperty, String>("myValue"));
         

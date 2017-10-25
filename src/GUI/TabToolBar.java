@@ -17,13 +17,15 @@ public class TabToolBar extends TabPane {
 	private HistoryBox historyBox;
 	
 	public TabToolBar(GUIDelegate app) {
+		
 		this.app = app;
 		//addTab();
 		historyBox = new HistoryBox(app);
-		this.setStyle("-fx-padding: 1; -fx-background-color: black, -fx-control-inner-background; -fx-background-insets: 0, 1;");
-		this.setLayoutX(450);
-		this.setLayoutY(30);
-		this.setPrefSize(320, 400);
+		this.setStyle("-fx-padding: 1; -fx-background-color: grey, -fx-control-inner-background; -fx-background-insets: 0, 1; ");
+		
+		this.setLayoutX(370);
+		this.setLayoutY(38);
+		this.setPrefSize(420, 350);
 		addTab("Property",this.sizingSample());
 		addTab("CommandHistory",this.historyCommand());
 	}

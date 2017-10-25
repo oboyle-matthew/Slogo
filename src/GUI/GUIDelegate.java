@@ -12,6 +12,8 @@ public interface GUIDelegate {
 	void createInstructionsWindow();
 
 	void createNewProject();
+
+	void createCustomizeWindow();
 	
 	
 }

@@ -11,24 +11,24 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 
-public class BackgroundColorButton extends ComboBox<String> {
+public class FontColorButton extends ComboBox<String> {
 	
 	private GUIDelegate app;
 	
-	public BackgroundColorButton(GUIDelegate app) {
+	public FontColorButton(GUIDelegate app) {
 		this.app = app;
 		this.setPrefWidth(200);
-		this.setLayoutX(100);
-		this.setLayoutY(50);
-		ArrayList<String> colors = new ArrayList<>(Arrays.asList("red", "orange", "green", "blue", "yellow"));
+		this.setLayoutX(200);
+		this.setLayoutY(200);
+		ArrayList<String> colors = new ArrayList<>(Arrays.asList("Black", "Red", "Yellow", "Green"));
 		ObservableList<String> colorList = FXCollections.observableArrayList(colors);
-		this.setPromptText("Choose a background color");
+		this.setPromptText("Choose a font color");
 		this.setEditable(true);
 		this.setVisibleRowCount(3);
 		this.setItems(colorList);
 	}
 	
 	public void changeBackgroundColor(String color) {
-		System.out.println("Background Test");
+		System.out.println("Font Test");
 	}
 }

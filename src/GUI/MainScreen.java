@@ -30,6 +30,9 @@ public class MainScreen extends ScreenDisplay implements GUIDelegate{
 	private ForwardButton myForwardButton;
 	private BackButton myBackButton;
 	private BackgroundColorButton myBackgroundColorButton;
+	private FontColorButton myFontColorButton;
+	private TabToolBar myTabToolBar;
+	private CustomizeButton myCustomizeButton;
 
 
 
@@ -40,6 +43,7 @@ public class MainScreen extends ScreenDisplay implements GUIDelegate{
 	}
 
 	public void createMainScreen(String language) {
+		myTabToolBar = new TabToolBar(this);
 		canvasHolder = new CanvasHolder(CANVAS_WIDTH, CANVAS_WIDTH);
 		canvasHolder.updateBackgroundColor("white");
 		gui = new MainScreenGUI();
@@ -53,7 +57,7 @@ public class MainScreen extends ScreenDisplay implements GUIDelegate{
 		myNewProjectButton = new NewProjectButton(this);
 		myForwardButton = new ForwardButton(this);
 		myBackButton = new BackButton(this);
-		myBackgroundColorButton = new BackgroundColorButton(this);
+		myCustomizeButton = new CustomizeButton(this);
 		rootAdd(myInputBox);
 		rootAdd(myRunButton);
 		rootAdd(myClearButton);
@@ -62,7 +66,8 @@ public class MainScreen extends ScreenDisplay implements GUIDelegate{
 		rootAdd(myNewProjectButton);
 		rootAdd(myForwardButton);
 		rootAdd(myBackButton);
-		rootAdd(myBackgroundColorButton);
+		rootAdd(myTabToolBar);
+		rootAdd(myCustomizeButton);
 	}
 
 	private void addTurtleToScreen() {
@@ -77,7 +82,7 @@ public class MainScreen extends ScreenDisplay implements GUIDelegate{
 	
 	@Override
 	public void runButtonPressed() {
-		myHistoryBox.addCommandToHistoryBox(getText());
+		myTabToolBar.getHistoryBox().addCommandToHistoryBox(getText());
 		parser.executeInput(getText(), turtle);
 		clearButtonPressed();
 	}
@@ -95,7 +100,6 @@ public class MainScreen extends ScreenDisplay implements GUIDelegate{
 	@Override
 	public void runCommand(String text) {
 		parser.executeInput(text,  turtle);
-		
 	}
 
 	@Override
@@ -122,6 +126,20 @@ public class MainScreen extends ScreenDisplay implements GUIDelegate{
 	@Override
 	public void step(double elapsedTime) {
 		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void createCustomizeWindow() {
+		newProject = new VBox();
+		newScene = new Scene(newProject, 400, 400);
+		myStage = new Stage();
+		myStage.setScene(newScene);
+		myStage.show();
+		myBackgroundColorButton = new BackgroundColorButton(this);
+		newProject.getChildren().add(myBackgroundColorButton);
+		myFontColorButton = new FontColorButton(this);
+		newProject.getChildren().add(myFontColorButton);
 		
 	}
 }

@@ -142,4 +142,13 @@ public class MainScreen extends ScreenDisplay implements GUIDelegate{
 		newProject.getChildren().add(myFontColorButton);
 		
 	}
+
+	@Override
+	public void moveX(Double newLocation) {
+		turtle.moveToSimple(newLocation, turtle.getYPos());
+	}
+	
+	public void setDirection(Double angle) {
+		turtle.setHeading(angle);
+	}
 }

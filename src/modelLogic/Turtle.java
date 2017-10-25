@@ -21,12 +21,13 @@ import javafx.util.Duration;
 public class Turtle {
 
 	/* Finals */
-	private static final String TURTLE_IMAGE_PATH = "src/turtle.png";
+	private static final String TURTLE_IMAGE_PATH = "src/";
 	private static final double ROTATION_SPEED = 2 * 1000;
 	private static final double MOVEMENT_SPEED = 1 * 1000;
 
 	/* Instance Variables */
 	private ImageView myTurtle;
+	private String imageString;
 	private boolean penDown;
 	private List<Path> myPaths;
 	private int myColor;
@@ -38,7 +39,8 @@ public class Turtle {
 	 * Basic constructor that just initializes the myTurtle variable. Returns a new
 	 * {@code Turtle} object
 	 */
-	public Turtle() {
+	public Turtle(String imageString) {
+		this.imageString = TURTLE_IMAGE_PATH + imageString;
 		myTurtle = createTurtle();
 		animationRunning = false;
 		myPaths = new ArrayList<Path>();
@@ -278,7 +280,7 @@ public class Turtle {
 	}
 
 	private ImageView createTurtle() {
-		File file = new File(TURTLE_IMAGE_PATH);
+		File file = new File(imageString);
 		Image turtleImage = new Image(file.toURI().toString());
 		return new ImageView(turtleImage);
 	}

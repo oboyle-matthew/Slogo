@@ -14,6 +14,10 @@ public interface GUIDelegate {
 	void createNewProject();
 
 	void createCustomizeWindow();
+
+	void moveX(Double newValue);
+	
+	void setDirection(Double angle);
 	
 	
 }

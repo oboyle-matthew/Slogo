@@ -46,7 +46,7 @@ private Pane sizingSample() {
         BorderPane border = new BorderPane();
         border.setPadding(new Insets(20, 20, 20, 20));
         border.setStyle("-fx-background-color: white");
-        border.setCenter(new PropertiesBox());    
+        border.setCenter(new PropertiesBox(app));    
        
         return border;
     }

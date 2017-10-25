@@ -22,12 +22,14 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 
 public class PropertiesBox extends VBox {
+	private GUIDelegate app;
 	private Label text;
 	private TableView propertyTable;
 	private static String[] propertyArr = {"0.0","0.0","0.0","true","1","1.0","SOLID"};
 
 	
-	public PropertiesBox() {
+	public PropertiesBox(GUIDelegate app) {
+		this.app = app;
 		text = new Label("properties");
 		text.setFont(new Font("Andale Mono", 20));
 		text.setStyle("-fx-effect: dropshadow(gaussian, rgba(67,96,156,0.25) , 0,0,2,2 )");
@@ -49,6 +51,8 @@ public class PropertiesBox extends VBox {
 			   new TurProperty( 	"PenSize ", propertyArr[4]),
 			   new TurProperty(	"PenStyle " , propertyArr[5]));
 		
+		
+		
 		//first col
 		firstCol.setPrefWidth(140);
         firstCol.setCellValueFactory(
@@ -60,7 +64,7 @@ public class PropertiesBox extends VBox {
                 new PropertyValueFactory<TurProperty, String>("myValue"));
         
         propertyTable.setItems(displayList);
-        
+        updatePropertiesBox(displayList);
         //Make it editable 
         lastCol.setCellFactory(TextFieldTableCell.forTableColumn());
         lastCol.setOnEditCommit(
@@ -70,7 +74,8 @@ public class PropertiesBox extends VBox {
                     ((TurProperty) t.getTableView().getItems().get(
                         t.getTablePosition().getRow())
                         ).setMyName(t.getNewValue());
-                    
+                    app.moveX(Double.parseDouble(t.getNewValue()));
+//                    System.out.println(t.getNewValue());
                 }
             }
         );
@@ -80,27 +85,16 @@ public class PropertiesBox extends VBox {
 		this.getChildren().add(propertyTable);
 		this.setAlignment(Pos.CENTER);
 		this.setPrefSize(220, 220);
-		//propertyTable.setEditable(true);
+		propertyTable.setEditable(true);
 		this.setLayoutX(500);
 		this.setLayoutY(30);
 		this.setSpacing(20);
-		
-		
-
-		
 	}
 	
 	
-	public void updatePropertiesBox(Turtle tur ) {
-		//propertyArr[0] = tur.getDirection();
-		//propertyArr[1] = tur.getXPos();
-		//propertyArr[2] = tur.getYPos();
-		//propertyArr[3] = tur.getPenInfo();
-		//propertyArr[4] = tur.getPenSize();
-		//propertyArr[5] = tur.getPenStyle();
-		
-		
-	
+	public void updatePropertiesBox(ObservableList<TurProperty> displayList) {
+		app.setDirection(Double.parseDouble(displayList.get(0).getMyValue()));
+		app.moveX(Double.parseDouble(displayList.get(1).getMyValue()));
 	}
 
 

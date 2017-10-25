@@ -21,7 +21,7 @@ public class LanguageLoader extends HBox {
     private static final String language = "Instructions";
 	private static final int MAINWIDTH = 800;
 	private static final int MAINHEIGHT = 600;
-	private static final Paint BACKGROUND = Color.LIGHTBLUE;
+	private static final Paint BACKGROUND = Color.LIGHTYELLOW;
 	private static final String RESOURCE_DIR = System.getProperty("user.dir") + "/src/resources/languages";
 	private ComboBox<String> lanLoader = new ComboBox<String>();
 	private ResourceBundle myResources;

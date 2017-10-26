@@ -22,8 +22,8 @@ import javafx.util.Duration;
 public class Turtle {
 
 	/* Finals */
-	private static final String TURTLE_IMAGE_PATH = "src/turtle.png";
-	private static final String TURTLE_IMAGE_PATH2 = "src/turtle_1.png";
+	private static final String ACTIVATED_TURTLE_PATH = "src/Activated.png";
+	private static final String DEACTIVATED_TURTLE_PATH = "src/Deactivated.png";	
 	private static final double ROTATION_SPEED = 2 * 1000;
 	private static final double MOVEMENT_SPEED = 1 * 1000;
 
@@ -35,6 +35,7 @@ public class Turtle {
 	private double myPenSize;
 	private double myPenStyle;
 	private boolean animationRunning;
+	private boolean deactivated;
 
 	/**
 	 * Basic constructor that just initializes the myTurtle variable. Returns a new
@@ -45,7 +46,7 @@ public class Turtle {
 		animationRunning = false;
 		myPaths = new ArrayList<Path>();
 		penDown = false;
-		myTurtle.addEventHandler(MouseEvent.MOUSE_CLICKED, e->setImage());
+		myTurtle.addEventHandler(MouseEvent.MOUSE_CLICKED, e->turtleClicked());
 	}
 
 	/* Rotation Methods */
@@ -70,8 +71,13 @@ public class Turtle {
 		return Math.abs(degreeDiff);
 	}
 	
-	private void setImage() {
-		myTurtle.setImage(new Image((new File(TURTLE_IMAGE_PATH2)).toURI().toString()));
+	private void turtleClicked() {
+		if (deactivated) {
+			myTurtle.setImage(new Image((new File(ACTIVATED_TURTLE_PATH)).toURI().toString()));
+		} else {
+			myTurtle.setImage(new Image((new File(DEACTIVATED_TURTLE_PATH)).toURI().toString()));
+		} 
+		deactivated = !deactivated;
 	}
 
 	/**
@@ -285,7 +291,7 @@ public class Turtle {
 	}
 
 	private ImageView createTurtle() {
-		File file = new File(TURTLE_IMAGE_PATH);
+		File file = new File(ACTIVATED_TURTLE_PATH);
 		Image turtleImage = new Image(file.toURI().toString());
 		return new ImageView(turtleImage);
 	}

@@ -59,9 +59,9 @@ public class Turtle {
 	private void turtleClicked() {
 		if (!dragging) {
 			if (deactivated) {
-				myTurtle.setImage(new Image((new File(ACTIVATED_TURTLE_PATH)).toURI().toString(), 40, 40, false, false));
+				myTurtle.setImage(new Image((new File(ACTIVATED_TURTLE_PATH)).toURI().toString(), TURTLE_SIZE, TURTLE_SIZE, false, false));
 			} else {
-				myTurtle.setImage(new Image((new File(DEACTIVATED_TURTLE_PATH)).toURI().toString(), 40, 40, false, false));
+				myTurtle.setImage(new Image((new File(DEACTIVATED_TURTLE_PATH)).toURI().toString(), TURTLE_SIZE, TURTLE_SIZE, false, false));
 			} 
 			deactivated = !deactivated;
 		}

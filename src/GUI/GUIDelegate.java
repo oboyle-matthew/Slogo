@@ -28,6 +28,11 @@ public interface GUIDelegate {
 	void forwardButtonPressed();
 
 	void backwardButtonPressed();
+
+	void rotateLeftButtonPressed();
+	
+	void rotateRightButtonPressed();
+
 	
 	
 }

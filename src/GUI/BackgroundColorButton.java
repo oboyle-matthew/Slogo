@@ -15,10 +15,10 @@ import javafx.scene.paint.Color;
 
 public class BackgroundColorButton extends ComboBox<String> {
 	
-	private GUIDelegate app;
+//	private GUIDelegate app;
 	
 	public BackgroundColorButton(GUIDelegate app) {
-		this.app = app;
+//		this.app = app;
 		this.setPrefWidth(200);
 		this.setLayoutX(100);
 		this.setLayoutY(50);
@@ -32,9 +32,5 @@ public class BackgroundColorButton extends ComboBox<String> {
 		this.setEditable(true);
 		this.setVisibleRowCount(3);
 		this.setItems(colorList);
-	}
-	
-	public void changeBackgroundColor(String color) {
-		app.changeBackground(color);
 	}
 }

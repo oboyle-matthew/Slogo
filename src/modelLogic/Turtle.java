@@ -28,6 +28,7 @@ public class Turtle {
 	private static final String DEACTIVATED_TURTLE_PATH = "src/Deactivated.png";	
 	private static final double ROTATION_SPEED = 2 * 1000;
 	private static final double MOVEMENT_SPEED = 1 * 1000;
+	private final double TURTLE_SIZE = 40.0;
 
 	/* Instance Variables */
 	private ImageView myTurtle;
@@ -131,10 +132,21 @@ public class Turtle {
 	 *            is an {@code double} specifying the new y-coordinate of the turtle
 	 * @return A {@code double} that reflects the distance moved by the turtle
 	 */
+	
+	
+	
+//	10, 38     top left
+//	360,38 top right
+//	10, 388 bottom left
+//	360, 388 bottom right
+	
 	public double moveTo(double newXPosition, double newYPosition) {
-//		newXPosition = Math.abs(newXPosition % 350);
-//		newYPosition = Math.abs(newYPosition % 350);
-		System.out.println(newXPosition);
+		System.out.println(TURTLE_SIZE);
+		newXPosition = Math.max(10., newXPosition);
+		newXPosition = Math.min(360.-TURTLE_SIZE, newXPosition);
+		newYPosition = Math.max(38., newYPosition);
+		newYPosition = Math.min(388.-TURTLE_SIZE, newYPosition);
+		System.out.println("heading to: " + newXPosition + " and " + newYPosition);
 		double xDiff = newXPosition - myTurtle.getX();
 		double yDiff = newYPosition - myTurtle.getY();
 		Path p = createMovementPath(newXPosition, newYPosition);
@@ -311,7 +323,7 @@ public class Turtle {
 
 	private ImageView createTurtle() {
 		File file = new File(ACTIVATED_TURTLE_PATH);
-		Image turtleImage = new Image(file.toURI().toString(), 40, 40, false, false);
+		Image turtleImage = new Image(file.toURI().toString(), TURTLE_SIZE, TURTLE_SIZE, false, false);
 		return new ImageView(turtleImage);
 	}
 }

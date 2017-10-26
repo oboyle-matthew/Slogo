@@ -32,11 +32,8 @@ public class Turtle {
 
 	/* Instance Variables */
 	private ImageView myTurtle;
-	private boolean penDown;
 	private List<Path> myPaths;
-	private int myColor;
-	private double myPenSize;
-	private double myPenStyle;
+	private Pen myPen;
 	private boolean animationRunning;
 	private boolean deactivated;
 	private boolean dragging;
@@ -310,15 +307,27 @@ public class Turtle {
 	 * @return A {@code boolean} representing the current state of the turtle
 	 */
 	public boolean getPenInfo() {
-		return penDown;
+		return myPen.getPenInfo();
 	}
 
 	public double getPenSize() {
-		return 1.2;
+		return myPen.getPenSize();
 	}
 
 	public String getPenStyle() {
-		return "SOLID";
+		return myPen.getPenStyle();
+	}
+	
+	public void setPenInfo() {
+		myPen.setPenInfo();
+	}
+
+	public void setPenSize() {
+		myPen.setPenSize();
+	}
+
+	public void setPenStyle() {
+		myPen.setPenStyle();
 	}
 
 	private ImageView createTurtle() {

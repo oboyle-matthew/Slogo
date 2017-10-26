@@ -29,7 +29,7 @@ public class MainScreen extends ScreenDisplay implements GUIDelegate{
 	private ResourceBundle languageResources;
 	private CanvasHolder canvasHolder;
 	private String myLanguage;
-	private Turtle ogTurtle = new Turtle();
+	private Turtle ogTurtle;
 	private VBox instructionsPane;
 	private VBox newProject;
 	private Scene newScene;
@@ -56,6 +56,7 @@ public class MainScreen extends ScreenDisplay implements GUIDelegate{
 
 	public MainScreen(int width, int height, Paint background, String language) {
 		super(width, height, background);
+		ogTurtle  = new Turtle();
 		myLanguage = language;
 		parser = new CommandParser(language);
 		createMainScreen(language);
@@ -67,8 +68,6 @@ public class MainScreen extends ScreenDisplay implements GUIDelegate{
 		canvasHolder.updateBackgroundColor("white");
 		rootAdd(canvasHolder);
 		createFirstTurtle();
-		
-		// button init
 		this.ButtonInit();
 		
 		
@@ -149,7 +148,6 @@ public class MainScreen extends ScreenDisplay implements GUIDelegate{
 	private void createFirstTurtle() {
 		turtleArray = new ArrayList<Turtle>();
 		getRootChildren().add(ogTurtle.getImageViewForScreen());
-		
 		ogTurtle.moveToSimple(CANVAS_WIDTH/2 + canvasHolder.getLayoutX() - ogTurtle.getImageViewForScreen().getBoundsInParent().getWidth()/2 , CANVAS_WIDTH/2 + canvasHolder.getLayoutY() -  ogTurtle.getImageViewForScreen().getBoundsInParent().getWidth()/2);
 		turtleArray.add(ogTurtle);
 	}
@@ -159,7 +157,7 @@ public class MainScreen extends ScreenDisplay implements GUIDelegate{
 	public void createTurtle() {
 		Turtle newTurtle = new Turtle();
 		getRootChildren().add(newTurtle.getImageViewForScreen());
-		newTurtle.moveToSimple(200, 200);
+		ogTurtle.moveToSimple(CANVAS_WIDTH/2 + canvasHolder.getLayoutX() - ogTurtle.getImageViewForScreen().getBoundsInParent().getWidth()/2 , CANVAS_WIDTH/2 + canvasHolder.getLayoutY() -  ogTurtle.getImageViewForScreen().getBoundsInParent().getWidth()/2);
 		turtleArray.add(newTurtle);
 	}
 	

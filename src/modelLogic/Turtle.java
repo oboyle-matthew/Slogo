@@ -29,22 +29,20 @@ public class Turtle {
 
 	/* Finals */
 	private static final String ACTIVATED_TURTLE_PATH = "src/Activated.png";
-	private static final String DEACTIVATED_TURTLE_PATH = "src/Deactivated.png";	
+	private static final String DEACTIVATED_TURTLE_PATH = "src/Deactivated.png";
 	private static final double ROTATION_SPEED = 2 * 1000;
 	private static final double MOVEMENT_SPEED = 1 * 1000;
 	private final double TURTLE_SIZE = 40.0;
 
 	/* Instance Variables */
 	private ImageView myTurtle;
-	private boolean penDown;
 	private List<Path> myPaths;
-	private int myColor;
-	private SequentialTransition st;
-	private double myPenSize;
-	private double myPenStyle;
+
+	private Pen myPen;
 	private boolean animationRunning;
 	private boolean deactivated;
 	private boolean dragging;
+	private SequentialTransition st;
 
 	/**
 	 * Basic constructor that just initializes the myTurtle variable. Returns a new
@@ -54,31 +52,31 @@ public class Turtle {
 		myTurtle = createTurtle();
 		animationRunning = false;
 		myPaths = new ArrayList<Path>();
-		penDown = false;
 		st = new SequentialTransition();
-		st.setCycleCount(1);
-		myTurtle.addEventHandler(MouseEvent.MOUSE_PRESSED, e->dragging = false);
-		myTurtle.addEventHandler(MouseEvent.DRAG_DETECTED, e->dragging = true);
-		myTurtle.addEventHandler(MouseEvent.MOUSE_DRAGGED, e->moveTo(e.getSceneX(), e.getSceneY()));
-		myTurtle.addEventHandler(MouseEvent.MOUSE_RELEASED, e->turtleClicked());
+		myTurtle.addEventHandler(MouseEvent.MOUSE_PRESSED, e -> dragging = false);
+		myTurtle.addEventHandler(MouseEvent.DRAG_DETECTED, e -> dragging = true);
+		myTurtle.addEventHandler(MouseEvent.MOUSE_DRAGGED, e -> moveTo(e.getSceneX(), e.getSceneY()));
+		myTurtle.addEventHandler(MouseEvent.MOUSE_RELEASED, e -> turtleClicked());
 	}
-	
+
 	private void turtleClicked() {
 		if (!dragging) {
 			if (deactivated) {
-				myTurtle.setImage(new Image((new File(ACTIVATED_TURTLE_PATH)).toURI().toString(), TURTLE_SIZE, TURTLE_SIZE, false, false));
+				myTurtle.setImage(new Image((new File(ACTIVATED_TURTLE_PATH)).toURI().toString(), TURTLE_SIZE,
+						TURTLE_SIZE, false, false));
 			} else {
-				myTurtle.setImage(new Image((new File(DEACTIVATED_TURTLE_PATH)).toURI().toString(), TURTLE_SIZE, TURTLE_SIZE, false, false));
-			} 
+				myTurtle.setImage(new Image((new File(DEACTIVATED_TURTLE_PATH)).toURI().toString(), TURTLE_SIZE,
+						TURTLE_SIZE, false, false));
+			}
 			deactivated = !deactivated;
 		}
 	}
-	
-//	EventHandler<MouseEvent> moveTurtleDragged = new EventHandler<MouseEvent>() {
-//		public void handle(MouseEvent t) {
-//			moveToSimple(t.getSceneX(), t.getSceneY());
-//		}
-//	};
+
+	// EventHandler<MouseEvent> moveTurtleDragged = new EventHandler<MouseEvent>() {
+	// public void handle(MouseEvent t) {
+	// moveToSimple(t.getSceneX(), t.getSceneY());
+	// }
+	// };
 
 	/* Rotation Methods */
 
@@ -152,20 +150,18 @@ public class Turtle {
 	 *            is an {@code double} specifying the new y-coordinate of the turtle
 	 * @return A {@code double} that reflects the distance moved by the turtle
 	 */
-	
-	
-	
-//	10, 38     top left
-//	360,38 top right
-//	10, 388 bottom left
-//	360, 388 bottom right
-	
+
+	// 10, 38 top left
+	// 360,38 top right
+	// 10, 388 bottom left
+	// 360, 388 bottom right
+
 	public double moveTo(double newXPosition, double newYPosition) {
 		System.out.println(TURTLE_SIZE);
 		newXPosition = Math.max(10., newXPosition);
-		newXPosition = Math.min(360.-TURTLE_SIZE, newXPosition);
+		newXPosition = Math.min(360. - TURTLE_SIZE, newXPosition);
 		newYPosition = Math.max(38., newYPosition);
-		newYPosition = Math.min(388.-TURTLE_SIZE, newYPosition);
+		newYPosition = Math.min(388. - TURTLE_SIZE, newYPosition);
 		System.out.println("heading to: " + newXPosition + " and " + newYPosition);
 		double xDiff = newXPosition - myTurtle.getX();
 		double yDiff = newYPosition - myTurtle.getY();
@@ -234,7 +230,8 @@ public class Turtle {
 	public double moveBackwards(double pixels) {
 		double x = myTurtle.getX() - pixels * Math.sin(myTurtle.getRotate() * Math.PI / 180);
 		double y = myTurtle.getY() + pixels * Math.cos(myTurtle.getRotate() * Math.PI / 180);
-		return moveTo(x, y);	}
+		return moveTo(x, y);
+	}
 
 	/* Visbility Settings */
 
@@ -276,7 +273,6 @@ public class Turtle {
 	 * @return 1 always
 	 */
 	public double penDown() {
-		penDown = true;
 		return 1;
 	}
 
@@ -286,7 +282,6 @@ public class Turtle {
 	 * @return 0 always
 	 */
 	public double penUp() {
-		penDown = false;
 		return 0;
 	}
 
@@ -316,30 +311,50 @@ public class Turtle {
 	}
 
 	public double getDirection() {
-		return 1.4;
+		return myTurtle.getRotate();
 	}
 
 	public double getXPos() {
-		return 100.;
+		return myTurtle.getX();
 	}
 
 	public double getYPos() {
-		return 50.;
+		return myTurtle.getY();
 	}
 
 	/**
 	 * @return A {@code boolean} representing the current state of the turtle
 	 */
 	public boolean getPenInfo() {
-		return penDown;
+		return myPen.getPenInfo();
 	}
 
 	public double getPenSize() {
-		return 1.2;
+		return myPen.getPenSize();
 	}
 
 	public String getPenStyle() {
-		return "SOLID";
+		return myPen.getPenStyle();
+	}
+	
+	public String getPenColor() {
+		return myPen.getPenColor();
+	}
+
+	public void setPenInfo(boolean newVal) {
+		myPen.setPenInfo(newVal);
+	}
+
+	public void setPenSize(double newSize) {
+		myPen.setPenSize(newSize);
+	}
+
+	public void setPenStyle(String newStyle) {
+		myPen.setPenStyle(newStyle);
+	}
+	
+	public void setPenColor(String newColor) {
+		myPen.setPenColor(newColor);
 	}
 
 	private ImageView createTurtle() {

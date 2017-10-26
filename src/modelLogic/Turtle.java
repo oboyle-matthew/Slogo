@@ -5,8 +5,10 @@ import java.util.ArrayList;
 import java.util.List;
 import javafx.animation.PathTransition;
 import javafx.animation.RotateTransition;
+import javafx.event.EventHandler;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.shape.LineTo;
 import javafx.scene.shape.MoveTo;
@@ -22,8 +24,8 @@ import javafx.util.Duration;
 public class Turtle {
 
 	/* Finals */
-	private static final String TURTLE_IMAGE_PATH = "src/turtle.png";
-	private static final String TURTLE_IMAGE_PATH2 = "src/turtle_1.png";
+	private static final String ACTIVATED_TURTLE_PATH = "src/Activated.png";
+	private static final String DEACTIVATED_TURTLE_PATH = "src/Deactivated.png";	
 	private static final double ROTATION_SPEED = 2 * 1000;
 	private static final double MOVEMENT_SPEED = 1 * 1000;
 
@@ -35,6 +37,8 @@ public class Turtle {
 	private double myPenSize;
 	private double myPenStyle;
 	private boolean animationRunning;
+	private boolean deactivated;
+	private boolean dragging;
 
 	/**
 	 * Basic constructor that just initializes the myTurtle variable. Returns a new
@@ -45,8 +49,29 @@ public class Turtle {
 		animationRunning = false;
 		myPaths = new ArrayList<Path>();
 		penDown = false;
-		myTurtle.addEventHandler(MouseEvent.MOUSE_CLICKED, e->setImage());
+		myTurtle.addEventHandler(MouseEvent.MOUSE_PRESSED, e->dragging = false);
+		myTurtle.addEventHandler(MouseEvent.DRAG_DETECTED, e->dragging = true);
+		myTurtle.addEventHandler(MouseEvent.MOUSE_DRAGGED, 
+				e->moveToSimple(e.getSceneX(), e.getSceneY()));
+		myTurtle.addEventHandler(MouseEvent.MOUSE_RELEASED, e->turtleClicked());
 	}
+	
+	private void turtleClicked() {
+		if (!dragging) {
+			if (deactivated) {
+				myTurtle.setImage(new Image((new File(ACTIVATED_TURTLE_PATH)).toURI().toString(), 40, 40, false, false));
+			} else {
+				myTurtle.setImage(new Image((new File(DEACTIVATED_TURTLE_PATH)).toURI().toString(), 40, 40, false, false));
+			} 
+			deactivated = !deactivated;
+		}
+	}
+	
+//	EventHandler<MouseEvent> moveTurtleDragged = new EventHandler<MouseEvent>() {
+//		public void handle(MouseEvent t) {
+//			moveToSimple(t.getSceneX(), t.getSceneY());
+//		}
+//	};
 
 	/* Rotation Methods */
 
@@ -70,9 +95,7 @@ public class Turtle {
 		return Math.abs(degreeDiff);
 	}
 	
-	private void setImage() {
-		myTurtle.setImage(new Image((new File(TURTLE_IMAGE_PATH2)).toURI().toString()));
-	}
+	
 
 	/**
 	 * Rotates the turtle to the left by a specified amount.
@@ -285,8 +308,8 @@ public class Turtle {
 	}
 
 	private ImageView createTurtle() {
-		File file = new File(TURTLE_IMAGE_PATH);
-		Image turtleImage = new Image(file.toURI().toString());
+		File file = new File(ACTIVATED_TURTLE_PATH);
+		Image turtleImage = new Image(file.toURI().toString(), 40, 40, false, false);
 		return new ImageView(turtleImage);
 	}
 }

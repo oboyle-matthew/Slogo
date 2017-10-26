@@ -132,9 +132,8 @@ public class Turtle {
 	 * @return A {@code double} that reflects the distance moved by the turtle
 	 */
 	public double moveTo(double newXPosition, double newYPosition) {
-		//You can delete the newXPosition below if you want
-		newXPosition = Math.abs(newXPosition % 350);
-		newYPosition = Math.abs(newYPosition % 350);
+//		newXPosition = Math.abs(newXPosition % 350);
+//		newYPosition = Math.abs(newYPosition % 350);
 		System.out.println(newXPosition);
 		double xDiff = newXPosition - myTurtle.getX();
 		double yDiff = newYPosition - myTurtle.getY();

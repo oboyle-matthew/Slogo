@@ -2,14 +2,14 @@ package modelLogic;
 
 public class Pen {
 	
-	private int myColor;
+	private String myColor;
+	private String myStyle;
 	private double mySize;
-	private double myStyle;
 	private boolean myStatus;
 
 	public Pen() {
-		myColor = 0;
-		mySize = 0;
+		myColor = "BLACK";
+		mySize = 1.;
 		myStatus = true;
 	}
 	
@@ -18,19 +18,30 @@ public class Pen {
 	}
 
 	public double getPenSize() {
-		return 1.2;
+		return mySize;
 	}
 
 	public String getPenStyle() {
-		return "SOLID";
+		return myStyle;
 	}
 	
-	public void setPenInfo() {
+	public String getPenColor() {
+		return myColor;
+	}
+		
+	public void setPenInfo(boolean newVal) {
+		myStatus = newVal;
 	}
 
-	public void setPenSize() {
+	public void setPenSize(double newSize) {
+		mySize = newSize;
 	}
 
-	public void setPenStyle() {
+	public void setPenStyle(String newStyle) {
+		myStyle = newStyle;
+	}
+	
+	public void setPenColor(String newColor) {
+		myColor = newColor;
 	}
 }

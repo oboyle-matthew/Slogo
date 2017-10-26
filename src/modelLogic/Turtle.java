@@ -7,6 +7,7 @@ import javafx.animation.PathTransition;
 import javafx.animation.RotateTransition;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.shape.LineTo;
 import javafx.scene.shape.MoveTo;
 import javafx.scene.shape.Path;
@@ -22,6 +23,7 @@ public class Turtle {
 
 	/* Finals */
 	private static final String TURTLE_IMAGE_PATH = "src/turtle.png";
+	private static final String TURTLE_IMAGE_PATH2 = "src/turtle_1.png";
 	private static final double ROTATION_SPEED = 2 * 1000;
 	private static final double MOVEMENT_SPEED = 1 * 1000;
 
@@ -43,6 +45,7 @@ public class Turtle {
 		animationRunning = false;
 		myPaths = new ArrayList<Path>();
 		penDown = false;
+		myTurtle.addEventHandler(MouseEvent.MOUSE_CLICKED, e->setImage());
 	}
 
 	/* Rotation Methods */
@@ -65,6 +68,10 @@ public class Turtle {
 		rotateTransition.setNode(myTurtle);
 		rotateTransition.play();
 		return Math.abs(degreeDiff);
+	}
+	
+	private void setImage() {
+		myTurtle.setImage(new Image((new File(TURTLE_IMAGE_PATH2)).toURI().toString()));
 	}
 
 	/**

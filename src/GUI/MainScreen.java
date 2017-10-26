@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 import javafx.scene.Scene;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
@@ -181,8 +183,21 @@ public class MainScreen extends ScreenDisplay implements GUIDelegate{
 	@Override
 	public void runCommand(String text) {
 		for (Turtle t : turtleArray) {
-			parser.executeInput(text,  t);
+			try {
+				parser.executeInput(text,  t);
+			} catch (Exception e) {
+				createNewErrorWindow(text);
+				e.printStackTrace();
+			}
 		}
+	}
+
+	private void createNewErrorWindow(String errorText) {
+		Alert alert = new Alert(AlertType.INFORMATION);
+		alert.setTitle("User Input Error");
+		alert.setHeaderText(errorText + " is not a valid command");
+		alert.setContentText("See instructions button for valid commands");
+		alert.show();
 	}
 
 	@Override

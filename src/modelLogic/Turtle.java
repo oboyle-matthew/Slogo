@@ -3,8 +3,12 @@ package modelLogic;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+
+import javafx.animation.Animation;
 import javafx.animation.PathTransition;
 import javafx.animation.RotateTransition;
+import javafx.animation.SequentialTransition;
+import javafx.animation.Transition;
 import javafx.event.EventHandler;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -35,6 +39,7 @@ public class Turtle {
 	private boolean penDown;
 	private List<Path> myPaths;
 	private int myColor;
+	private SequentialTransition st;
 	private double myPenSize;
 	private double myPenStyle;
 	private boolean animationRunning;
@@ -50,6 +55,8 @@ public class Turtle {
 		animationRunning = false;
 		myPaths = new ArrayList<Path>();
 		penDown = false;
+		st = new SequentialTransition();
+		st.setCycleCount(1);
 		myTurtle.addEventHandler(MouseEvent.MOUSE_PRESSED, e->dragging = false);
 		myTurtle.addEventHandler(MouseEvent.DRAG_DETECTED, e->dragging = true);
 		myTurtle.addEventHandler(MouseEvent.MOUSE_DRAGGED, e->moveTo(e.getSceneX(), e.getSceneY()));
@@ -90,11 +97,24 @@ public class Turtle {
 		myTurtle.setRotate(angle);
 		rotateTransition.setToAngle(angle);
 		rotateTransition.setCycleCount(1);
+		rotateTransition.setDuration(Duration.millis(ROTATION_SPEED));
 		rotateTransition.setNode(myTurtle);
-		rotateTransition.play();
+		runAnimation(rotateTransition);
+		//rotateTransition.play();
 		return Math.abs(degreeDiff);
 	}
 	
+	private void runAnimation(Transition a) {
+		if(st.getChildren().size() == 0) {
+			st.getChildren().add(a);
+			st.play();
+			System.out.println("animation run");
+		} else {
+			st.getChildren().add(a);
+			st.play();
+
+		}
+	}
 	
 
 	/**
@@ -157,7 +177,8 @@ public class Turtle {
 		pt.setPath(p);
 		pt.setDuration(Duration.millis(MOVEMENT_SPEED));
 		pt.setCycleCount(1);
-		pt.play();
+		runAnimation(pt);
+	
 		myPaths.add(p);
 		return Math.sqrt(xDiff * xDiff + yDiff * yDiff);
 	}

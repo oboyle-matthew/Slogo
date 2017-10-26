@@ -51,8 +51,7 @@ public class Turtle {
 		penDown = false;
 		myTurtle.addEventHandler(MouseEvent.MOUSE_PRESSED, e->dragging = false);
 		myTurtle.addEventHandler(MouseEvent.DRAG_DETECTED, e->dragging = true);
-		myTurtle.addEventHandler(MouseEvent.MOUSE_DRAGGED, 
-				e->moveToSimple(e.getSceneX(), e.getSceneY()));
+		myTurtle.addEventHandler(MouseEvent.MOUSE_DRAGGED, e->moveTo(e.getSceneX(), e.getSceneY()));
 		myTurtle.addEventHandler(MouseEvent.MOUSE_RELEASED, e->turtleClicked());
 	}
 	
@@ -133,6 +132,9 @@ public class Turtle {
 	 * @return A {@code double} that reflects the distance moved by the turtle
 	 */
 	public double moveTo(double newXPosition, double newYPosition) {
+//		newXPosition = Math.abs(newXPosition % 350);
+//		newYPosition = Math.abs(newYPosition % 350);
+		System.out.println(newXPosition);
 		double xDiff = newXPosition - myTurtle.getX();
 		double yDiff = newYPosition - myTurtle.getY();
 		Path p = createMovementPath(newXPosition, newYPosition);

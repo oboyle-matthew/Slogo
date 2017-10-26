@@ -150,7 +150,7 @@ public class MainScreen extends ScreenDisplay implements GUIDelegate{
 		turtleArray = new ArrayList<Turtle>();
 		getRootChildren().add(ogTurtle.getImageViewForScreen());
 		
-		ogTurtle.moveTo(CANVAS_WIDTH/2 + canvasHolder.getLayoutX() - ogTurtle.getImageViewForScreen().getBoundsInParent().getWidth()/2 , CANVAS_WIDTH/2 + canvasHolder.getLayoutY() -  ogTurtle.getImageViewForScreen().getBoundsInParent().getWidth()/2);
+		ogTurtle.moveToSimple(CANVAS_WIDTH/2 + canvasHolder.getLayoutX() - ogTurtle.getImageViewForScreen().getBoundsInParent().getWidth()/2 , CANVAS_WIDTH/2 + canvasHolder.getLayoutY() -  ogTurtle.getImageViewForScreen().getBoundsInParent().getWidth()/2);
 		turtleArray.add(ogTurtle);
 	}
 
@@ -159,7 +159,7 @@ public class MainScreen extends ScreenDisplay implements GUIDelegate{
 	public void createTurtle() {
 		Turtle newTurtle = new Turtle();
 		getRootChildren().add(newTurtle.getImageViewForScreen());
-		newTurtle.moveTo(200, 200);
+		newTurtle.moveToSimple(200, 200);
 		turtleArray.add(newTurtle);
 	}
 	

@@ -280,4 +280,15 @@ public class MainScreen extends ScreenDisplay implements GUIDelegate{
 	public void backwardButtonPressed() {
 		ogTurtle.moveBackwards(50);
 	}
+
+	@Override
+	public void rotateLeftButtonPressed() {
+		// TODO Auto-generated method stub
+		ogTurtle.rotateLeft(30);
+	}
+	
+	public void rotateRightButtonPressed() {
+		// TODO Auto-generated method stub
+		ogTurtle.rotateLeft(30);
+	}
 }

@@ -1,4 +1,4 @@
-package StartScreen;
+package startScreen;
 
 public class LoadingScreen {
 

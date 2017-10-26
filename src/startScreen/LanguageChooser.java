@@ -1,4 +1,4 @@
-package StartScreen;
+package startScreen;
 
 import GUI.GUIDelegate;
 import javafx.scene.control.ComboBox;

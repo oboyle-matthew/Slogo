@@ -16,9 +16,9 @@ import javafx.scene.paint.Color;
 public class HistoryBox extends HBox {
 	
 	private GUIDelegate app;
-	private List<String> commandHistory;
+	private List<Button> commandHistory;
 	private ScrollPane myCommandHistoryBox;
-	private ListView<String> commandHistoryView;
+	private ListView<Button> commandHistoryView;
 	
 	public HistoryBox(GUIDelegate app) {
 		this.app = app;
@@ -26,26 +26,31 @@ public class HistoryBox extends HBox {
 		this.setLayoutX(500);
 		this.setLayoutY(30);
 		myCommandHistoryBox = new ScrollPane();
-		commandHistoryView = new ListView<String>();
-		commandHistory = new ArrayList<String>();
-		ObservableList<String> items =FXCollections.observableArrayList(commandHistory);
+		commandHistoryView = new ListView<Button>();
+		commandHistory = new ArrayList<Button>();
+		ObservableList<Button> items =FXCollections.observableArrayList(commandHistory);
         commandHistoryView.setItems(items);
+        commandHistoryView.getSelectionModel();
         myCommandHistoryBox.setContent(commandHistoryView);
-		ChangeListener<String> propertyHandler = (obs, old, cur) -> {
-			if (cur != null) {
-				app.runCommand(cur);
-			}
-			commandHistoryView.getSelectionModel().clearSelection();
-		};
-        commandHistoryView.getSelectionModel().selectedItemProperty().addListener(propertyHandler);
-//		commandHistoryView.getSelectionModel().selectedItemProperty().addListener(
-//        		e->readHistory(commandHistoryView.getSelectionModel().getSelectedItem()));
-		this.getChildren().add(myCommandHistoryBox);
+//		ChangeListener<Button> propertyHandler = (obs, old, cur) -> {
+//			if (cur != null) {
+//				app.runCommand(old.getText());
+//			}
+//			commandHistoryView.getSelectionModel().clearSelection();
+//		};
+//        commandHistoryView.getSelectionModel().selectedItemProperty().addListener(propertyHandler);
+//        commandHistoryView.getSelectionModel().getSelectedItem().addEventHandler
+//        	(MouseEvent.MOUSE_CLICKED, e->System.out.println("Test"));
+//        	app.runCommand(commandHistoryView.
+//        			getSelectionModel().getSelectedItem().getText()));
+        this.getChildren().add(myCommandHistoryBox);
 	}
 	
 	public void addCommandToHistoryBox(String command) {
-		commandHistory.add(command);
-		ObservableList<String> items =FXCollections.observableArrayList(commandHistory);
+		Button button = new Button(command);
+		button.addEventHandler(MouseEvent.MOUSE_CLICKED, e->app.runCommand(command));
+		commandHistory.add(button);
+		ObservableList<Button> items =FXCollections.observableArrayList(commandHistory);
         commandHistoryView.setItems(items);
 	}
 	

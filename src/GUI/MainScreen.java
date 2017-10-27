@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.Image;
@@ -39,6 +40,8 @@ public class MainScreen extends ScreenDisplay implements GUIDelegate{
 	private CommandParser parser;
 	private InputBox myInputBox;
 	private RunButton myRunButton;
+	private RotateRightButton myRightButton;
+	private RotateLeftButton myLeftButton;
 	private ClearButton myClearButton;
 	private HistoryBox myHistoryBox;
 	private InstructionsButton myInstructionButton;
@@ -53,6 +56,7 @@ public class MainScreen extends ScreenDisplay implements GUIDelegate{
 	private List<Turtle> turtleArray;
 	private HBox ButtonBar;
 	private GridPane myDirectionGrid;
+	private TurtleFileExplorer fileExplorer;
 
 
 
@@ -88,7 +92,7 @@ public class MainScreen extends ScreenDisplay implements GUIDelegate{
 		//Initialize a grid pane for direction Buttons
 		Image image = new Image(getClass().getResourceAsStream("Controls.png"),120,120,false,false);
 		ImageView directionPad = new ImageView(image);
-		directionPad.setLayoutX(408);
+		directionPad.setLayoutX(608);
 		directionPad.setLayoutY(430);
 		rootAdd(directionPad);
 		myDirectionGrid = new GridPane();
@@ -104,13 +108,33 @@ public class MainScreen extends ScreenDisplay implements GUIDelegate{
 	    
 	    myDirectionGrid.setStyle("-fx-grid-lines-visible: false" );
 	    //Insets(double top, double right, double bottom, double left)
-	    myDirectionGrid.setLayoutX(408);
+	    myDirectionGrid.setLayoutX(608);
 	    myDirectionGrid.setLayoutY(430);
 	    //myDirectionGrid.setPadding(new Insets(60,60,60,50)); 
 	    rootAdd(myDirectionGrid);
 	    myDirectionGrid.add(myForwardButton, 1, 0);
 	    myDirectionGrid.add(myBackButton, 1, 2);
 		rootAdd(myTabToolBar);
+		
+		
+		myRightButton = new RotateRightButton(this);
+		myLeftButton = new RotateLeftButton(this);
+		rootAdd(myRightButton);
+		rootAdd(myLeftButton);
+		myRightButton.setLayoutX(758);
+		myRightButton.setLayoutY(430);
+		myLeftButton.setLayoutX(758);
+		myLeftButton.setLayoutY(490);
+		
+		
+		//try to add a package explorer on the screen
+		 fileExplorer = new TurtleFileExplorer();
+		 rootAdd(fileExplorer);
+		 fileExplorer.setLayoutX(10);
+		 fileExplorer.setLayoutY(38);
+		 
+		
+		 //fileExplorer.lookup(".arrow").setVisible(false);
 	}
 	
 	
@@ -142,7 +166,7 @@ public class MainScreen extends ScreenDisplay implements GUIDelegate{
 		ButtonBar.setSpacing(0);
 		Pane ToolBar = new Pane();
 		ToolBar.getChildren().add(ButtonBar);
-		ToolBar.setPrefSize(805, 30);
+		ToolBar.setPrefSize(1005, 30);
 		ToolBar.setLayoutX(-1);
 		ToolBar.setLayoutY(-1);
 		ToolBar.setStyle(  "-fx-border-width: 1px; -fx-border-color: #4d4d4d; -fx-background-color: #e6e6e6;");
@@ -150,6 +174,11 @@ public class MainScreen extends ScreenDisplay implements GUIDelegate{
 		rootAdd(ToolBar);
 		
 		
+	}
+	
+	//get fileExplorer
+	public TurtleFileExplorer getTurExpo() {
+		return fileExplorer;
 	}
 	
 	private void createFirstTurtle() {

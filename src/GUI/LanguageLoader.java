@@ -8,9 +8,11 @@ import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Rectangle2D;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.stage.Screen;
@@ -19,7 +21,8 @@ import javafx.stage.Stage;
 public class LanguageLoader extends HBox {
 	private static final String DEFAULT_RESOURCE_PACKAGE = "resources/";
     private static final String language = "Instructions";
-	private static final int MAINWIDTH = 800;
+    //old 800; change to 1000
+	private static final int MAINWIDTH = 1000;
 	private static final int MAINHEIGHT = 600;
 	private static final Paint BACKGROUND = Color.LIGHTYELLOW;
 	private static final String RESOURCE_DIR = System.getProperty("user.dir") + "/src/resources/languages";
@@ -71,11 +74,18 @@ public class LanguageLoader extends HBox {
 	}
 
 	private void switchScene(String inputLanguage) {
-		ScreenDisplay myScene = new MainScreen(MAINWIDTH, MAINHEIGHT, BACKGROUND, inputLanguage);
+		MainScreen myScene = new MainScreen(MAINWIDTH, MAINHEIGHT, BACKGROUND, inputLanguage);
 		// center the scene
 		Rectangle2D primaryScreenBounds = Screen.getPrimary().getVisualBounds();
 		stage.setX(primaryScreenBounds.getWidth() / 2 - MAINWIDTH / 2);
 		stage.setY(primaryScreenBounds.getHeight() / 2 - MAINHEIGHT / 2);
 		stage.setScene(myScene.getScene());
-	}
+		myScene.getTurExpo().lookup(".arrow").setVisible(false);
+		//topRightBottomLeft
+		//myScene.getTurExpo().lookup(".title").setStyle("-fx-padding: 6 0 6 -15;");
+		myScene.getTurExpo().lookup(".title").setStyle("-fx-padding: 6 0 6 -15;-fx-background-color: -fx-box-border, -fx-inner-border,linear-gradient(to bottom,#d3d3d3 ,white);");
+		
+		  }
+		
+	
 }

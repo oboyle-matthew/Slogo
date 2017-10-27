@@ -17,8 +17,8 @@ public class RotateLeftButton extends Button {
 		this.addEventHandler(MouseEvent.MOUSE_CLICKED, e->app.rotateLeftButtonPressed());
 		
 		//customize the image
-//		Image image = new Image(getClass().getResourceAsStream("upButton.png"));
-//		this.setGraphic(new ImageView(image));
+		Image image = new Image(getClass().getResourceAsStream("greenButton.png"),45,45,false,false);
+		this.setGraphic(new ImageView(image));
 		this.setStyle(  "-fx-border-color: transparent; -fx-border-width: 0;-fx-background-radius: 0;-fx-background-color: transparent;");
 	}
 	

@@ -10,7 +10,7 @@ public class InputBox extends TextArea {
 //		this.app = app;
 
 		this.setLayoutY(410);
-		this.setLayoutX(10);
+		this.setLayoutX(210);
 		this.setPromptText("Input some command ……");
 	}
 

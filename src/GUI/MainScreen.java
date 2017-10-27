@@ -1,9 +1,12 @@
 package GUI;
 
+import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import javafx.event.EventHandler;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.Image;
@@ -11,12 +14,17 @@ import javafx.scene.image.ImageView;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.Tab;
+import javafx.scene.control.TabPane;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.RowConstraints;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
@@ -39,6 +47,8 @@ public class MainScreen extends ScreenDisplay implements GUIDelegate{
 	private CommandParser parser;
 	private InputBox myInputBox;
 	private RunButton myRunButton;
+	private RotateRightButton myRightButton;
+	private RotateLeftButton myLeftButton;
 	private ClearButton myClearButton;
 	private HistoryBox myHistoryBox;
 	private InstructionsButton myInstructionButton;
@@ -48,12 +58,15 @@ public class MainScreen extends ScreenDisplay implements GUIDelegate{
 	private BackgroundColorButton myBackgroundColorButton;
 	private FontColorButton myFontColorButton;
 	private TabToolBar myTabToolBar;
+	// for input box
+	private TabPane inputTabBox;
 	private CustomizeButton myCustomizeButton;
 	private CreateNewTurtleButton myNewTurtleButton;
 	private List<Turtle> turtleArray;
 	private HBox ButtonBar;
 	private GridPane myDirectionGrid;
-
+	private TurtleFileExplorer fileExplorer;
+	private StackPane greyFilter;
 
 
 	public MainScreen(int width, int height, Paint background, String language) {
@@ -65,6 +78,8 @@ public class MainScreen extends ScreenDisplay implements GUIDelegate{
 	}
 
 	public void createMainScreen(String language) {
+		
+		
 		myTabToolBar = new TabToolBar(this);
 		canvasHolder = new CanvasHolder(CANVAS_WIDTH, CANVAS_WIDTH);
 		canvasHolder.updateBackgroundColor("white");
@@ -75,20 +90,69 @@ public class MainScreen extends ScreenDisplay implements GUIDelegate{
 		
 		myInputBox = new InputBox(this);
 		myHistoryBox = new HistoryBox(this);
+		
+		// add a tab bar
+		/*inputTabBox = new TabPane();
+		Tab tabSize = new Tab();
+		BorderPane border = new BorderPane();
+		border.setStyle("-fx-background-color: white");
+        border.setCenter(myInputBox);  
+		
+        tabSize.setText("CommandTab");
+        tabSize.setContent(border);
+        inputTabBox.getTabs().add(tabSize);
 	
+		rootAdd(inputTabBox);
+		inputTabBox.setPrefWidth(350);
+		inputTabBox.setPrefHeight(175);
+		inputTabBox.setLayoutY(410);
+		inputTabBox.setLayoutX(210);
+		this.inputTabBox.getStylesheets().add(this.getClass().getResource("tab.css").toExternalForm());*/
 		
-		
-		rootAdd(myInputBox);
-		myInputBox.setPrefWidth(350);
+	    rootAdd(myInputBox);
+	    myInputBox.setPrefWidth(350);
 		myInputBox.setPrefHeight(175);
-		// I comment out this history box
-		//rootAdd(myHistoryBox);
 		
 		
+		 //Handling the key typed event 
+	      EventHandler<MouseEvent> eventHandlerTextField = new EventHandler<MouseEvent>() { 
+	         @Override 
+	         public void handle(MouseEvent event) { 
+	        	 
+	        	 
+	 			//add a grey filter to the screen
+	 			greyFilter = new StackPane();
+	 			greyFilter.setStyle("-fx-background-color: rgba(33, 33, 146, 0.5); -fx-background-radius: 10;");
+	 			greyFilter.setLayoutX(0);
+	 			greyFilter.setLayoutY(0);
+	 			if (!rootContain(greyFilter)) {
+	 			greyFilter.setPrefSize(1000, 600);
+	 			rootRemove(myInputBox);
+	 			rootAdd(greyFilter);
+	 			rootAdd(myInputBox);
+	        	 }
+	         }           
+	      };  
+	      
+	    //Handling the key typed event 
+	      EventHandler<MouseEvent> eventHandlerExit = new EventHandler<MouseEvent>() { 
+	         @Override 
+	         public void handle(MouseEvent event) { 
+	        	 
+	 			
+	 			if (rootContain(greyFilter)) {
+	 			rootRemove(greyFilter);
+	        	 }
+	         }           
+	      };  
+	      
+	      //Adding an event handler to the text feld 
+	      myInputBox.addEventHandler(MouseEvent.MOUSE_CLICKED, eventHandlerTextField);
+	      myInputBox.addEventHandler(MouseEvent.MOUSE_EXITED, eventHandlerExit);
 		//Initialize a grid pane for direction Buttons
 		Image image = new Image(getClass().getResourceAsStream("Controls.png"),120,120,false,false);
 		ImageView directionPad = new ImageView(image);
-		directionPad.setLayoutX(408);
+		directionPad.setLayoutX(608);
 		directionPad.setLayoutY(430);
 		rootAdd(directionPad);
 		myDirectionGrid = new GridPane();
@@ -104,13 +168,35 @@ public class MainScreen extends ScreenDisplay implements GUIDelegate{
 	    
 	    myDirectionGrid.setStyle("-fx-grid-lines-visible: false" );
 	    //Insets(double top, double right, double bottom, double left)
-	    myDirectionGrid.setLayoutX(408);
+	    myDirectionGrid.setLayoutX(608);
 	    myDirectionGrid.setLayoutY(430);
 	    //myDirectionGrid.setPadding(new Insets(60,60,60,50)); 
 	    rootAdd(myDirectionGrid);
 	    myDirectionGrid.add(myForwardButton, 1, 0);
 	    myDirectionGrid.add(myBackButton, 1, 2);
 		rootAdd(myTabToolBar);
+		
+		// add css file
+		//myTabToolBar.getStylesheets().add(this.getClass().getResource("tab.css").toExternalForm());
+		
+		myRightButton = new RotateRightButton(this);
+		myLeftButton = new RotateLeftButton(this);
+		rootAdd(myRightButton);
+		rootAdd(myLeftButton);
+		myRightButton.setLayoutX(758);
+		myRightButton.setLayoutY(430);
+		myLeftButton.setLayoutX(758);
+		myLeftButton.setLayoutY(490);
+		
+		
+		//try to add a package explorer on the screen
+		 fileExplorer = new TurtleFileExplorer();
+		 rootAdd(fileExplorer);
+		 fileExplorer.setLayoutX(10);
+		 fileExplorer.setLayoutY(38);
+		 
+		 
+		 //fileExplorer.lookup(".arrow").setVisible(false);
 	}
 	
 	
@@ -142,7 +228,7 @@ public class MainScreen extends ScreenDisplay implements GUIDelegate{
 		ButtonBar.setSpacing(0);
 		Pane ToolBar = new Pane();
 		ToolBar.getChildren().add(ButtonBar);
-		ToolBar.setPrefSize(805, 30);
+		ToolBar.setPrefSize(1005, 30);
 		ToolBar.setLayoutX(-1);
 		ToolBar.setLayoutY(-1);
 		ToolBar.setStyle(  "-fx-border-width: 1px; -fx-border-color: #4d4d4d; -fx-background-color: #e6e6e6;");
@@ -150,6 +236,11 @@ public class MainScreen extends ScreenDisplay implements GUIDelegate{
 		rootAdd(ToolBar);
 		
 		
+	}
+	
+	//get fileExplorer
+	public TurtleFileExplorer getTurExpo() {
+		return fileExplorer;
 	}
 	
 	private void createFirstTurtle() {
@@ -226,7 +317,8 @@ public class MainScreen extends ScreenDisplay implements GUIDelegate{
 	private void createInstruction(VBox instructionsPane, String instruction) {
 		instructionsPane.getChildren().add(new Label(instruction + "=" + languageResources.getString(instruction)));
 	}
-
+	
+	
 	@Override
 	public void createNewProject() {
 		newProject = new VBox();

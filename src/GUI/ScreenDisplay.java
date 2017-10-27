@@ -52,6 +52,13 @@ public abstract class ScreenDisplay {
 		root.getChildren().add(object);
 	}
 
+	protected void rootRemove(Node object) {
+		root.getChildren().remove(object);
+	}
+	
+	protected boolean rootContain(Node object) {
+		return root.getChildren().contains(object);
+	}
 	protected void centerScene() {
 
 	}

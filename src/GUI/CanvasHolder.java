@@ -7,7 +7,7 @@ import javafx.scene.paint.Color;
 
 public class CanvasHolder extends StackPane {
 
-	private static final double XPOS = 10;
+	private static final double XPOS = 210;
 	private static final double YPOS = 38;
 	private Canvas myCanvas;
 	private GraphicsContext gc;

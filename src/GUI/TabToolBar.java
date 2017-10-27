@@ -20,8 +20,8 @@ public class TabToolBar extends TabPane {
 		//addTab();
 		historyBox = new HistoryBox(app);
 		this.setStyle("-fx-padding: 1; -fx-background-color: grey, -fx-control-inner-background; -fx-background-insets: 0, 1; ");
-		
-		this.setLayoutX(370);
+		// change it over here
+		this.setLayoutX(570);
 		this.setLayoutY(38);
 		this.setPrefSize(420, 350);
 		addTab("Property",this.sizingSample());

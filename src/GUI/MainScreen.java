@@ -6,6 +6,8 @@ import java.util.ResourceBundle;
 
 import javafx.scene.Scene;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -84,21 +86,26 @@ public class MainScreen extends ScreenDisplay implements GUIDelegate{
 		
 		
 		//Initialize a grid pane for direction Buttons
+		Image image = new Image(getClass().getResourceAsStream("Controls.png"),120,120,false,false);
+		ImageView directionPad = new ImageView(image);
+		directionPad.setLayoutX(408);
+		directionPad.setLayoutY(430);
+		rootAdd(directionPad);
 		myDirectionGrid = new GridPane();
 		for(int i = 0; i < GRIDSIZE ; i++) {
-			ColumnConstraints column = new ColumnConstraints(64);
+			ColumnConstraints column = new ColumnConstraints(40);
 			myDirectionGrid.getColumnConstraints().add(column);
 		}
 
 	    for(int i = 0; i < GRIDSIZE  ; i++) {
-	        RowConstraints row = new RowConstraints(64);
+	        RowConstraints row = new RowConstraints(40);
 	        myDirectionGrid.getRowConstraints().add(row);
 	    }
 	    
-	    myDirectionGrid.setStyle("-fx-grid-lines-visible: true" );
+	    myDirectionGrid.setStyle("-fx-grid-lines-visible: false" );
 	    //Insets(double top, double right, double bottom, double left)
-	    myDirectionGrid.setLayoutX(368);
-	    myDirectionGrid.setLayoutY(400);
+	    myDirectionGrid.setLayoutX(408);
+	    myDirectionGrid.setLayoutY(430);
 	    //myDirectionGrid.setPadding(new Insets(60,60,60,50)); 
 	    rootAdd(myDirectionGrid);
 	    myDirectionGrid.add(myForwardButton, 1, 0);

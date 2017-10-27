@@ -18,7 +18,7 @@ public class ForwardButton extends Button {
 		
 		//customize the image
 		Image image = new Image(getClass().getResourceAsStream("upButton.png"));
-		this.setGraphic(new ImageView(image));
+		//this.setGraphic(new ImageView(image));
 		this.setStyle(  "-fx-border-color: transparent; -fx-border-width: 0;-fx-background-radius: 0;-fx-background-color: transparent;");
 	}
 	

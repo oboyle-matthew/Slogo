@@ -6,12 +6,15 @@ import java.util.List;
 import javafx.beans.value.ChangeListener;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.geometry.Pos;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
 
 public class HistoryBox extends HBox {
 	
@@ -22,7 +25,6 @@ public class HistoryBox extends HBox {
 	
 	public HistoryBox(GUIDelegate app) {
 		this.app = app;
-		this.setPrefWidth(300);
 		this.setLayoutX(500);
 		this.setLayoutY(30);
 		myCommandHistoryBox = new ScrollPane();
@@ -44,12 +46,17 @@ public class HistoryBox extends HBox {
 //        	app.runCommand(commandHistoryView.
 //        			getSelectionModel().getSelectedItem().getText()));
         this.getChildren().add(myCommandHistoryBox);
+        this.setPrefWidth(380);
+        this.setAlignment(Pos.CENTER);
+        
 	}
 	
 	public void addCommandToHistoryBox(String command) {
 		Button button = new Button(command);
 		button.addEventHandler(MouseEvent.MOUSE_CLICKED, e->app.runCommand(command));
 		commandHistory.add(button);
+		//set button's image invisible
+		button.setStyle(  "-fx-border-color: transparent; -fx-border-width: 0;-fx-background-radius: 0;-fx-background-color: transparent;");
 		ObservableList<Button> items =FXCollections.observableArrayList(commandHistory);
         commandHistoryView.setItems(items);
 	}

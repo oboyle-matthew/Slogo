@@ -25,12 +25,12 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 
 public class PropertiesBox extends VBox {
-	public static final String[] properties = {"Direction", "X Position", "Pen Down", "Pen Color", "Pen Size", "Pen Style"};
+	public static final String[] properties = {"Direction", "X Position","Y Position", "Pen Down", "Pen Color", "Pen Size", "Pen Style"};
 
 	private GUIDelegate app;
 	private Label text;
 	private TableView propertyTable;
-	private static String[] propertyArr = {"0.0","0.0","0.0","true","1","1.0","SOLID"};
+	private static String[] propertyArr = {"0.0","0.0","0.0","0.0","true","1","1.0","SOLID"};
 
 	
 	public PropertiesBox(GUIDelegate app) {
@@ -49,7 +49,7 @@ public class PropertiesBox extends VBox {
         
         
 		ObservableList<TurProperty> displayList =FXCollections.observableArrayList ();
-			for (int i = 0; i < 6; i++) {
+			for (int i = 0; i < 7; i++) {
 	        	displayList.add(new TurProperty(properties[i], propertyArr[i]));
 	        }
 //			   new TurProperty( "Direction ",propertyArr[0]),

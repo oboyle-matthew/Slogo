@@ -165,19 +165,19 @@ public class Turtle {
 		if(movementIsValid(newXPosition, newYPosition)) {
 			double xDiff = newXPosition - myTurtle.getX();
 			double yDiff = newYPosition - myTurtle.getY();
-			Path p = createMovementPath(newXPosition, newYPosition);
-			PathTransition pt = new PathTransition();
+//			Path p = createMovementPath(newXPosition, newYPosition);
+//			PathTransition pt = new PathTransition();
 			
 			myTurtle.setX(newXPosition);
 			myTurtle.setY(newYPosition);
 			
-			pt.setNode(myTurtle);
-			pt.setPath(p);
-			pt.setDuration(Duration.millis(MOVEMENT_SPEED));
-			pt.setCycleCount(1);
-			runAnimation(pt);
-		
-			myPaths.add(p);
+//			pt.setNode(myTurtle);
+//			pt.setPath(p);
+//			pt.setDuration(Duration.millis(MOVEMENT_SPEED));
+//			pt.setCycleCount(1);
+//			runAnimation(pt);
+//		
+//			myPaths.add(p);
 			return Math.sqrt(xDiff * xDiff + yDiff * yDiff);
 		} 
 		return 0; 

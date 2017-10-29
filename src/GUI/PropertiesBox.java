@@ -72,7 +72,7 @@ public class PropertiesBox extends VBox {
                 new PropertyValueFactory<TurProperty, String>("myValue"));
         
         propertyTable.setItems(displayList);
-        updatePropertiesBox(displayList);
+       // updatePropertiesBox(displayList);
         //Make it editable 
         lastCol.setCellFactory(TextFieldTableCell.forTableColumn());
         lastCol.setOnEditCommit(

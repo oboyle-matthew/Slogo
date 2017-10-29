@@ -105,11 +105,11 @@ public class Turtle {
 	private void runAnimation(Transition a) {
 		if(st.getChildren().size() == 0) {
 			st.getChildren().add(a);
-			st.play();
+		//st.play();
 			System.out.println("animation run");
 		} else {
 			st.getChildren().add(a);
-			st.play();
+		//	st.play();
 
 		}
 	}
@@ -156,27 +156,31 @@ public class Turtle {
 	// 10, 388 bottom left
 	// 360, 388 bottom right
 
-	public double moveTo(double newXPosition, double newYPosition) {
-		System.out.println(TURTLE_SIZE);
-		newXPosition = Math.max(10., newXPosition);
-		newXPosition = Math.min(360. - TURTLE_SIZE, newXPosition);
-		newYPosition = Math.max(38., newYPosition);
-		newYPosition = Math.min(388. - TURTLE_SIZE, newYPosition);
-		System.out.println("heading to: " + newXPosition + " and " + newYPosition);
-		double xDiff = newXPosition - myTurtle.getX();
-		double yDiff = newYPosition - myTurtle.getY();
-		Path p = createMovementPath(newXPosition, newYPosition);
-		PathTransition pt = new PathTransition();
-		myTurtle.setX(newXPosition);
-		myTurtle.setY(newYPosition);
-		pt.setNode(myTurtle);
-		pt.setPath(p);
-		pt.setDuration(Duration.millis(MOVEMENT_SPEED));
-		pt.setCycleCount(1);
-		runAnimation(pt);
+	private boolean movementIsValid(double newXPosition, double newYPosition) {
+		return (newXPosition >= 190.0 && newXPosition <= 540.0 && 
+				newYPosition >= 18.0 && newYPosition <= 368.0);
+	}
 	
-		myPaths.add(p);
-		return Math.sqrt(xDiff * xDiff + yDiff * yDiff);
+	public double moveTo(double newXPosition, double newYPosition) {
+		if(movementIsValid(newXPosition, newYPosition)) {
+			double xDiff = newXPosition - myTurtle.getX();
+			double yDiff = newYPosition - myTurtle.getY();
+			Path p = createMovementPath(newXPosition, newYPosition);
+			PathTransition pt = new PathTransition();
+			
+			myTurtle.setX(newXPosition);
+			myTurtle.setY(newYPosition);
+			
+			pt.setNode(myTurtle);
+			pt.setPath(p);
+			pt.setDuration(Duration.millis(MOVEMENT_SPEED));
+			pt.setCycleCount(1);
+			runAnimation(pt);
+		
+			myPaths.add(p);
+			return Math.sqrt(xDiff * xDiff + yDiff * yDiff);
+		} 
+		return 0; 
 	}
 
 	/**
@@ -199,7 +203,10 @@ public class Turtle {
 		return p;
 	}
 
-	public double moveToSimple(double newXPosition, double newYPosition) {
+	public double jumpTo(double newXPosition, double newYPosition) {
+		System.out.println("Move to called with:");
+		System.out.println(newXPosition);
+		System.out.println(newYPosition);
 		myTurtle.setX(newXPosition);
 		myTurtle.setY(newYPosition);
 		return 0.;
@@ -213,7 +220,7 @@ public class Turtle {
 	 *            forward by
 	 * @return A {@code double} that reflects the distance moved by the turtle
 	 */
-	public double moveForward(double pixels) {
+	public double moveForward(Double pixels) {
 		double x = myTurtle.getX() + pixels * Math.sin(myTurtle.getRotate() * Math.PI / 180);
 		double y = myTurtle.getY() - pixels * Math.cos(myTurtle.getRotate() * Math.PI / 180);
 		return moveTo(x, y);
@@ -227,7 +234,7 @@ public class Turtle {
 	 *            backwards by
 	 * @return A {@code double} that reflects the distance moved by the turtle
 	 */
-	public double moveBackwards(double pixels) {
+	public double moveBackwards(Double pixels) {
 		double x = myTurtle.getX() - pixels * Math.sin(myTurtle.getRotate() * Math.PI / 180);
 		double y = myTurtle.getY() + pixels * Math.cos(myTurtle.getRotate() * Math.PI / 180);
 		return moveTo(x, y);

@@ -9,6 +9,8 @@ import javafx.animation.PathTransition;
 import javafx.animation.RotateTransition;
 import javafx.animation.SequentialTransition;
 import javafx.animation.Transition;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.EventHandler;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -39,10 +41,10 @@ public class Turtle {
 	private List<Path> myPaths;
 
 	private Pen myPen;
-	private boolean animationRunning;
 	private boolean deactivated;
 	private boolean dragging;
-	private SequentialTransition st;
+	private TransitionOperator transitionOperator;
+	private double currentHeading; 
 
 	/**
 	 * Basic constructor that just initializes the myTurtle variable. Returns a new
@@ -50,9 +52,13 @@ public class Turtle {
 	 */
 	public Turtle() {
 		myTurtle = createTurtle();
-		animationRunning = false;
+		currentHeading = myTurtle.getRotate(); 
 		myPaths = new ArrayList<Path>();
-		st = new SequentialTransition();
+		transitionOperator = new TransitionOperator(); 
+		setupMouseEventHandling(); 
+	}
+
+	private void setupMouseEventHandling() {
 		myTurtle.addEventHandler(MouseEvent.MOUSE_PRESSED, e -> dragging = false);
 		myTurtle.addEventHandler(MouseEvent.DRAG_DETECTED, e -> dragging = true);
 		myTurtle.addEventHandler(MouseEvent.MOUSE_DRAGGED, e -> moveTo(e.getSceneX(), e.getSceneY()));
@@ -90,29 +96,13 @@ public class Turtle {
 	 * @return A {@code double} representing the number of degrees rotated
 	 */
 	public double setHeading(double angle) {
-		double degreeDiff = angle - myTurtle.getRotate();
-		RotateTransition rotateTransition = new RotateTransition(Duration.millis(ROTATION_SPEED));
-		myTurtle.setRotate(angle);
-		rotateTransition.setToAngle(angle);
-		rotateTransition.setCycleCount(1);
-		rotateTransition.setDuration(Duration.millis(ROTATION_SPEED));
-		rotateTransition.setNode(myTurtle);
-		runAnimation(rotateTransition);
-		//rotateTransition.play();
+		double degreeDiff = angle - currentHeading;
+		transitionOperator.createRotation(myTurtle, degreeDiff);
+		currentHeading += degreeDiff; 
+		currentHeading = currentHeading % 360; 
 		return Math.abs(degreeDiff);
 	}
 	
-	private void runAnimation(Transition a) {
-		if(st.getChildren().size() == 0) {
-			st.getChildren().add(a);
-		//st.play();
-			System.out.println("animation run");
-		} else {
-			st.getChildren().add(a);
-		//	st.play();
-
-		}
-	}
 	
 
 	/**
@@ -124,7 +114,7 @@ public class Turtle {
 	 * @return A {@code double} that is the number of degrees just rotated
 	 */
 	public double rotateLeft(double angle) {
-		return setHeading(myTurtle.getRotate() - angle);
+		return setHeading(currentHeading - angle);
 	}
 
 	/**
@@ -136,7 +126,7 @@ public class Turtle {
 	 * @return A {@code double} that is the number of degrees just rotated
 	 */
 	public double rotateRight(double angle) {
-		return setHeading(myTurtle.getRotate() + angle);
+		return setHeading(currentHeading + angle);
 	}
 
 	/* Movement Methods */
@@ -166,18 +156,10 @@ public class Turtle {
 			double xDiff = newXPosition - myTurtle.getX();
 			double yDiff = newYPosition - myTurtle.getY();
 			Path p = createMovementPath(newXPosition, newYPosition);
-			PathTransition pt = new PathTransition();
-			
+			myPaths.add(p);
 			myTurtle.setX(newXPosition);
 			myTurtle.setY(newYPosition);
-			
-			pt.setNode(myTurtle);
-			pt.setPath(p);
-			pt.setDuration(Duration.millis(MOVEMENT_SPEED));
-			pt.setCycleCount(1);
-			runAnimation(pt);
-		
-			myPaths.add(p);
+			transitionOperator.createMovement(myTurtle, p);
 			return Math.sqrt(xDiff * xDiff + yDiff * yDiff);
 		} 
 		return 0; 
@@ -200,15 +182,15 @@ public class Turtle {
 		p.getElements().add(moveTo);
 		LineTo lineTo = new LineTo(newXPosition, newYPosition);
 		p.getElements().add(lineTo);
+		p.setStrokeWidth(TURTLE_SIZE * 2); 
 		return p;
 	}
 
 	public double jumpTo(double newXPosition, double newYPosition) {
-		System.out.println("Move to called with:");
-		System.out.println(newXPosition);
-		System.out.println(newYPosition);
-		myTurtle.setX(newXPosition);
-		myTurtle.setY(newYPosition);
+		if(movementIsValid(newXPosition, newYPosition)) {
+			myTurtle.setX(newXPosition);
+			myTurtle.setY(newYPosition);
+		}
 		return 0.;
 	}
 
@@ -221,8 +203,8 @@ public class Turtle {
 	 * @return A {@code double} that reflects the distance moved by the turtle
 	 */
 	public double moveForward(Double pixels) {
-		double x = myTurtle.getX() + pixels * Math.sin(myTurtle.getRotate() * Math.PI / 180);
-		double y = myTurtle.getY() - pixels * Math.cos(myTurtle.getRotate() * Math.PI / 180);
+		double x = myTurtle.getX() + pixels * Math.sin(currentHeading * Math.PI / 180);
+		double y = myTurtle.getY() - pixels * Math.cos(currentHeading * Math.PI / 180);
 		return moveTo(x, y);
 	}
 
@@ -235,8 +217,8 @@ public class Turtle {
 	 * @return A {@code double} that reflects the distance moved by the turtle
 	 */
 	public double moveBackwards(Double pixels) {
-		double x = myTurtle.getX() - pixels * Math.sin(myTurtle.getRotate() * Math.PI / 180);
-		double y = myTurtle.getY() + pixels * Math.cos(myTurtle.getRotate() * Math.PI / 180);
+		double x = myTurtle.getX() - pixels * Math.sin(currentHeading * Math.PI / 180);
+		double y = myTurtle.getY() + pixels * Math.cos(currentHeading * Math.PI / 180);
 		return moveTo(x, y);
 	}
 
@@ -367,6 +349,7 @@ public class Turtle {
 	private ImageView createTurtle() {
 		File file = new File(ACTIVATED_TURTLE_PATH);
 		Image turtleImage = new Image(file.toURI().toString(), TURTLE_SIZE, TURTLE_SIZE, false, false);
-		return new ImageView(turtleImage);
+		ImageView turtleImageView = new ImageView(turtleImage);
+		return turtleImageView;
 	}
 }

@@ -366,7 +366,7 @@ public class MainScreen extends ScreenDisplay implements GUIDelegate{
 		for(Turtle t : turtleArray) {
 			try {
 				Method m = t.getClass().getMethod(methodName, parameterTypes);
-				m.invoke(t, params);
+//				m.invoke(t, params);
 			} catch(Exception e) {
 				System.out.println("Could not call: " + methodName);
 				e.printStackTrace();
@@ -402,11 +402,17 @@ public class MainScreen extends ScreenDisplay implements GUIDelegate{
 	@Override
 	public void rotateLeftButtonPressed() {
 		// TODO Auto-generated method stub
-		ogTurtle.rotateLeft(30);
+		for (Turtle t : turtleArray) {
+			t.rotateLeft(30);
+		}
+//		operateOnTurtles("rotateLeft",new Class[] {Double.class}, new Object[] {30.0});
 	}
 	
 	public void rotateRightButtonPressed() {
 		// TODO Auto-generated method stub
-		ogTurtle.rotateLeft(30);
+		for (Turtle t : turtleArray) {
+			t.rotateRight(30);
+		}
+//		operateOnTurtles("rotateRight",new Class[] {Double.class}, new Object[] {50.0});
 	}
 }

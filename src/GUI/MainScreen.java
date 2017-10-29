@@ -366,7 +366,7 @@ public class MainScreen extends ScreenDisplay implements GUIDelegate{
 		for(Turtle t : turtleArray) {
 			try {
 				Method m = t.getClass().getMethod(methodName, parameterTypes);
-//				m.invoke(t, params);
+				m.invoke(t, params);
 			} catch(Exception e) {
 				System.out.println("Could not call: " + methodName);
 				e.printStackTrace();

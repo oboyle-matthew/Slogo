@@ -1,6 +1,7 @@
 package GUI;
 
 import java.awt.Color;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -32,9 +33,14 @@ import modelLogic.CommandParser;
 import modelLogic.Turtle;
 
 public class MainScreen extends ScreenDisplay implements GUIDelegate{
-	public static final String DEFAULT_RESOURCE_PACKAGE = "resources/languages/";
+	private static final String DEFAULT_RESOURCE_PACKAGE = "resources/languages/";
 	private static final int CANVAS_WIDTH = 350;
 	private static final int GRIDSIZE = 3;
+	private static final double NEW_TURTLE_INITIAL_X_POSITION = 365.0;
+	private static final double NEW_TURTLE_INITIAL_Y_POSITION = 193.0;
+
+
+	
 	private ResourceBundle instructionsResources;
 	private ResourceBundle languageResources;
 	private CanvasHolder canvasHolder;
@@ -71,7 +77,7 @@ public class MainScreen extends ScreenDisplay implements GUIDelegate{
 
 	public MainScreen(int width, int height, Paint background, String language) {
 		super(width, height, background);
-		ogTurtle  = new Turtle();
+		turtleArray = new ArrayList<Turtle>();
 		myLanguage = language;
 		parser = new CommandParser(language);
 		createMainScreen(language);
@@ -79,12 +85,12 @@ public class MainScreen extends ScreenDisplay implements GUIDelegate{
 
 	public void createMainScreen(String language) {
 		
-		
+	
 		myTabToolBar = new TabToolBar(this);
 		canvasHolder = new CanvasHolder(CANVAS_WIDTH, CANVAS_WIDTH);
 		canvasHolder.updateBackgroundColor("white");
 		rootAdd(canvasHolder);
-		createFirstTurtle();
+		//createFirstTurtle();
 		this.ButtonInit();
 		
 		
@@ -195,6 +201,8 @@ public class MainScreen extends ScreenDisplay implements GUIDelegate{
 		 fileExplorer.setLayoutX(10);
 		 fileExplorer.setLayoutY(38);
 		 
+		createTurtle(); 
+
 		 
 		 //fileExplorer.lookup(".arrow").setVisible(false);
 	}
@@ -245,8 +253,7 @@ public class MainScreen extends ScreenDisplay implements GUIDelegate{
 	
 	private void createFirstTurtle() {
 		turtleArray = new ArrayList<Turtle>();
-		getRootChildren().add(ogTurtle.getImageViewForScreen());
-		ogTurtle.moveToSimple(CANVAS_WIDTH/2 + canvasHolder.getLayoutX() - ogTurtle.getImageViewForScreen().getBoundsInParent().getWidth()/2 , CANVAS_WIDTH/2 + canvasHolder.getLayoutY() -  ogTurtle.getImageViewForScreen().getBoundsInParent().getWidth()/2);
+		rootAdd(ogTurtle.getImageViewForScreen());
 		turtleArray.add(ogTurtle);
 	}
 
@@ -254,8 +261,8 @@ public class MainScreen extends ScreenDisplay implements GUIDelegate{
 	@Override
 	public void createTurtle() {
 		Turtle newTurtle = new Turtle();
-		getRootChildren().add(newTurtle.getImageViewForScreen());
-		ogTurtle.moveToSimple(CANVAS_WIDTH/2 + canvasHolder.getLayoutX() - ogTurtle.getImageViewForScreen().getBoundsInParent().getWidth()/2 , CANVAS_WIDTH/2 + canvasHolder.getLayoutY() -  ogTurtle.getImageViewForScreen().getBoundsInParent().getWidth()/2);
+		rootAdd(newTurtle.getImageViewForScreen());
+		newTurtle.jumpTo(NEW_TURTLE_INITIAL_X_POSITION, NEW_TURTLE_INITIAL_Y_POSITION);
 		turtleArray.add(newTurtle);
 	}
 	
@@ -351,7 +358,21 @@ public class MainScreen extends ScreenDisplay implements GUIDelegate{
 
 	@Override
 	public void moveX(Double newLocation) {
-		ogTurtle.moveToSimple(newLocation, ogTurtle.getYPos());
+		operateOnTurtles("moveForward", new Class[] {Double.class}, new Object[] {newLocation} );
+		//ogTurtle.moveToSimple(newLocation, ogTurtle.getYPos());
+	}
+	
+	private void operateOnTurtles(String methodName, Class[] parameterTypes, Object[] params) {
+		for(Turtle t : turtleArray) {
+			try {
+				Method m = t.getClass().getMethod(methodName, parameterTypes);
+				m.invoke(t, params);
+			} catch(Exception e) {
+				System.out.println("Could not call: " + methodName);
+				e.printStackTrace();
+			}
+		}
+	
 	}
 	
 	public void setDirection(Double angle) {
@@ -370,12 +391,12 @@ public class MainScreen extends ScreenDisplay implements GUIDelegate{
 
 	@Override
 	public void forwardButtonPressed() {
-		ogTurtle.moveForward(50);
+		moveX(50.0);
 	}
 
 	@Override
 	public void backwardButtonPressed() {
-		ogTurtle.moveBackwards(50);
+		operateOnTurtles("moveBackwards",new Class[] {Double.class}, new Object[] {50.0});
 	}
 
 	@Override

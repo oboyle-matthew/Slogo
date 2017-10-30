@@ -5,7 +5,6 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
-
 import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.Scene;
@@ -204,7 +203,6 @@ public class MainScreen extends ScreenDisplay implements GUIDelegate{
 		createTurtle(); 
 		ogTurtle = turtleArray.get(0);
 		myTabToolBar.getPropertiesBox().updatePropertiesBox();
-
 		 
 		 //fileExplorer.lookup(".arrow").setVisible(false);
 	}
@@ -288,6 +286,7 @@ public class MainScreen extends ScreenDisplay implements GUIDelegate{
 				e.printStackTrace();
 			}
 		}
+		myTabToolBar.getPropertiesBox().updatePropertiesBox();
 	}
 
 	private void createNewErrorWindow(String errorText) {
@@ -367,7 +366,7 @@ public class MainScreen extends ScreenDisplay implements GUIDelegate{
 				e.printStackTrace();
 			}
 		}
-	
+		myTabToolBar.getPropertiesBox().updatePropertiesBox();
 	}
 	
 	public void setDirection(Double angle) {
@@ -397,6 +396,7 @@ public class MainScreen extends ScreenDisplay implements GUIDelegate{
 	@Override
 	public void rotateLeftButtonPressed() {
 		// TODO Auto-generated method stub
+		myTabToolBar.getPropertiesBox().updatePropertiesBox();
 		for (Turtle t : turtleArray) {
 			t.rotateLeft(30);
 		}
@@ -405,6 +405,7 @@ public class MainScreen extends ScreenDisplay implements GUIDelegate{
 	
 	public void rotateRightButtonPressed() {
 		// TODO Auto-generated method stub
+		myTabToolBar.getPropertiesBox().updatePropertiesBox();
 		for (Turtle t : turtleArray) {
 			t.rotateRight(30);
 		}
@@ -414,7 +415,7 @@ public class MainScreen extends ScreenDisplay implements GUIDelegate{
 	@Override
 	public String[] getInfo() {
 		String[] info = {
-				Double.toString(ogTurtle.getDirection()),
+				Double.toString(ogTurtle.getHeading()),
 				Double.toString(ogTurtle.getXPos()),
 				Double.toString(ogTurtle.getYPos()),
 				"true", "green", "5", "DASHED"};

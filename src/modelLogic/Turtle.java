@@ -67,7 +67,7 @@ public class Turtle {
 	private void setupMouseEventHandling() {
 		myTurtle.addEventHandler(MouseEvent.MOUSE_PRESSED, e -> dragging = false);
 		myTurtle.addEventHandler(MouseEvent.DRAG_DETECTED, e -> dragging = true);
-		myTurtle.addEventHandler(MouseEvent.MOUSE_DRAGGED, e -> moveToSimple(e.getSceneX(), e.getSceneY()));
+		myTurtle.addEventHandler(MouseEvent.MOUSE_DRAGGED, e -> jumpTo(e.getSceneX(), e.getSceneY()));
 		myTurtle.addEventHandler(MouseEvent.MOUSE_RELEASED, e -> turtleClicked());
 	}
 
@@ -172,12 +172,6 @@ public class Turtle {
 		return 0; 
 	}
 	
-	public void moveToSimple(double newXPosition, double newYPosition) {
-		if(movementIsValid(newXPosition, newYPosition)) {
-			myTurtle.setX(newXPosition);
-			myTurtle.setY(newYPosition);
-		}
-	}
 
 	/**
 	 * Creates the new path for use in the turtle's movement animation

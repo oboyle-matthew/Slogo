@@ -90,7 +90,7 @@ public class MainScreen extends ScreenDisplay implements GUIDelegate{
 		canvasHolder = new CanvasHolder(CANVAS_WIDTH, CANVAS_WIDTH);
 		canvasHolder.updateBackgroundColor("white");
 		rootAdd(canvasHolder);
-		//createFirstTurtle();
+//		createFirstTurtle();
 		this.ButtonInit();
 		
 		
@@ -202,6 +202,7 @@ public class MainScreen extends ScreenDisplay implements GUIDelegate{
 		 fileExplorer.setLayoutY(38);
 		 
 		createTurtle(); 
+		ogTurtle = turtleArray.get(0);
 
 		 
 		 //fileExplorer.lookup(".arrow").setVisible(false);
@@ -285,6 +286,8 @@ public class MainScreen extends ScreenDisplay implements GUIDelegate{
 				createNewErrorWindow(text);
 				e.printStackTrace();
 			}
+			myTabToolBar.getPropertiesBox().updatePropertiesBox();
+
 		}
 	}
 
@@ -407,5 +410,21 @@ public class MainScreen extends ScreenDisplay implements GUIDelegate{
 			t.rotateRight(30);
 		}
 //		operateOnTurtles("rotateRight",new Class[] {Double.class}, new Object[] {50.0});
+	}
+
+	@Override
+	public String[] getInfo() {
+		String[] info = {
+				Double.toString(ogTurtle.getDirection()),
+				Double.toString(ogTurtle.getXPos()),
+				Double.toString(ogTurtle.getYPos()),
+				"true", "green", "5", "DASHED"};
+//				Boolean.toString(ogTurtle.getPenInfo()),
+//				ogTurtle.getPenColor(),
+//				Double.toString(ogTurtle.getPenSize()),
+//				ogTurtle.getPenStyle()
+//		};
+		return info;
+//		return new String[5];
 	}
 }

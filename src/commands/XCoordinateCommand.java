@@ -12,7 +12,7 @@ public class XCoordinateCommand extends ExecutableCommand {
 
 	@Override
 	public double execute(ParsedItem[] params, Turtle tortuga, Map<String, Double> variables) {
-		return tortuga.getCoordinates()[0]; 
+		return tortuga.getXPos();
 	}
 	
 }

@@ -22,7 +22,7 @@ public class Turtle {
 
 	private static final double LOWER_BOUNDARY_COORDINATE = 368.0;
 	private static final double UPPER_BOUNDARY_COORDINATE = 18.0;
-	private static final double RIGHT_BOUNDARY_COORDINATE = 540.0;
+	private static final double RIGHT_BOUNDARY_COORDINATE = 580.0;
 	private static final double LEFT_BOUNDARY_COORDINATE = 190.0;
 	private static final double INITIAL_X_POSITION = 385.0;
 	private static final double INITIAL_Y_POSITION = 213.0;
@@ -147,17 +147,27 @@ public class Turtle {
 	 * @return A {@code double} that reflects the distance moved by the turtle
 	 */
 	public double moveTo(Double newXPosition, Double newYPosition) {
-		if(movementIsValid(newXPosition, newYPosition)) {
-			double xDiff = newXPosition - currentX;
-			double yDiff = newYPosition - currentY;
-			Path p = createMovementPath(newXPosition, newYPosition);
-			currentX = newXPosition;
-			currentY = newYPosition;
-			transitionOperator.createMovement(myTurtle, p, newXPosition, newYPosition);
-			transitionOperator.createFadeIn(p);
-			return Math.sqrt(xDiff * xDiff + yDiff * yDiff);
-		} 
-		return 0; 
+		if(!movementIsValid(newXPosition, newYPosition)) {
+			double[] newCoordinates = adjustCoordinates(new double[] {newXPosition, newYPosition});
+			newXPosition = newCoordinates[0];
+			newYPosition = newCoordinates[1];
+		}
+		double xDiff = newXPosition - currentX;
+		double yDiff = newYPosition - currentY;
+		Path p = createMovementPath(newXPosition, newYPosition);
+		currentX = newXPosition;
+		currentY = newYPosition;
+		transitionOperator.createMovement(myTurtle, p, newXPosition, newYPosition);
+		transitionOperator.createFadeIn(p);
+		return Math.sqrt(xDiff * xDiff + yDiff * yDiff); 
+	}
+	
+	public double[] adjustCoordinates(double[] attemptedPosition) {
+		if(attemptedPosition[0] <= LEFT_BOUNDARY_COORDINATE) 	attemptedPosition[0] = LEFT_BOUNDARY_COORDINATE + TURTLE_SIZE;
+		if(attemptedPosition[0] >= RIGHT_BOUNDARY_COORDINATE) attemptedPosition[0] = RIGHT_BOUNDARY_COORDINATE - TURTLE_SIZE;
+		if(attemptedPosition[1] <= UPPER_BOUNDARY_COORDINATE) attemptedPosition[1] = UPPER_BOUNDARY_COORDINATE + TURTLE_SIZE;
+		if(attemptedPosition[1] >= LOWER_BOUNDARY_COORDINATE) attemptedPosition[1] = LOWER_BOUNDARY_COORDINATE - TURTLE_SIZE;
+		return attemptedPosition;
 	}
 	
 	private boolean movementIsValid(double newXPosition, double newYPosition) {
@@ -291,14 +301,6 @@ public class Turtle {
 	}
 
 	/* Turtle Query Methods */
-
-	/**
-	 * @return A {@code double[]} of length 2, where the first item is the turtle's
-	 *         x-coordinate, and the second item is the turtle's y-coordinate
-	 */
-	public double[] getCoordinates() {
-		return new double[] { currentX, currentY};
-	}
 
 	/**
 	 * @return A {@code double} that specifies the Turtle's current heading. Will

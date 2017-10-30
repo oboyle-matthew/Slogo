@@ -5,6 +5,7 @@ import java.util.List;
 
 import GUI.GUIDelegate;
 import javafx.scene.Node;
+import javafx.scene.input.MouseEvent;
 
 public abstract class CanvasWriter {
 
@@ -23,6 +24,8 @@ public abstract class CanvasWriter {
 	protected TransitionOperator transitionOperator;
 	protected Node myNode;
 	protected double myNodeSize;
+	protected boolean deactivated; 
+	protected boolean dragging;
 
 	CanvasWriter(GUIDelegate app, double nodeSize) {
 		myApp = app;
@@ -32,8 +35,27 @@ public abstract class CanvasWriter {
 		myNode = createNode(nodeSize);
 		myApp.addNode(myNode);
 		myNodeSize = nodeSize;
+		setupMouseEventHandling(); 
 	}
-
+	
+	/**
+	 * Sets up the event handling for mouse interaction with the model's node
+	 */
+	private void setupMouseEventHandling() {
+		myNode.addEventHandler(MouseEvent.MOUSE_PRESSED, e -> dragging = false);
+		myNode.addEventHandler(MouseEvent.DRAG_DETECTED, e -> dragging = true);
+		myNode.addEventHandler(MouseEvent.MOUSE_DRAGGED, e -> {
+			moveTo(e.getSceneX(), e.getSceneY(), false);
+			myApp.updateTurtleProperties();
+		});
+		myNode.addEventHandler(MouseEvent.MOUSE_RELEASED, e -> nodeClicked());
+	}
+	
+	/**
+	 * The method that is called when a node is clicked
+	 */
+	abstract protected void nodeClicked();
+	
 	/**
 	 * Creates the node used by the model
 	 * 
@@ -242,6 +264,13 @@ public abstract class CanvasWriter {
 	 */
 	public boolean isVisible() {
 		return myNode.isVisible();
+	}
+	
+	/**
+	 * @return {@code true} if the model's node is activated, and {@code false} otherwise
+	 */
+	public boolean isActivated() {
+		return !deactivated;
 	}
 
 	/**

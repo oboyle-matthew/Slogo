@@ -223,7 +223,7 @@ public class MainScreen extends ScreenDisplay implements GUIDelegate{
 	public void runCommand(String text) {
 		for (CanvasWriter w : writerList) {
 			try {
-				parser.executeInput(text,  w);
+				if(w.isActivated()) parser.executeInput(text,  w);
 			} catch (Exception e) {
 				createNewErrorWindow(text);
 				e.printStackTrace();
@@ -287,8 +287,10 @@ public class MainScreen extends ScreenDisplay implements GUIDelegate{
 	private void operateOnWriters(String methodName, Class[] parameterTypes, Object[] params) {
 		for(CanvasWriter w : writerList) {
 			try {
-				Method m = w.getClass().getMethod(methodName, parameterTypes);
-				m.invoke(w, params);
+				if(w.isActivated()) {
+					Method m = w.getClass().getMethod(methodName, parameterTypes);
+					m.invoke(w, params);
+				}
 			} catch(Exception e) {
 				System.out.println("Could not call: " + methodName);
 				e.printStackTrace();
@@ -365,6 +367,12 @@ public class MainScreen extends ScreenDisplay implements GUIDelegate{
 	@Override
 	public void setDirection(Double angle) {
 				
+	}
+
+	@Override
+	public void setBackgroundColor(int index) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

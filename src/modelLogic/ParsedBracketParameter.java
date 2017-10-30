@@ -25,9 +25,8 @@ public class ParsedBracketParameter extends ParsedItem {
 	 */
 	private String buildNameString() {
 		String name = "[ "; 
-		for(ParsedItem p : myContents) {
+		for(ParsedItem p : myContents)
 			name = name + p + " "; 
-		}
 		return name + "]";
 	}
 	

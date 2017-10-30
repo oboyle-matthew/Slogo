@@ -2,14 +2,17 @@ package modelLogic;
 
 public class Pen {
 	
+	private static final double DEFAULT_STROKE_WIDTH = 1.0;
+	private static final String DEFAULT_COLOR = "BLACK";
+	
 	private String myColor;
 	private String myStyle;
 	private double mySize;
 	private boolean myStatus;
 
 	public Pen() {
-		myColor = "BLACK";
-		mySize = 1.;
+		myColor = DEFAULT_COLOR;
+		mySize = DEFAULT_STROKE_WIDTH;
 		myStatus = true;
 	}
 	

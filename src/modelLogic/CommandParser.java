@@ -8,7 +8,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
-import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -23,7 +22,10 @@ import javafx.scene.control.ButtonType;
  * @author Walker and Simran
  */
 public class CommandParser {
-/* Final Variables */
+private static final String LAST_BRACKET_PROPERTY = "ListEnd";
+private static final int NOT_ENOUGH_PARAMS = 0;
+private static final int LIST_TOO_SHORT = -1;
+	/* Final Variables */
 	private static final String COMMAND_ITEM = "command";
 	private static final String WHITESPACE_PROPERTY = "Whitespace";
 	private static final String COMMENT_PROPERTY = "Comment";
@@ -34,6 +36,7 @@ public class CommandParser {
 	private static final String RESOURCES_DIR = "src/resources/languages/";
 	private static final String SYNTAX_STRING = "Syntax";
 	private static final String PROPERTIES_EXTENSION = ".properties";
+	private static final String INVALID_INPUT = "The input entered was invalid. Please check the help manual for a list of allowed commands.";
 
 /* Instance Variables */
 	private String languageChoice;
@@ -48,7 +51,6 @@ public class CommandParser {
 		syntaxProperties = loadProperties(SYNTAX_STRING);
 	}
 
-	
 	/**
 	 * Reads in the passed property file, and creates a new {@code Properties} object from the file
 	 * @param fileName is a {@code String} that corresponds to the name of the properties file to use
@@ -64,12 +66,11 @@ public class CommandParser {
 			prop.load(input);
 			return prop;
 		} catch (Exception e) {
-			createErrorWindow(PROPERTIES_DNE_ERROR + fileName);
+			createErrorWindow(PROPERTIES_DNE_ERROR + fileName );
 			e.printStackTrace();
+			return null;
 		}
-		return null;
 	}
-	
 	
 	/**
 	 * Creates a list of {@code ParsedItem} objects corresponding to the given input
@@ -99,7 +100,6 @@ public class CommandParser {
 		return list;
 	}
 
-	
 	/**
 	 * Executes the SLOGO commands contained within the passed in lists
 	 * @param items is a {@code List<ParsedItem>} that contains all the {@code ParsedItem} objects to use for execution 
@@ -112,7 +112,11 @@ public class CommandParser {
 		userVariables = variables;
 		double val = cleanList(items); 
 		while(items.size() > 0 && notAllParams(items)) {
-			executeNextCommand(items, tortuga); 
+			boolean succeeded = executeNextCommand(items, tortuga);
+			if(!succeeded) {
+				createErrorWindow(INVALID_INPUT);
+				return -1; 
+			}
 			val = cleanList(items);
 		}
 		return val;
@@ -145,24 +149,25 @@ public class CommandParser {
 	 * @param list is a {@code List<ParsedItem>} that contains all the commands and current values of the list
 	 * @param tortuga is the {@code Turtle} to use for the execution of commands
 	 */
-	private void executeNextCommand(List<ParsedItem> list, Turtle tortuga) {
+	private boolean executeNextCommand(List<ParsedItem> list, Turtle tortuga) {
 		for(int i = 0; i < list.size(); i++) {
 			if(list.get(i).getItemType().equals(COMMAND_ITEM)) {
 				ParsedCommand p = (ParsedCommand) list.get(i);
+				if(!p.isCommand()) return false; 
 				int canExecute = checkNextParams(list, i, p.getParameterOrder());
-				if(canExecute == -1) return; 
-				if(canExecute == 0) continue; 
+				if(canExecute == LIST_TOO_SHORT) return false; 
+				if(canExecute == NOT_ENOUGH_PARAMS) continue; 
 				ParsedItem[] params = new ParsedItem[p.getParameterOrder().length];
 				for(int j = 0; j < params.length; j++)
 					params[j] = list.remove(i + 1); 
 				double value = p.execute(params, tortuga, userVariables);
 				list.set(i, new ParsedRegularParameter("" + value, false));
-				return; 
+				return true; 
 			}
 		}
+		return true; 
 	}
 
-	
 	/**
 	 * Checks the parameters next to the command at the current index 
 	 * @param list is a {@code List<ParsedItem>} that contains the current {@code ParsedItem} objects 
@@ -177,13 +182,12 @@ public class CommandParser {
 	 * 	   -1 - There isn't enough room left in the list for the command to be able to execute, which is an error  
 	 */
 	private int checkNextParams(List<ParsedItem> list, int currIndex, String[] paramsNeeded) {
-		if(currIndex + paramsNeeded.length >= list.size()) return -1; 
+		if(currIndex + paramsNeeded.length >= list.size()) return LIST_TOO_SHORT; 
 		for(int i = currIndex + 1; i < paramsNeeded.length + currIndex + 1; i++) {
-			if(!list.get(i).getItemType().equals(paramsNeeded[i - currIndex - 1])) return 0;
+			if(!list.get(i).getItemType().equals(paramsNeeded[i - currIndex - 1])) return NOT_ENOUGH_PARAMS;
 		}
 		return 1; 
 	}
-	
 	
 	/**
 	 *  Cleans the constants left at the front of the list of SLOGO commands that were left as the 
@@ -197,7 +201,7 @@ public class CommandParser {
 		if(list.size() == 1 && !notAllParams(list)) return Double.parseDouble( ((ParsedRegularParameter)curr).toString());
 		while(list.size() > 1 && !curr.getItemType().equals(COMMAND_ITEM)) {
 			list.remove(0);
-			val = Double.parseDouble( ((ParsedRegularParameter)curr).toString());
+			val = Double.parseDouble(((ParsedRegularParameter)curr).toString());
 			curr = list.get(0);
 		}
 		return val;
@@ -217,7 +221,7 @@ public class CommandParser {
 			String curr = splitInputList.get(index);
 			if(matchesProperty(curr, syntaxProperties, FIRST_BRACKET_PROPERTY)) {
 				bracketNum++;
-			} else if(matchesProperty(curr, syntaxProperties, "ListEnd")) {
+			} else if(matchesProperty(curr, syntaxProperties, LAST_BRACKET_PROPERTY)) {
 				bracketNum--;
 			} else {
 				s = s + " " + curr; 
@@ -248,7 +252,7 @@ public class CommandParser {
 			if (matchesProperty(inputCommand, currentLanguageProperties, (String) key))
 				return (String) key;
 		}
-		return null;
+		return inputCommand;
 	}
 
 	/**

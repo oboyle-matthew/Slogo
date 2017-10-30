@@ -1,5 +1,8 @@
 package GUI;
 
+import java.awt.List;
+import java.util.ArrayList;
+
 import com.sun.xml.internal.ws.api.streaming.XMLStreamReaderFactory.Default;
 
 import javafx.geometry.Pos;
@@ -15,9 +18,12 @@ import javafx.scene.layout.HBoxBuilder;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Box;
 import javafx.scene.text.Font;
+import modelLogic.Turtle;
 
 public class TurtleFileExplorer extends TitledPane{
 	
+	private ListView<HBox> paneListView = new ListView<>();
+	int count = 0;
 	//constructor
 	public TurtleFileExplorer() {
 		
@@ -44,12 +50,19 @@ public class TurtleFileExplorer extends TitledPane{
 	}
 
 	private Node createListView() {
-		ListView<HBox> paneListView = new ListView<>();
-       for (int i = 1; i < 2; i++) {
-        HBox subPane = new HBox();
+	
+		addTurtleFile();	
+        return paneListView;
+    }
+	
+	public void addTurtleFile() {
+		// update count
+		count = count + 1;
+		//create a subPane
+		HBox subPane = new HBox();
         Image tur = new Image(getClass().getResourceAsStream("turtleButton.png"));
         subPane.getChildren().add(new ImageView(tur));
-        Label  name = new Label(" Turtle "+ i);
+        Label  name = new Label(" Turtle "+ count);
         name.setFont(new Font(11));
         subPane.getChildren().add(name);
         
@@ -63,8 +76,7 @@ public class TurtleFileExplorer extends TitledPane{
        paneListView.getItems().add(subPane);
        
        subPane.setAlignment(Pos.BOTTOM_LEFT);
-       }
-        return paneListView;
-    }
+		
+	}
 	
 }

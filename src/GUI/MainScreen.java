@@ -4,14 +4,12 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
-
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.ColumnConstraints;
@@ -27,6 +25,7 @@ import modelLogic.CommandParser;
 import modelLogic.Turtle;
 
 public class MainScreen extends ScreenDisplay implements GUIDelegate{
+	private static final String CONTROLS_IMAGE = "Controls.png";
 	private static final String DEFAULT_RESOURCE_PACKAGE = "resources/languages/";
 	private static final int CANVAS_WIDTH = 350;
 	private static final int GRIDSIZE = 3;
@@ -146,7 +145,7 @@ public class MainScreen extends ScreenDisplay implements GUIDelegate{
 	      myInputBox.addEventHandler(MouseEvent.MOUSE_CLICKED, eventHandlerTextField);
 	      myInputBox.addEventHandler(MouseEvent.MOUSE_EXITED, eventHandlerExit);
 		//Initialize a grid pane for direction Buttons
-		Image image = new Image(getClass().getResourceAsStream("Controls.png"),120,120,false,false);
+		Image image = new Image(getClass().getResourceAsStream(CONTROLS_IMAGE),120,120,false,false);
 		ImageView directionPad = new ImageView(image);
 		directionPad.setLayoutX(608);
 		directionPad.setLayoutY(430);
@@ -193,7 +192,7 @@ public class MainScreen extends ScreenDisplay implements GUIDelegate{
 		 
 		createTurtle(); 
 		ogTurtle = turtleArray.get(0);
-
+		myTabToolBar.getPropertiesBox().updatePropertiesBox();
 		 
 		 //fileExplorer.lookup(".arrow").setVisible(false);
 	}
@@ -209,10 +208,6 @@ public class MainScreen extends ScreenDisplay implements GUIDelegate{
 		myBackButton = new BackwardButton(this);
 		myCustomizeButton = new CustomizeButton(this);
 		myNewTurtleButton = new CreateNewTurtleButton(this);
-		Button redButton = new Button("RED");
-		redButton.addEventHandler(MouseEvent.MOUSE_CLICKED, e->changeBackground("red"));
-		Button whiteButton = new Button("WHITE");
-		whiteButton.addEventHandler(MouseEvent.MOUSE_CLICKED, e->changeBackground("white"));
 		
 		// add all the things into an button bar hbox
 		ButtonBar = new HBox();
@@ -222,8 +217,6 @@ public class MainScreen extends ScreenDisplay implements GUIDelegate{
 		ButtonBar.getChildren().add(myNewProjectButton);
 		ButtonBar.getChildren().add(myInstructionButton);
 		ButtonBar.getChildren().add(myCustomizeButton);
-		ButtonBar.getChildren().add(redButton);
-		ButtonBar.getChildren().add(whiteButton);
 		ButtonBar.setSpacing(0);
 		Pane ToolBar = new Pane();
 		ToolBar.getChildren().add(ButtonBar);
@@ -276,9 +269,8 @@ public class MainScreen extends ScreenDisplay implements GUIDelegate{
 				createNewErrorWindow(text);
 				e.printStackTrace();
 			}
-			myTabToolBar.getPropertiesBox().updatePropertiesBox();
-
 		}
+		myTabToolBar.getPropertiesBox().updatePropertiesBox();
 	}
 
 	private void createNewErrorWindow(String errorText) {
@@ -301,14 +293,13 @@ public class MainScreen extends ScreenDisplay implements GUIDelegate{
 	
 	private void instructionMaker(VBox instructionsPane, String language) {
 		languageResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + language);
-		createInstruction(instructionsPane, "Forward");
-		createInstruction(instructionsPane, "Backward");
-		createInstruction(instructionsPane, "Left");
-		createInstruction(instructionsPane, "Right");
-		createInstruction(instructionsPane, "SetHeading");
+		for (String s : languageResources.keySet()) {
+			createInstruction(instructionsPane, s);
+		}
+//		createInstruction(instructionsPane, "Forward");
 	}
 	private void createInstruction(VBox instructionsPane, String instruction) {
-		instructionsPane.getChildren().add(new Label(instruction + "=" + languageResources.getString(instruction)));
+		instructionsPane.getChildren().add(new Label(instruction + " = " + languageResources.getString(instruction)));
 	}
 	
 	
@@ -358,7 +349,7 @@ public class MainScreen extends ScreenDisplay implements GUIDelegate{
 				e.printStackTrace();
 			}
 		}
-	
+		myTabToolBar.getPropertiesBox().updatePropertiesBox();
 	}
 	
 	public void setDirection(Double angle) {
@@ -385,9 +376,13 @@ public class MainScreen extends ScreenDisplay implements GUIDelegate{
 		operateOnTurtles("moveBackwards",new Class[] {Double.class}, new Object[] {50.0});
 	}
 
+//	@Override
+//	public void rotateLeftButtonPressed() {
+		
 	@Override
 	public void rotateLeftButtonPressed() {
 		// TODO Auto-generated method stub
+		myTabToolBar.getPropertiesBox().updatePropertiesBox();
 		for (Turtle t : turtleArray) {
 			t.rotateLeft(30);
 		}
@@ -396,6 +391,7 @@ public class MainScreen extends ScreenDisplay implements GUIDelegate{
 	
 	public void rotateRightButtonPressed() {
 		// TODO Auto-generated method stub
+		myTabToolBar.getPropertiesBox().updatePropertiesBox();
 		for (Turtle t : turtleArray) {
 			t.rotateRight(30);
 		}

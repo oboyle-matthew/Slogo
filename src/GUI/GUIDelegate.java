@@ -42,4 +42,8 @@ public interface GUIDelegate {
 	void removeNode(Node n);
 	
 	void updateTurtleProperties();
+
+	void changeFontWidth(Integer size);
+
+	void clearCanvas();
 }

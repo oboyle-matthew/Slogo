@@ -61,6 +61,7 @@ public class MainScreen extends ScreenDisplay implements GUIDelegate{
 	private BackwardButton myBackButton;
 	private BackgroundColorButton myBackgroundColorButton;
 	private FontColorButton myFontColorButton;
+	private FontSizeButton myFontSizeButton;
 	private TabToolBar myTabToolBar;
 	// for input box
 	private CustomizeButton myCustomizeButton;
@@ -277,6 +278,8 @@ public class MainScreen extends ScreenDisplay implements GUIDelegate{
 		newProject.getChildren().add(myBackgroundColorButton);
 		myFontColorButton = new FontColorButton(this);
 		newProject.getChildren().add(myFontColorButton);
+		myFontSizeButton = new FontSizeButton(this);
+		newProject.getChildren().add(myFontSizeButton);
 	}
 
 	@Override
@@ -365,6 +368,17 @@ public class MainScreen extends ScreenDisplay implements GUIDelegate{
 	@Override
 	public void setDirection(Double angle) {
 				
+	}
+
+	@Override
+	public void changeFontWidth(Integer size) {
+		// TODO Auto-generated method stub
+		System.out.println(size);
+	}
+
+	@Override
+	public void clearCanvas() {
+		return;
 	}
 
 }

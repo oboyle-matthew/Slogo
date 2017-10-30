@@ -36,7 +36,7 @@ public class MainScreen extends ScreenDisplay implements GUIDelegate{
 	private static final String DEFAULT_RESOURCE_PACKAGE = "resources/languages/";
 	private static final int CANVAS_WIDTH = 350;
 	private static final int GRIDSIZE = 3;
-	private static final double NEW_TURTLE_INITIAL_X_POSITION = 365.0;
+	private static final double NEW_TURTLE_INITIAL_X_POSITION = 345.0;
 	private static final double NEW_TURTLE_INITIAL_Y_POSITION = 193.0;
 
 
@@ -251,18 +251,11 @@ public class MainScreen extends ScreenDisplay implements GUIDelegate{
 		return fileExplorer;
 	}
 	
-	private void createFirstTurtle() {
-		turtleArray = new ArrayList<Turtle>();
-		rootAdd(ogTurtle.getImageViewForScreen());
-		turtleArray.add(ogTurtle);
-	}
-
-	
 	@Override
 	public void createTurtle() {
 		Turtle newTurtle = new Turtle();
-		rootAdd(newTurtle.getImageViewForScreen());
-		newTurtle.jumpTo(NEW_TURTLE_INITIAL_X_POSITION, NEW_TURTLE_INITIAL_Y_POSITION);
+		newTurtle.moveTo(NEW_TURTLE_INITIAL_X_POSITION, NEW_TURTLE_INITIAL_Y_POSITION);
+		getRootChildren().add(newTurtle.getImageViewForScreen());
 		turtleArray.add(newTurtle);
 	}
 	

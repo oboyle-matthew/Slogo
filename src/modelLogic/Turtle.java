@@ -115,7 +115,7 @@ public class Turtle extends CanvasWriter {
 		Path p = new Path(new MoveTo(currentX, currentY), new LineTo(newXPosition, newYPosition));
 		if (myPen.getPenInfo()) {
 			p.setStrokeWidth(myPen.getPenSize());
-			p.setStroke(myPen.getPenColor());
+			p.setStyle("-fx-stroke:" + myPen.getColor() + ";");
 			p.setOpacity(0);
 			addToDrawnNodes(p);
 		}

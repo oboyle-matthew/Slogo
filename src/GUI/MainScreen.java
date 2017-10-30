@@ -335,7 +335,7 @@ public class MainScreen extends ScreenDisplay implements GUIDelegate{
 				Double.toString(writerList.get(0).getHeading()),
 				Double.toString(writerList.get(0).getXPos()),
 				Double.toString(writerList.get(0).getYPos()),
-				"" + writerList.get(0).getMyPen().getPenInfo(), writerList.get(0).getMyPen().getPenColor().toString(), 
+				"" + writerList.get(0).getMyPen().getPenInfo(), writerList.get(0).getMyPen().getColor(), 
 				"" + writerList.get(0).getMyPen().getPenSize(), "DASHED"};
 		return info;
 	}

@@ -16,6 +16,7 @@ public abstract class CanvasWriter {
 	private static final double LEFT_BOUNDARY_COORDINATE = 212.0;
 	protected static final double INITIAL_X_POSITION = 385.0;
 	protected static final double INITIAL_Y_POSITION = 213.0;
+	protected static final String[] COLORS = {"white", "blue", "orange", "yellow", "green", "purple", "grey", "red"};
 
 	/* Instance Variables */
 	protected List<Node> drawnNodes;
@@ -26,7 +27,9 @@ public abstract class CanvasWriter {
 	protected double myNodeSize;
 	protected boolean deactivated; 
 	protected boolean dragging;
-
+	private int backgroundColorIndex;
+	private int penColorIndex;
+	
 	CanvasWriter(GUIDelegate app, double nodeSize) {
 		myApp = app;
 		myPen = new Pen();
@@ -231,8 +234,23 @@ public abstract class CanvasWriter {
 	}
 	
 	/* Setter Methods */
-	public void setBackgroundColor(String color) {
-		myApp.changeBackground(color);
+	
+	/**
+	 * @param index is an {@code int} that represents the index of the color you
+	 * want to set the background to 
+	 */
+	public void setBackgroundColor(int index) {
+		backgroundColorIndex = index; 
+		myApp.changeBackground(COLORS[index % (COLORS.length - 1)]);
+	}
+	
+	/**
+	 * @param index is an {@code int} that represents the index of the color you
+	 * want to set the pen to 
+	 */
+	public void setPenColor(int index) {
+		penColorIndex = index; 
+		myPen.setPenColor(COLORS[index % (COLORS.length - 1)]);
 	}
 
 	/* Getter Methods */
@@ -283,5 +301,12 @@ public abstract class CanvasWriter {
 	 */
 	public Pen getMyPen() {
 		return myPen;
+	}
+	
+	/**
+	 * @return An {@code int} representing the current color index for the pen 
+	 */
+	public double getPenIndex() {
+		return penColorIndex;
 	}
 }

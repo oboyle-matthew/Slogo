@@ -71,12 +71,14 @@ public class MainScreen extends ScreenDisplay implements GUIDelegate{
 	private GridPane myDirectionGrid;
 	private TurtleFileExplorer fileExplorer;
 	private StackPane greyFilter = new StackPane();
+	private int currTurtleIndex;
 
 
 	public MainScreen(int width, int height, Paint background, String language) {
 		super(width, height, background);
 		writerList = new ArrayList<>();
 		myLanguage = language;
+		currTurtleIndex = 0;
 		parser = new CommandParser(language);
 		createMainScreen(language);
 	}
@@ -335,11 +337,12 @@ public class MainScreen extends ScreenDisplay implements GUIDelegate{
 	@Override
 	public String[] getInfo() {
 		String[] info = {
-				Double.toString(writerList.get(0).getHeading()),
-				Double.toString(writerList.get(0).getXPos()),
-				Double.toString(writerList.get(0).getYPos()),
-				"" + writerList.get(0).getMyPen().getPenInfo(), writerList.get(0).getMyPen().getColor(), 
-				"" + writerList.get(0).getMyPen().getPenSize(), "DASHED"};
+				Double.toString(writerList.get(currTurtleIndex).getHeading()),
+				Double.toString(writerList.get(currTurtleIndex).getXPos()),
+				Double.toString(writerList.get(currTurtleIndex).getYPos()),
+				"" + writerList.get(currTurtleIndex).getMyPen().getPenInfo(), 
+				writerList.get(currTurtleIndex).getMyPen().getColor(), 
+				"" + writerList.get(currTurtleIndex).getMyPen().getPenSize(), "DASHED"};
 		return info;
 	}
 
@@ -390,6 +393,16 @@ public class MainScreen extends ScreenDisplay implements GUIDelegate{
 			}
 		updateTurtleProperties();	
 		}
+	}
+
+	@Override
+	public void changeTurtle(int index) {
+		currTurtleIndex = index;
+	}
+
+	@Override
+	public void addTurtleFile() {
+		fileExplorer.addTurtleFile();
 	}
 
 }

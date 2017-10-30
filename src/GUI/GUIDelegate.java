@@ -48,5 +48,9 @@ public interface GUIDelegate {
 	void clearCanvas();
 
 	void changeFontColor(int index);
+	
+	void changeTurtle(int index);
+
+	void addTurtleFile();
 
 }

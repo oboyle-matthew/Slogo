@@ -11,7 +11,7 @@ public class BackgroundColorButton extends ComboBox<String> {
 	private static final int X_POS = 100;
 	private static final int WIDTH = 200;
 	private static final String PROMPT_TEXT = "Choose a background color";
-	private static final String[] COLORS = {"red", "orange", "green", "blue", "yellow"};
+	private static final String[] COLORS = {"white", "blue", "orange", "yellow", "green", "purple", "grey", "red"};
 	
 	public BackgroundColorButton(GUIDelegate app) {
 		this.setPrefWidth(WIDTH);

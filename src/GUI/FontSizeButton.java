@@ -10,7 +10,7 @@ public class FontSizeButton extends ComboBox<Integer> {
 	private static final int Y_POS = 300;
 	private static final int X_POS = 100;
 	private static final int WIDTH = 200;
-	private static final String PROMPT_TEXT = "Choose a background color";
+	private static final String PROMPT_TEXT = "Choose a pen size";
 	private static final Integer[] COLORS = {1,2,3,4,5,6,7,8,9,10};
 	
 	public FontSizeButton(GUIDelegate app) {

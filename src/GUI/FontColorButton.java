@@ -12,7 +12,7 @@ public class FontColorButton extends ComboBox<String> {
 	private static final int X_POS = 200;
 	private static final int WIDTH = 200;
 	private static final String PROMPT_TEXT = "Choose a font color";
-	protected static final String[] COLORS = {"white", "blue", "orange", "yellow", "green", "purple", "grey", "red"};
+	private static final String[] COLORS = {"white", "blue", "orange", "yellow", "green", "purple", "grey", "red"};
 	
 	public FontColorButton(GUIDelegate app) {
 		this.setPrefWidth(WIDTH);

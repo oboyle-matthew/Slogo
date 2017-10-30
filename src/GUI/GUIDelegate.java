@@ -1,7 +1,6 @@
 package GUI;
 
 import javafx.scene.Node;
-import javafx.scene.shape.Path;
 
 public interface GUIDelegate {
 	void runButtonPressed();

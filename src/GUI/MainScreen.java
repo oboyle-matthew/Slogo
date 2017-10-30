@@ -232,14 +232,6 @@ public class MainScreen extends ScreenDisplay implements GUIDelegate{
 		}
 	}
 
-	private void createNewErrorWindow(String errorText) {
-		Alert alert = new Alert(AlertType.INFORMATION);
-		alert.setTitle("User Input Error");
-		alert.setHeaderText(errorText + " is not a valid command");
-		alert.setContentText("See instructions button for valid commands");
-		alert.show();
-	}
-
 	@Override
 	public void createInstructionsWindow() {
 		instructionsPane = new VBox();
@@ -305,9 +297,7 @@ public class MainScreen extends ScreenDisplay implements GUIDelegate{
 		updateTurtleProperties();
 	}
 	
-	public void setDirection(Double angle) {
-		ogTurtle.rotateLeft(angle);
-	}
+	
 
 	@Override
 	public void changeBackground(String color) {
@@ -363,4 +353,18 @@ public class MainScreen extends ScreenDisplay implements GUIDelegate{
 	public void removeNode(Node n) {
 		getRootChildren().remove(n);
 	}
+	
+	private void createNewErrorWindow(String errorText) {
+		Alert alert = new Alert(AlertType.INFORMATION);
+		alert.setTitle("User Input Error");
+		alert.setHeaderText(errorText + " is not a valid command");
+		alert.setContentText("See instructions button for valid commands");
+		alert.show();
+	}
+
+	@Override
+	public void setDirection(Double angle) {
+				
+	}
+
 }

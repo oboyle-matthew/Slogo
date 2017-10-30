@@ -203,6 +203,7 @@ public class MainScreen extends ScreenDisplay implements GUIDelegate{
 		 
 		createTurtle(); 
 		ogTurtle = turtleArray.get(0);
+		myTabToolBar.getPropertiesBox().updatePropertiesBox();
 
 		 
 		 //fileExplorer.lookup(".arrow").setVisible(false);
@@ -286,8 +287,6 @@ public class MainScreen extends ScreenDisplay implements GUIDelegate{
 				createNewErrorWindow(text);
 				e.printStackTrace();
 			}
-			myTabToolBar.getPropertiesBox().updatePropertiesBox();
-
 		}
 	}
 

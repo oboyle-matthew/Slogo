@@ -42,4 +42,9 @@ public interface GUIDelegate {
 	void removeNode(Node n);
 	
 	void updateTurtleProperties();
+	
+	void setBackgroundColor(int index); 
+	
+	
+	
 }

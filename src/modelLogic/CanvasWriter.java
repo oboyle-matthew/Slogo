@@ -8,6 +8,7 @@ import javafx.scene.Node;
 
 public abstract class CanvasWriter {
 
+	/* Final Variables */
 	private static final double LOWER_BOUNDARY_COORDINATE = 383.0;
 	private static final double UPPER_BOUNDARY_COORDINATE = 43.0;
 	private static final double RIGHT_BOUNDARY_COORDINATE = 550.0;
@@ -15,6 +16,7 @@ public abstract class CanvasWriter {
 	protected static final double INITIAL_X_POSITION = 385.0;
 	protected static final double INITIAL_Y_POSITION = 213.0;
 
+	/* Instance Variables */
 	protected List<Node> drawnNodes;
 	protected Pen myPen;
 	protected GUIDelegate myApp;
@@ -33,16 +35,15 @@ public abstract class CanvasWriter {
 	}
 
 	/**
-	 * Adds the node to the main scene's root as well as the list of the model's
-	 * current drawn nodes
+	 * Creates the node used by the model
 	 * 
-	 * @param n
-	 *            is a {@code Node} that is the node to add
+	 * @param size
+	 *            is a {@code double} representing how big to make the node
+	 * @return A {@code Node} to add to the scene
 	 */
-	protected void addToDrawnNodes(Node n) {
-		drawnNodes.add(n);
-		myApp.addNode(n);
-	}
+	abstract protected Node createNode(double size);
+
+	/* Movement Methods */
 
 	/**
 	 * Moves the model node forward in whatever fashion the CanvasWriter chooses
@@ -67,11 +68,80 @@ public abstract class CanvasWriter {
 	abstract public double moveBackwards(Double distance);
 
 	/**
+	 * Moves the model's node to the new position
+	 * 
+	 * @param newXPosition
+	 *            is an {@code double} specifying the new absolute x-coordinate of
+	 *            the turtle
+	 * @param newYPosition
+	 *            is an {@code double} specifying the new absolute y-coordinate of
+	 *            the turtle
+	 * @param animated
+	 *            is a {@code boolean} that indicates whether or not to animate the
+	 *            movement
+	 * @return A {@code double} that reflects the distance moved by the turtle
+	 */
+	abstract protected double moveTo(Double newXPosition, Double newYPosition, boolean animated);
+
+	/**
+	 * Moves the model's node to the specified position relative to the canvas
+	 * 
+	 * @param newXPositon
+	 *            is an {@code Double} representing the model node's new x
+	 *            coordinate
+	 * @param newYPosition
+	 *            is an {@code Double} representing the model node's new y
+	 *            coordinate
+	 * @return A {@code double} corresponding to the distance the model's node moved
+	 */
+	public double goToRelativePosition(Double newXPosition, Double newYPosition) {
+		return moveTo(newXPosition + INITIAL_X_POSITION, INITIAL_Y_POSITION - newYPosition, true);
+	}
+
+	/**
+	 * Adjusts the coordinates in the passed in array so that they are within the
+	 * canvas bounds
+	 * 
+	 * @param attemptedPosition
+	 *            is a {@code double[]} that contains the coordinates the
+	 *            CanvasWriter is trying to move to
+	 */
+	protected void adjustCoordinates(double[] attemptedPosition) {
+		if (attemptedPosition[0] <= LEFT_BOUNDARY_COORDINATE)
+			attemptedPosition[0] = LEFT_BOUNDARY_COORDINATE;
+		if (attemptedPosition[0] >= RIGHT_BOUNDARY_COORDINATE)
+			attemptedPosition[0] = RIGHT_BOUNDARY_COORDINATE;
+		if (attemptedPosition[1] <= UPPER_BOUNDARY_COORDINATE)
+			attemptedPosition[1] = UPPER_BOUNDARY_COORDINATE;
+		if (attemptedPosition[1] >= LOWER_BOUNDARY_COORDINATE)
+			attemptedPosition[1] = LOWER_BOUNDARY_COORDINATE;
+	}
+
+	/**
+	 * Checks to see if a movement being made by a node is valid or not
+	 * 
+	 * @param newXPosition
+	 *            is a {@code double} representing the x coordinate the node is
+	 *            trying to move to
+	 * @param newYPosition
+	 *            is a {@code double} representing the y coordinate the node is
+	 *            trying to move to
+	 * @return {@code true} if the coordinates represent an allowed move, and
+	 *         returns {@code falses} otherwise
+	 */
+	protected boolean movementIsValid(double newXPosition, double newYPosition) {
+		return (newXPosition >= LEFT_BOUNDARY_COORDINATE && newXPosition <= RIGHT_BOUNDARY_COORDINATE
+				&& newYPosition >= UPPER_BOUNDARY_COORDINATE && newYPosition <= LOWER_BOUNDARY_COORDINATE);
+	}
+
+	/* Rotation Methods */
+
+	/**
 	 * Sets the heading of the model's node to the specified angle
 	 * 
 	 * @param angle
 	 *            is an {@code double} representing the angle to set the node to
-	 *            face 
+	 *            face
 	 * @return A {@code double} representing the number of degrees rotated
 	 */
 	abstract public double setHeading(Double angle);
@@ -96,58 +166,18 @@ public abstract class CanvasWriter {
 	 */
 	abstract public double rotateRight(Double angle);
 
-	/**
-	 * Creates the node used by the model 
-	 * @param size is a {@code double} representing how big to make the node
-	 * @return A {@code Node} to add to the scene
-	 */
-	abstract protected Node createNode(double size);
+	/* Node Addition and Removal Methods */
 
 	/**
-	 * Moves the model's node to the new position
+	 * Adds the node to the main scene's root as well as the list of the model's
+	 * current drawn nodes
 	 * 
-	 * @param newXPosition
-	 *            is an {@code double} specifying the new absolute x-coordinate of
-	 *            the turtle
-	 * @param newYPosition
-	 *            is an {@code double} specifying the new absolute y-coordinate of
-	 *            the turtle
-	 * @param animated
-	 *            is a {@code boolean} that indicates whether or not to animate the
-	 *            movement
-	 * @return A {@code double} that reflects the distance moved by the turtle
+	 * @param n
+	 *            is a {@code Node} that is the node to add
 	 */
-	abstract protected double moveTo(Double newXPosition, Double newYPosition, boolean animated);
-
-	public void adjustCoordinates(double[] attemptedPosition) {
-		if (attemptedPosition[0] <= LEFT_BOUNDARY_COORDINATE)
-			attemptedPosition[0] = LEFT_BOUNDARY_COORDINATE;
-		if (attemptedPosition[0] >= RIGHT_BOUNDARY_COORDINATE)
-			attemptedPosition[0] = RIGHT_BOUNDARY_COORDINATE;
-		if (attemptedPosition[1] <= UPPER_BOUNDARY_COORDINATE)
-			attemptedPosition[1] = UPPER_BOUNDARY_COORDINATE;
-		if (attemptedPosition[1] >= LOWER_BOUNDARY_COORDINATE)
-			attemptedPosition[1] = LOWER_BOUNDARY_COORDINATE;
-	}
-
-	protected boolean movementIsValid(double newXPosition, double newYPosition) {
-		return (newXPosition >= LEFT_BOUNDARY_COORDINATE && newXPosition <= RIGHT_BOUNDARY_COORDINATE
-				&& newYPosition >= UPPER_BOUNDARY_COORDINATE && newYPosition <= LOWER_BOUNDARY_COORDINATE);
-	}
-
-	/**
-	 * Moves the model's node to the specified position relative to the canvas
-	 * 
-	 * @param newXPositon
-	 *            is an {@code Double} representing the model node's new x
-	 *            coordinate
-	 * @param newYPosition
-	 *            is an {@code Double} representing the model node's new y
-	 *            coordinate
-	 * @return A {@code double} corresponding to the distance the model's node moved
-	 */
-	public double goToRelativePosition(Double newXPosition, Double newYPosition) {
-		return moveTo(newXPosition + INITIAL_X_POSITION, INITIAL_Y_POSITION - newYPosition, true);
+	protected void addToDrawnNodes(Node n) {
+		drawnNodes.add(n);
+		myApp.addNode(n);
 	}
 
 	public void removeDrawnNodes() {

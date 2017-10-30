@@ -19,8 +19,7 @@ import javafx.scene.shape.Path;
  */
 public class Turtle extends CanvasWriter {
 
-	
-	/* Finals */
+	/* Final Variables */
 	private static final String ACTIVATED_TURTLE_PATH = "src/Activated.png";
 	private static final String DEACTIVATED_TURTLE_PATH = "src/Deactivated.png";
 	private static final double TURTLE_SIZE = 40.0;
@@ -43,7 +42,7 @@ public class Turtle extends CanvasWriter {
 		currentY = ((ImageView) myNode).getY();
 		setupMouseEventHandling();
 	}
-	
+
 	@Override
 	protected Node createNode(double size) {
 		File file = new File(ACTIVATED_TURTLE_PATH);
@@ -51,6 +50,11 @@ public class Turtle extends CanvasWriter {
 		return new ImageView(turtleImage);
 	}
 
+	/* Event Handling */
+
+	/**
+	 * Setup the turtle's reactions to the mouse events involving it
+	 */
 	private void setupMouseEventHandling() {
 		myNode.addEventHandler(MouseEvent.MOUSE_PRESSED, e -> dragging = false);
 		myNode.addEventHandler(MouseEvent.DRAG_DETECTED, e -> dragging = true);
@@ -61,42 +65,24 @@ public class Turtle extends CanvasWriter {
 		myNode.addEventHandler(MouseEvent.MOUSE_RELEASED, e -> turtleClicked());
 	}
 
+	/**
+	 * Called when the turtle is clicked. Alternates the image used for the turtle
+	 */
 	private void turtleClicked() {
 		if (!dragging) {
 			if (deactivated) {
-				((ImageView) myNode).setImage(new Image((new File(ACTIVATED_TURTLE_PATH)).toURI().toString(), 
+				((ImageView) myNode).setImage(new Image((new File(ACTIVATED_TURTLE_PATH)).toURI().toString(),
 						TURTLE_SIZE, TURTLE_SIZE, false, false));
 			} else {
-				((ImageView) myNode).setImage(new Image((new File(DEACTIVATED_TURTLE_PATH)).toURI().toString(), 
+				((ImageView) myNode).setImage(new Image((new File(DEACTIVATED_TURTLE_PATH)).toURI().toString(),
 						TURTLE_SIZE, TURTLE_SIZE, false, false));
 			}
 			deactivated = !deactivated;
 		}
 	}
 
-	/* Rotation Methods */
-	
-	@Override
-	public double rotateLeft(Double angle) {
-		return setHeading(currentHeading - angle);
-	}
-
-	@Override
-	public double rotateRight(Double angle) {
-		return setHeading(currentHeading + angle);
-	}
-
-	@Override
-	public double setHeading(Double angle) {
-		double degreeDiff = angle - currentHeading;
-		transitionOperator.createRotation(myNode, degreeDiff);
-		currentHeading += degreeDiff;
-		currentHeading = currentHeading % 360;
-		return Math.abs(degreeDiff);
-	}
-
 	/* Movement Methods */
-	
+
 	@Override
 	public double moveForward(Double distance) {
 		// Moves opposite of the direction the turtle is facing
@@ -112,14 +98,15 @@ public class Turtle extends CanvasWriter {
 		double newY = currentY + distance * Math.cos(currentHeading * Math.PI / 180);
 		return moveTo(newX, newY, true);
 	}
-	
+
 	@Override
 	public double moveTo(Double newXPosition, Double newYPosition, boolean animated) {
-		double[] currCoordinates = new double[] {newXPosition, newYPosition};
-		if(!movementIsValid(newXPosition, newYPosition)) adjustCoordinates(currCoordinates); 
+		double[] currCoordinates = new double[] { newXPosition, newYPosition };
+		if (!movementIsValid(newXPosition, newYPosition))
+			adjustCoordinates(currCoordinates);
 		double xDiff = currCoordinates[0] - currentX;
 		double yDiff = currCoordinates[1] - currentY;
-		if(animated) {
+		if (animated) {
 			Path p = createMovementPath(currCoordinates[0], currCoordinates[1]);
 			transitionOperator.createMovement(myNode, p, currCoordinates[0], currCoordinates[1]);
 			transitionOperator.createFadeIn(p);
@@ -129,10 +116,9 @@ public class Turtle extends CanvasWriter {
 		}
 		currentX = currCoordinates[0];
 		currentY = currCoordinates[1];
-		return Math.sqrt(xDiff * xDiff + yDiff * yDiff); 
+		return Math.sqrt(xDiff * xDiff + yDiff * yDiff);
 	}
 
-	
 	/**
 	 * Creates the new path for use in the turtle's movement animation
 	 * 
@@ -155,7 +141,29 @@ public class Turtle extends CanvasWriter {
 		return p;
 	}
 
+	/* Rotation Methods */
+
+	@Override
+	public double rotateLeft(Double angle) {
+		return setHeading(currentHeading - angle);
+	}
+
+	@Override
+	public double rotateRight(Double angle) {
+		return setHeading(currentHeading + angle);
+	}
+
+	@Override
+	public double setHeading(Double angle) {
+		double degreeDiff = angle - currentHeading;
+		transitionOperator.createRotation(myNode, degreeDiff);
+		currentHeading += degreeDiff;
+		currentHeading = currentHeading % 360;
+		return Math.abs(degreeDiff);
+	}
+
 	/* Turtle Query Methods */
+
 	@Override
 	public double getHeading() {
 		return currentHeading;
@@ -170,5 +178,4 @@ public class Turtle extends CanvasWriter {
 	public double getYPos() {
 		return INITIAL_Y_POSITION - currentY;
 	}
-
 }

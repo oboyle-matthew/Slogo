@@ -1,12 +1,10 @@
 package GUI;
 
-import java.awt.Color;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 import javafx.event.EventHandler;
-import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.Image;
@@ -14,11 +12,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.Tab;
-import javafx.scene.control.TabPane;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
@@ -38,9 +32,6 @@ public class MainScreen extends ScreenDisplay implements GUIDelegate{
 	private static final double NEW_TURTLE_INITIAL_X_POSITION = 345.0;
 	private static final double NEW_TURTLE_INITIAL_Y_POSITION = 193.0;
 
-
-	
-	private ResourceBundle instructionsResources;
 	private ResourceBundle languageResources;
 	private CanvasHolder canvasHolder;
 	private String myLanguage;
@@ -64,7 +55,6 @@ public class MainScreen extends ScreenDisplay implements GUIDelegate{
 	private FontColorButton myFontColorButton;
 	private TabToolBar myTabToolBar;
 	// for input box
-	private TabPane inputTabBox;
 	private CustomizeButton myCustomizeButton;
 	private CreateNewTurtleButton myNewTurtleButton;
 	private List<Turtle> turtleArray;

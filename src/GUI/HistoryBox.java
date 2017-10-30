@@ -3,21 +3,18 @@ package GUI;
 import java.util.ArrayList;
 import java.util.List;
 
-import javafx.beans.value.ChangeListener;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
-import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
 
 public class HistoryBox extends HBox {
 	
+	private static final int WIDTH = 380;
 	private GUIDelegate app;
 	private List<Button> commandHistory;
 	private ScrollPane myCommandHistoryBox;
@@ -34,21 +31,9 @@ public class HistoryBox extends HBox {
         commandHistoryView.setItems(items);
         commandHistoryView.getSelectionModel();
         myCommandHistoryBox.setContent(commandHistoryView);
-//		ChangeListener<Button> propertyHandler = (obs, old, cur) -> {
-//			if (cur != null) {
-//				app.runCommand(old.getText());
-//			}
-//			commandHistoryView.getSelectionModel().clearSelection();
-//		};
-//        commandHistoryView.getSelectionModel().selectedItemProperty().addListener(propertyHandler);
-//        commandHistoryView.getSelectionModel().getSelectedItem().addEventHandler
-//        	(MouseEvent.MOUSE_CLICKED, e->System.out.println("Test"));
-//        	app.runCommand(commandHistoryView.
-//        			getSelectionModel().getSelectedItem().getText()));
         this.getChildren().add(myCommandHistoryBox);
-        this.setPrefWidth(380);
+        this.setPrefWidth(WIDTH);
         this.setAlignment(Pos.CENTER);
-        
 	}
 	
 	public void addCommandToHistoryBox(String command) {
@@ -59,10 +44,6 @@ public class HistoryBox extends HBox {
 		button.setStyle(  "-fx-border-color: transparent; -fx-border-width: 0;-fx-background-radius: 0;-fx-background-color: transparent;");
 		ObservableList<Button> items =FXCollections.observableArrayList(commandHistory);
         commandHistoryView.setItems(items);
-	}
-	
-	private void readHistory(String text) {
-		app.runCommand(text);
 	}
 	
 }

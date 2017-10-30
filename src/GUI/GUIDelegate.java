@@ -34,7 +34,4 @@ public interface GUIDelegate {
 	void rotateRightButtonPressed();
 
 	String[] getInfo();
-
-	
-	
 }

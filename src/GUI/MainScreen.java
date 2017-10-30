@@ -382,4 +382,14 @@ public class MainScreen extends ScreenDisplay implements GUIDelegate{
 		return;
 	}
 
+	@Override
+	public void changeFontColor(String color) {
+		for(CanvasWriter w : writerList) {
+			if(w.isActivated()) {
+				w.getMyPen().setPenColor(color);
+			}
+		updateTurtleProperties();	
+		}
+	}
+
 }

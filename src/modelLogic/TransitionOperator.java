@@ -12,7 +12,7 @@ import javafx.util.Duration;
 
 public class TransitionOperator {
 	
-	private static final double ROTATION_SPEED = 1 * 1000; 
+	private static final double ROTATION_SPEED = 0.8 * 1000; 
 	private static final double MOVEMENT_SPEED = 0.8 * 1000;
 	
 	private List<Transition> waitingTransitions;
@@ -33,9 +33,6 @@ public class TransitionOperator {
 	}
 	
 	private void transitionFinished(ImageView obj) {
-//		obj.setX(obj.getX() + obj.getTranslateX() + 20);
-//		obj.setY(obj.getY() + obj.getTranslateY());
-//		obj.setTranslateY(0);
 		transitionRunning = false;
 		if(waitingTransitions.size() != 0) {
 			Transition next = waitingTransitions.remove(0); 
@@ -56,13 +53,17 @@ public class TransitionOperator {
 		addAndPlay(rt);
 	}
 	
-	public void createMovement(ImageView obj, Path movementPath) {
+	public void createMovement(ImageView obj, Path movementPath, double x, double y) {
 		PathTransition pt = new PathTransition();
 		pt.setPath(movementPath);
 		pt.setCycleCount(1);
 		pt.setNode(obj);
 		pt.setDuration(Duration.millis(MOVEMENT_SPEED));
 		pt.setOnFinished(e-> {
+			obj.setX(x);
+			obj.setY(y);
+			obj.setTranslateX(-20);
+			obj.setTranslateY(-20);
 			transitionFinished(obj); 
 		});
 		addAndPlay(pt);

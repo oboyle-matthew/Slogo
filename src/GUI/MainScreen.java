@@ -69,7 +69,7 @@ public class MainScreen extends ScreenDisplay implements GUIDelegate{
 	private HBox ButtonBar;
 	private GridPane myDirectionGrid;
 	private TurtleFileExplorer fileExplorer;
-	private StackPane greyFilter;
+	private StackPane greyFilter = new StackPane();
 
 
 	public MainScreen(int width, int height, Paint background, String language) {
@@ -99,7 +99,7 @@ public class MainScreen extends ScreenDisplay implements GUIDelegate{
 	    EventHandler<MouseEvent> eventHandlerTextField = new EventHandler<MouseEvent>() { 
 	    		@Override 
 	    		public void handle(MouseEvent event) {  
-	 			greyFilter = new StackPane();
+	 			
 	 			greyFilter.setStyle("-fx-background-color: rgba(33, 33, 146, 0.5); -fx-background-radius: 10;");
 	 			greyFilter.setLayoutX(0);
 	 			greyFilter.setLayoutY(0);

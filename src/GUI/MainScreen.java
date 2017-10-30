@@ -70,7 +70,7 @@ public class MainScreen extends ScreenDisplay implements GUIDelegate{
 	private HBox ButtonBar;
 	private GridPane myDirectionGrid;
 	private TurtleFileExplorer fileExplorer;
-	private StackPane greyFilter;
+	private StackPane greyFilter = new StackPane();
 
 
 	public MainScreen(int width, int height, Paint background, String language) {
@@ -100,7 +100,7 @@ public class MainScreen extends ScreenDisplay implements GUIDelegate{
 	    EventHandler<MouseEvent> eventHandlerTextField = new EventHandler<MouseEvent>() { 
 	    		@Override 
 	    		public void handle(MouseEvent event) {  
-	 			greyFilter = new StackPane();
+	 			
 	 			greyFilter.setStyle("-fx-background-color: rgba(33, 33, 146, 0.5); -fx-background-radius: 10;");
 	 			greyFilter.setLayoutX(0);
 	 			greyFilter.setLayoutY(0);
@@ -224,7 +224,7 @@ public class MainScreen extends ScreenDisplay implements GUIDelegate{
 	public void runCommand(String text) {
 		for (CanvasWriter w : writerList) {
 			try {
-				parser.executeInput(text,  w);
+				if(w.isActivated()) parser.executeInput(text,  w);
 			} catch (Exception e) {
 				createNewErrorWindow(text);
 				e.printStackTrace();
@@ -290,8 +290,10 @@ public class MainScreen extends ScreenDisplay implements GUIDelegate{
 	private void operateOnWriters(String methodName, Class[] parameterTypes, Object[] params) {
 		for(CanvasWriter w : writerList) {
 			try {
-				Method m = w.getClass().getMethod(methodName, parameterTypes);
-				m.invoke(w, params);
+				if(w.isActivated()) {
+					Method m = w.getClass().getMethod(methodName, parameterTypes);
+					m.invoke(w, params);
+				}
 			} catch(Exception e) {
 				System.out.println("Could not call: " + methodName);
 				e.printStackTrace();
@@ -301,7 +303,6 @@ public class MainScreen extends ScreenDisplay implements GUIDelegate{
 	}
 	
 	
-
 	@Override
 	public void changeBackground(String color) {
 		canvasHolder.updateBackgroundColor(color);

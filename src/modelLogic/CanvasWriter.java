@@ -5,6 +5,7 @@ import java.util.List;
 
 import GUI.GUIDelegate;
 import javafx.scene.Node;
+import javafx.scene.input.MouseEvent;
 
 public abstract class CanvasWriter {
 
@@ -12,7 +13,7 @@ public abstract class CanvasWriter {
 	private static final double LOWER_BOUNDARY_COORDINATE = 383.0;
 	private static final double UPPER_BOUNDARY_COORDINATE = 43.0;
 	private static final double RIGHT_BOUNDARY_COORDINATE = 550.0;
-	private static final double LEFT_BOUNDARY_COORDINATE = 190.0;
+	private static final double LEFT_BOUNDARY_COORDINATE = 212.0;
 	protected static final double INITIAL_X_POSITION = 385.0;
 	protected static final double INITIAL_Y_POSITION = 213.0;
 
@@ -23,6 +24,8 @@ public abstract class CanvasWriter {
 	protected TransitionOperator transitionOperator;
 	protected Node myNode;
 	protected double myNodeSize;
+	protected boolean deactivated; 
+	protected boolean dragging;
 
 	CanvasWriter(GUIDelegate app, double nodeSize) {
 		myApp = app;
@@ -32,8 +35,27 @@ public abstract class CanvasWriter {
 		myNode = createNode(nodeSize);
 		myApp.addNode(myNode);
 		myNodeSize = nodeSize;
+		setupMouseEventHandling(); 
 	}
-
+	
+	/**
+	 * Sets up the event handling for mouse interaction with the model's node
+	 */
+	private void setupMouseEventHandling() {
+		myNode.addEventHandler(MouseEvent.MOUSE_PRESSED, e -> dragging = false);
+		myNode.addEventHandler(MouseEvent.DRAG_DETECTED, e -> dragging = true);
+		myNode.addEventHandler(MouseEvent.MOUSE_DRAGGED, e -> {
+			moveTo(e.getSceneX(), e.getSceneY(), false);
+			myApp.updateTurtleProperties();
+		});
+		myNode.addEventHandler(MouseEvent.MOUSE_RELEASED, e -> nodeClicked());
+	}
+	
+	/**
+	 * The method that is called when a node is clicked
+	 */
+	abstract protected void nodeClicked();
+	
 	/**
 	 * Creates the node used by the model
 	 * 
@@ -207,6 +229,11 @@ public abstract class CanvasWriter {
 		transitionOperator.createFadeOut(myNode);
 		return 0;
 	}
+	
+	/* Setter Methods */
+	public void setBackgroundColor(String color) {
+		myApp.changeBackground(color);
+	}
 
 	/* Getter Methods */
 
@@ -242,6 +269,13 @@ public abstract class CanvasWriter {
 	 */
 	public boolean isVisible() {
 		return myNode.isVisible();
+	}
+	
+	/**
+	 * @return {@code true} if the model's node is activated, and {@code false} otherwise
+	 */
+	public boolean isActivated() {
+		return !deactivated;
 	}
 
 	/**

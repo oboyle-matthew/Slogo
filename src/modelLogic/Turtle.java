@@ -6,7 +6,6 @@ import GUI.GUIDelegate;
 import javafx.scene.Node;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.shape.LineTo;
 import javafx.scene.shape.MoveTo;
 import javafx.scene.shape.Path;
@@ -25,8 +24,6 @@ public class Turtle extends CanvasWriter {
 	private static final double TURTLE_SIZE = 40.0;
 
 	/* Instance Variables */
-	private boolean deactivated;
-	private boolean dragging;
 	private double currentHeading;
 	private double currentX;
 	private double currentY;
@@ -40,7 +37,6 @@ public class Turtle extends CanvasWriter {
 		currentHeading = myNode.getRotate();
 		currentX = ((ImageView) myNode).getX();
 		currentY = ((ImageView) myNode).getY();
-		setupMouseEventHandling();
 	}
 
 	@Override
@@ -52,23 +48,8 @@ public class Turtle extends CanvasWriter {
 
 	/* Event Handling */
 
-	/**
-	 * Setup the turtle's reactions to the mouse events involving it
-	 */
-	private void setupMouseEventHandling() {
-		myNode.addEventHandler(MouseEvent.MOUSE_PRESSED, e -> dragging = false);
-		myNode.addEventHandler(MouseEvent.DRAG_DETECTED, e -> dragging = true);
-		myNode.addEventHandler(MouseEvent.MOUSE_DRAGGED, e -> {
-			moveTo(e.getSceneX(), e.getSceneY(), false);
-			myApp.updateTurtleProperties();
-		});
-		myNode.addEventHandler(MouseEvent.MOUSE_RELEASED, e -> turtleClicked());
-	}
-
-	/**
-	 * Called when the turtle is clicked. Alternates the image used for the turtle
-	 */
-	private void turtleClicked() {
+	@Override 
+	protected void nodeClicked() {
 		if (!dragging) {
 			if (deactivated) {
 				((ImageView) myNode).setImage(new Image((new File(ACTIVATED_TURTLE_PATH)).toURI().toString(),

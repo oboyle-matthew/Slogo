@@ -2,7 +2,6 @@ package commands;
 
 import java.util.Map;
 
-import modelLogic.ParsedBracketParameter;
 import modelLogic.ParsedItem;
 import modelLogic.ParsedRegularParameter;
 import modelLogic.Turtle;
@@ -21,6 +20,4 @@ public class MakeVariableCommand extends ExecutableCommand {
 	public String[] paramNumber() {
 		return new String[] {REGULAR_PARAM, REGULAR_PARAM};
 	}
-
-
 }

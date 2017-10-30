@@ -67,7 +67,7 @@ public class Turtle {
 			jumpTo(e.getSceneX(), e.getSceneY());
 			myApp.updateTurtleProperties();
 		});
-		myTurtle.addEventHandler(MouseEvent.MOUSE_RELEASED, e -> turtleClicked());
+
 	}
 
 	private void turtleClicked() {

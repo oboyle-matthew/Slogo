@@ -6,11 +6,11 @@ import modelLogic.CanvasWriter;
 import modelLogic.ParsedItem;
 import modelLogic.ParsedRegularParameter;
 
-public class SetBackgroundCommand extends ExecutableCommand {
+public class SetPenColorCommand extends ExecutableCommand {
 	@Override
 	public double execute(ParsedItem[] params, CanvasWriter writer, Map<String, Double> variables) {
 		int index = (int) Double.parseDouble(((ParsedRegularParameter) params[0]).toString());
-		writer.setBackgroundColor(index);
+		writer.setPenColor(index);
 		return index;
 	}
 	

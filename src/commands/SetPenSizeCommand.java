@@ -6,12 +6,12 @@ import modelLogic.CanvasWriter;
 import modelLogic.ParsedItem;
 import modelLogic.ParsedRegularParameter;
 
-public class SetBackgroundCommand extends ExecutableCommand {
+public class SetPenSizeCommand extends ExecutableCommand {
 	@Override
 	public double execute(ParsedItem[] params, CanvasWriter writer, Map<String, Double> variables) {
-		int index = (int) Double.parseDouble(((ParsedRegularParameter) params[0]).toString());
-		writer.setBackgroundColor(index);
-		return index;
+		double newSize = Double.parseDouble(((ParsedRegularParameter) params[0]).toString());
+		writer.getMyPen().setPenSize(newSize);
+		return newSize;
 	}
 	
 	@Override

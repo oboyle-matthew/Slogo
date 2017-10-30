@@ -1,11 +1,10 @@
 package modelLogic;
 
-import javafx.scene.paint.Color;
 
 public class Pen {
 	
-	private static final double DEFAULT_STROKE_WIDTH = 1.0;
-	private static final String DEFAULT_COLOR = "BLACK";
+	private static final double DEFAULT_STROKE_WIDTH = 4.0;
+	private static final String DEFAULT_COLOR = "black";
 	
 	private String myColor;
 	private String myStyle;
@@ -30,14 +29,10 @@ public class Pen {
 		return myStyle;
 	}
 	
-	public Color getPenColor() {
-		try {
-			return (Color) Color.class.getField(myColor).get(new Color(0,0,0,0));
-		} catch (Exception e) {
-			return Color.BLACK;
-		}
+	public String getColor() {
+		return myColor; 
 	}
-		
+	
 	public double setPenStatus(boolean newVal) {
 		isDown = newVal;
 		if(isDown) return 1;
@@ -52,7 +47,7 @@ public class Pen {
 		myStyle = newStyle;
 	}
 	
-	public void setPenColor(String newColor) {
+	protected void setPenColor(String newColor) {
 		myColor = newColor;
 	}
 }

@@ -300,7 +300,6 @@ public class MainScreen extends ScreenDisplay implements GUIDelegate{
 	}
 	
 	
-
 	@Override
 	public void changeBackground(String color) {
 		canvasHolder.updateBackgroundColor(color);
@@ -369,10 +368,5 @@ public class MainScreen extends ScreenDisplay implements GUIDelegate{
 				
 	}
 
-	@Override
-	public void setBackgroundColor(int index) {
-		// TODO Auto-generated method stub
-		
-	}
 
 }

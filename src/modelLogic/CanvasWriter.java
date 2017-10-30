@@ -13,7 +13,7 @@ public abstract class CanvasWriter {
 	private static final double LOWER_BOUNDARY_COORDINATE = 383.0;
 	private static final double UPPER_BOUNDARY_COORDINATE = 43.0;
 	private static final double RIGHT_BOUNDARY_COORDINATE = 550.0;
-	private static final double LEFT_BOUNDARY_COORDINATE = 190.0;
+	private static final double LEFT_BOUNDARY_COORDINATE = 212.0;
 	protected static final double INITIAL_X_POSITION = 385.0;
 	protected static final double INITIAL_Y_POSITION = 213.0;
 
@@ -228,6 +228,11 @@ public abstract class CanvasWriter {
 	public double hideNode() {
 		transitionOperator.createFadeOut(myNode);
 		return 0;
+	}
+	
+	/* Setter Methods */
+	public void setBackgroundColor(String color) {
+		myApp.changeBackground(color);
 	}
 
 	/* Getter Methods */

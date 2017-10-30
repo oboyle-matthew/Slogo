@@ -43,8 +43,4 @@ public interface GUIDelegate {
 	
 	void updateTurtleProperties();
 	
-	void setBackgroundColor(int index); 
-	
-	
-	
 }

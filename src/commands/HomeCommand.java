@@ -12,6 +12,6 @@ public class HomeCommand extends ExecutableCommand {
 
 	@Override
 	public double execute(ParsedItem[] params, Turtle tortuga, Map<String, Double> variables) {
-		return tortuga.moveTo(0, 0); 
+		return tortuga.goTo(0.0, 0.0); 
 	}
 }

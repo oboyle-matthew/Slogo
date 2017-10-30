@@ -16,7 +16,7 @@ public class SetPositionCommand extends ExecutableCommand {
 	public double execute(ParsedItem[] params, Turtle tortuga, Map<String, Double> variables) {
 		double value1 = Double.parseDouble(((ParsedRegularParameter) params[0]).toString());
 		double value2 = Double.parseDouble(((ParsedRegularParameter) params[1]).toString());
-		return tortuga.moveTo(value1, value2);
+		return tortuga.goTo(value1, value2);
 	}
 	
 	@Override

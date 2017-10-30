@@ -5,13 +5,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.ColumnConstraints;
@@ -22,6 +23,9 @@ import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Paint;
+import javafx.scene.shape.LineTo;
+import javafx.scene.shape.MoveTo;
+import javafx.scene.shape.Path;
 import javafx.stage.Stage;
 import modelLogic.CommandParser;
 import modelLogic.Turtle;
@@ -74,78 +78,47 @@ public class MainScreen extends ScreenDisplay implements GUIDelegate{
 	}
 
 	public void createMainScreen(String language) {
-		
-	
 		myTabToolBar = new TabToolBar(this);
 		canvasHolder = new CanvasHolder(CANVAS_WIDTH, CANVAS_WIDTH);
 		canvasHolder.updateBackgroundColor("white");
 		rootAdd(canvasHolder);
-//		createFirstTurtle();
-		this.ButtonInit();
+		buttonInit();	
 		
-		
-		myInputBox = new InputBox(this);
 		myHistoryBox = new HistoryBox(this);
 		
-		// add a tab bar
-		/*inputTabBox = new TabPane();
-		Tab tabSize = new Tab();
-		BorderPane border = new BorderPane();
-		border.setStyle("-fx-background-color: white");
-        border.setCenter(myInputBox);  
-		
-        tabSize.setText("CommandTab");
-        tabSize.setContent(border);
-        inputTabBox.getTabs().add(tabSize);
-	
-		rootAdd(inputTabBox);
-		inputTabBox.setPrefWidth(350);
-		inputTabBox.setPrefHeight(175);
-		inputTabBox.setLayoutY(410);
-		inputTabBox.setLayoutX(210);
-		this.inputTabBox.getStylesheets().add(this.getClass().getResource("tab.css").toExternalForm());*/
-		
-	    rootAdd(myInputBox);
+		// Setup InputBox
+		myInputBox = new InputBox(this);
 	    myInputBox.setPrefWidth(350);
 		myInputBox.setPrefHeight(175);
-		
-		
-		 //Handling the key typed event 
-	      EventHandler<MouseEvent> eventHandlerTextField = new EventHandler<MouseEvent>() { 
-	         @Override 
-	         public void handle(MouseEvent event) { 
-	        	 
-	        	 
-	 			//add a grey filter to the screen
+		rootAdd(myInputBox);
+		 
+		// Setup Event Handlers for Input Box
+	    EventHandler<MouseEvent> eventHandlerTextField = new EventHandler<MouseEvent>() { 
+	    		@Override 
+	    		public void handle(MouseEvent event) {  
 	 			greyFilter = new StackPane();
 	 			greyFilter.setStyle("-fx-background-color: rgba(33, 33, 146, 0.5); -fx-background-radius: 10;");
 	 			greyFilter.setLayoutX(0);
 	 			greyFilter.setLayoutY(0);
 	 			if (!rootContain(greyFilter)) {
-	 			greyFilter.setPrefSize(1000, 600);
-	 			rootRemove(myInputBox);
-	 			rootAdd(greyFilter);
-	 			rootAdd(myInputBox);
-	        	 }
+	 				greyFilter.setPrefSize(1000, 600);
+	 				rootRemove(myInputBox);
+	 				rootAdd(greyFilter);
+	 				rootAdd(myInputBox);
+	        	 	}
 	         }           
 	      };  
 	      
-	    //Handling the key typed event 
-	      EventHandler<MouseEvent> eventHandlerExit = new EventHandler<MouseEvent>() { 
-	         @Override 
-	         public void handle(MouseEvent event) { 
-	        	 
-	 			
-	 			if (rootContain(greyFilter)) {
-	 			rootRemove(greyFilter);
-	        	 }
-	         }           
+	    EventHandler<MouseEvent> eventHandlerExit = new EventHandler<MouseEvent>() { 
+	    		@Override 
+	    		public void handle(MouseEvent event) { 	
+	    			if (rootContain(greyFilter)) rootRemove(greyFilter);
+	    		}           
 	      };  
-	      
-	      //Adding an event handler to the text feld 
-	      myInputBox.addEventHandler(MouseEvent.MOUSE_CLICKED, eventHandlerTextField);
-	      myInputBox.addEventHandler(MouseEvent.MOUSE_EXITED, eventHandlerExit);
-		//Initialize a grid pane for direction Buttons
+	    myInputBox.addEventHandler(MouseEvent.MOUSE_CLICKED, eventHandlerTextField);
+	    myInputBox.addEventHandler(MouseEvent.MOUSE_EXITED, eventHandlerExit);
+	    
+	    // Setup direction pad 
 		Image image = new Image(getClass().getResourceAsStream("Controls.png"),120,120,false,false);
 		ImageView directionPad = new ImageView(image);
 		directionPad.setLayoutX(608);
@@ -153,28 +126,18 @@ public class MainScreen extends ScreenDisplay implements GUIDelegate{
 		rootAdd(directionPad);
 		myDirectionGrid = new GridPane();
 		for(int i = 0; i < GRIDSIZE ; i++) {
-			ColumnConstraints column = new ColumnConstraints(40);
-			myDirectionGrid.getColumnConstraints().add(column);
+			myDirectionGrid.getColumnConstraints().add(new ColumnConstraints(40));
+			myDirectionGrid.getRowConstraints().add(new RowConstraints(40));
 		}
-
-	    for(int i = 0; i < GRIDSIZE  ; i++) {
-	        RowConstraints row = new RowConstraints(40);
-	        myDirectionGrid.getRowConstraints().add(row);
-	    }
-	    
 	    myDirectionGrid.setStyle("-fx-grid-lines-visible: false" );
-	    //Insets(double top, double right, double bottom, double left)
 	    myDirectionGrid.setLayoutX(608);
-	    myDirectionGrid.setLayoutY(430);
-	    //myDirectionGrid.setPadding(new Insets(60,60,60,50)); 
+	    myDirectionGrid.setLayoutY(430); 
 	    rootAdd(myDirectionGrid);
 	    myDirectionGrid.add(myForwardButton, 1, 0);
 	    myDirectionGrid.add(myBackButton, 1, 2);
 		rootAdd(myTabToolBar);
-		
-		// add css file
-		//myTabToolBar.getStylesheets().add(this.getClass().getResource("tab.css").toExternalForm());
-		
+	
+		// Setup rotation buttons
 		myRightButton = new RotateRightButton(this);
 		myLeftButton = new RotateLeftButton(this);
 		rootAdd(myRightButton);
@@ -182,25 +145,20 @@ public class MainScreen extends ScreenDisplay implements GUIDelegate{
 		myRightButton.setLayoutX(758);
 		myRightButton.setLayoutY(430);
 		myLeftButton.setLayoutX(758);
-		myLeftButton.setLayoutY(490);
+		myLeftButton.setLayoutY(490);	
 		
+		// Setup file explorer
+		fileExplorer = new TurtleFileExplorer();
+		rootAdd(fileExplorer);
+		fileExplorer.setLayoutX(10);
+		fileExplorer.setLayoutY(38);
 		
-		//try to add a package explorer on the screen
-		 fileExplorer = new TurtleFileExplorer();
-		 rootAdd(fileExplorer);
-		 fileExplorer.setLayoutX(10);
-		 fileExplorer.setLayoutY(38);
-		 
+		// Create the initial Turtle
 		createTurtle(); 
-		ogTurtle = turtleArray.get(0);
-
-		 
-		 //fileExplorer.lookup(".arrow").setVisible(false);
 	}
 	
 	
-	
-	private void ButtonInit() {
+	private void buttonInit() {
 		myRunButton = new RunButton(this);
 		myClearButton = new ClearButton(this);
 		myInstructionButton = new InstructionsButton(this);
@@ -209,11 +167,6 @@ public class MainScreen extends ScreenDisplay implements GUIDelegate{
 		myBackButton = new BackwardButton(this);
 		myCustomizeButton = new CustomizeButton(this);
 		myNewTurtleButton = new CreateNewTurtleButton(this);
-		Button redButton = new Button("RED");
-		redButton.addEventHandler(MouseEvent.MOUSE_CLICKED, e->changeBackground("red"));
-		Button whiteButton = new Button("WHITE");
-		whiteButton.addEventHandler(MouseEvent.MOUSE_CLICKED, e->changeBackground("white"));
-		
 		// add all the things into an button bar hbox
 		ButtonBar = new HBox();
 		ButtonBar.getChildren().add(myRunButton);
@@ -222,8 +175,6 @@ public class MainScreen extends ScreenDisplay implements GUIDelegate{
 		ButtonBar.getChildren().add(myNewProjectButton);
 		ButtonBar.getChildren().add(myInstructionButton);
 		ButtonBar.getChildren().add(myCustomizeButton);
-		ButtonBar.getChildren().add(redButton);
-		ButtonBar.getChildren().add(whiteButton);
 		ButtonBar.setSpacing(0);
 		Pane ToolBar = new Pane();
 		ToolBar.getChildren().add(ButtonBar);
@@ -231,10 +182,7 @@ public class MainScreen extends ScreenDisplay implements GUIDelegate{
 		ToolBar.setLayoutX(-1);
 		ToolBar.setLayoutY(-1);
 		ToolBar.setStyle(  "-fx-border-width: 1px; -fx-border-color: #4d4d4d; -fx-background-color: #e6e6e6;");
-		
 		rootAdd(ToolBar);
-		
-		
 	}
 	
 	//get fileExplorer
@@ -244,10 +192,11 @@ public class MainScreen extends ScreenDisplay implements GUIDelegate{
 	
 	@Override
 	public void createTurtle() {
-		Turtle newTurtle = new Turtle();
-		newTurtle.moveTo(NEW_TURTLE_INITIAL_X_POSITION, NEW_TURTLE_INITIAL_Y_POSITION);
+		Turtle newTurtle = new Turtle(this);
+		newTurtle.goTo(0.0, 0.0);
 		getRootChildren().add(newTurtle.getImageViewForScreen());
 		turtleArray.add(newTurtle);
+		updateTurtleProperties();
 	}
 	
 	@Override
@@ -276,8 +225,7 @@ public class MainScreen extends ScreenDisplay implements GUIDelegate{
 				createNewErrorWindow(text);
 				e.printStackTrace();
 			}
-			myTabToolBar.getPropertiesBox().updatePropertiesBox();
-
+			updateTurtleProperties();
 		}
 	}
 
@@ -307,11 +255,11 @@ public class MainScreen extends ScreenDisplay implements GUIDelegate{
 		createInstruction(instructionsPane, "Right");
 		createInstruction(instructionsPane, "SetHeading");
 	}
+	
 	private void createInstruction(VBox instructionsPane, String instruction) {
 		instructionsPane.getChildren().add(new Label(instruction + "=" + languageResources.getString(instruction)));
 	}
-	
-	
+
 	@Override
 	public void createNewProject() {
 		newProject = new VBox();
@@ -323,11 +271,6 @@ public class MainScreen extends ScreenDisplay implements GUIDelegate{
 		restart.start(myStage);
 	}
 
-	@Override
-	public void step(double elapsedTime) {
-		// TODO Auto-generated method stub
-		
-	}
 
 	@Override
 	public void createCustomizeWindow() {
@@ -344,8 +287,7 @@ public class MainScreen extends ScreenDisplay implements GUIDelegate{
 
 	@Override
 	public void moveX(Double newLocation) {
-		operateOnTurtles("moveForward", new Class[] {Double.class}, new Object[] {newLocation} );
-		//ogTurtle.moveToSimple(newLocation, ogTurtle.getYPos());
+		operateOnTurtles("moveTo", new Class[] {Double.class, Double.class}, new Object[] {newLocation} );
 	}
 	
 	private void operateOnTurtles(String methodName, Class[] parameterTypes, Object[] params) {
@@ -358,7 +300,7 @@ public class MainScreen extends ScreenDisplay implements GUIDelegate{
 				e.printStackTrace();
 			}
 		}
-	
+		updateTurtleProperties();
 	}
 	
 	public void setDirection(Double angle) {
@@ -377,7 +319,7 @@ public class MainScreen extends ScreenDisplay implements GUIDelegate{
 
 	@Override
 	public void forwardButtonPressed() {
-		moveX(50.0);
+		operateOnTurtles("moveForward", new Class[]{Double.class}, new Object[] {50.0});
 	}
 
 	@Override
@@ -386,35 +328,38 @@ public class MainScreen extends ScreenDisplay implements GUIDelegate{
 	}
 
 	@Override
-	public void rotateLeftButtonPressed() {
-		// TODO Auto-generated method stub
-		for (Turtle t : turtleArray) {
-			t.rotateLeft(30);
-		}
-//		operateOnTurtles("rotateLeft",new Class[] {Double.class}, new Object[] {30.0});
+	public void rotateLeftButtonPressed() {		
+		operateOnTurtles("rotateLeft",new Class[] {Double.class}, new Object[] {30.0});
 	}
 	
 	public void rotateRightButtonPressed() {
-		// TODO Auto-generated method stub
-		for (Turtle t : turtleArray) {
-			t.rotateRight(30);
-		}
-//		operateOnTurtles("rotateRight",new Class[] {Double.class}, new Object[] {50.0});
+		operateOnTurtles("rotateRight",new Class[] {Double.class}, new Object[] {30.0});
 	}
 
 	@Override
 	public String[] getInfo() {
 		String[] info = {
-				Double.toString(ogTurtle.getHeading()),
-				Double.toString(ogTurtle.getXPos()),
-				Double.toString(ogTurtle.getYPos()),
-				"true", "green", "5", "DASHED"};
-//				Boolean.toString(ogTurtle.getPenInfo()),
-//				ogTurtle.getPenColor(),
-//				Double.toString(ogTurtle.getPenSize()),
-//				ogTurtle.getPenStyle()
-//		};
+				Double.toString(turtleArray.get(0).getHeading()),
+				Double.toString(turtleArray.get(0).getXPos()),
+				Double.toString(turtleArray.get(0).getYPos()),
+				"" + turtleArray.get(0).getPenInfo(), turtleArray.get(0).getPenColor(), 
+				"" + turtleArray.get(0).getPenSize(), "DASHED"};
 		return info;
-//		return new String[5];
+	}
+
+	@Override
+	public void addLine(Path p) {
+		p.toFront();
+		getRootChildren().add(p);
+	}
+
+	@Override
+	public void removeLine(Path p) {
+		getRootChildren().remove(p);
+	}
+
+	@Override
+	public void updateTurtleProperties() {
+		myTabToolBar.getPropertiesBox().updatePropertiesBox();
 	}
 }

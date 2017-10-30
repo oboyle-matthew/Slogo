@@ -1,5 +1,7 @@
 package GUI;
 
+import javafx.scene.shape.Path;
+
 public interface GUIDelegate {
 	void runButtonPressed();
 	
@@ -34,4 +36,10 @@ public interface GUIDelegate {
 	void rotateRightButtonPressed();
 
 	String[] getInfo();
+	
+	void addLine(Path p);
+	
+	void removeLine(Path p);
+	
+	void updateTurtleProperties();
 }

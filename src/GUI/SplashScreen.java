@@ -61,9 +61,4 @@ public class SplashScreen extends ScreenDisplay {
 		screenBox.setLayoutX(50);
 	}
 
-	@Override
-	public void step(double elapsedTime) {
-		// TODO Auto-generated method stub
-		
-	}
 }

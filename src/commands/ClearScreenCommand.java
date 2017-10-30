@@ -9,6 +9,7 @@ public class ClearScreenCommand extends ExecutableCommand {
 
 	@Override
 	public double execute(ParsedItem[] params, Turtle tortuga, Map<String, Double> variables) {
-		return 0;
+		tortuga.removeLines(); 
+		return tortuga.moveTo(0.0, 0.0);
 	}
 }

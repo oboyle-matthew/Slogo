@@ -3,18 +3,21 @@ package modelLogic;
 import java.util.ArrayList;
 import java.util.List;
 
+import javafx.animation.FadeTransition;
 import javafx.animation.PathTransition;
 import javafx.animation.RotateTransition;
 import javafx.animation.Transition;
+import javafx.scene.Node;
 import javafx.scene.image.ImageView;
 import javafx.scene.shape.Path;
 import javafx.util.Duration;
 
 public class TransitionOperator {
 	
-	private static final double ROTATION_SPEED = 0.8 * 1000; 
-	private static final double MOVEMENT_SPEED = 0.8 * 1000;
-	
+	private static final double ROTATION_SPEED = 0.5 * 1000; 
+	private static final double MOVEMENT_SPEED = 0.5 * 1000;
+	private static final double FADE_SPEED = 0.3 * 1000;
+
 	private List<Transition> waitingTransitions;
 	private boolean transitionRunning;
 	
@@ -32,7 +35,7 @@ public class TransitionOperator {
 		}
 	}
 	
-	private void transitionFinished(ImageView obj) {
+	private void transitionFinished() {
 		transitionRunning = false;
 		if(waitingTransitions.size() != 0) {
 			Transition next = waitingTransitions.remove(0); 
@@ -41,15 +44,34 @@ public class TransitionOperator {
 		}
 	}
 	
+	public void createFadeOut(ImageView obj) {
+		FadeTransition ft = new FadeTransition(Duration.millis(FADE_SPEED));
+		ft.setCycleCount(1);
+		ft.setNode(obj);
+		ft.setDuration(Duration.millis(FADE_SPEED));
+		ft.setToValue(0);
+		ft.setOnFinished(e -> transitionFinished());
+		addAndPlay(ft);
+	}
+	
+	public void createFadeIn(Node obj) {
+		FadeTransition ft = new FadeTransition(Duration.millis(FADE_SPEED));
+		ft.setCycleCount(1);
+		ft.setNode(obj);
+		ft.setDuration(Duration.millis(FADE_SPEED));
+		ft.setToValue(1);
+		ft.setOnFinished(e -> transitionFinished());
+		addAndPlay(ft);
+	}
+	
+	
 	public void createRotation(ImageView obj, double angle) {
-		RotateTransition rt = new RotateTransition(Duration.millis(ROTATION_SPEED));
+		RotateTransition rt = new RotateTransition();
 		rt.setByAngle(angle);
 		rt.setCycleCount(1);
 		rt.setNode(obj);
 		rt.setDuration(Duration.millis(ROTATION_SPEED));
-		rt.setOnFinished(e-> {			
-			transitionFinished(obj); 
-		});
+		rt.setOnFinished(e-> transitionFinished());
 		addAndPlay(rt);
 	}
 	
@@ -64,7 +86,7 @@ public class TransitionOperator {
 			obj.setY(y);
 			obj.setTranslateX(-20);
 			obj.setTranslateY(-20);
-			transitionFinished(obj); 
+			transitionFinished(); 
 		});
 		addAndPlay(pt);
 	}

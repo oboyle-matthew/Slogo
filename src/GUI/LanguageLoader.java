@@ -30,6 +30,7 @@ public class LanguageLoader extends HBox {
 	private ResourceBundle myResources;
 	private Button goButton;
 	private Stage stage;
+	private List<String> fileNames;
 
 	public LanguageLoader(double xPos, double yPos, Stage currentStage) {
 		myResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + language);
@@ -40,7 +41,7 @@ public class LanguageLoader extends HBox {
 	}
 
 	private void init() {
-		List<String> fileNames = createFileList();
+		fileNames = createFileList();
 		ObservableList<String> LanList = FXCollections.observableArrayList(fileNames);
 		createGoButton();
 		createLanguageLoader(LanList);
@@ -86,6 +87,10 @@ public class LanguageLoader extends HBox {
 	}
 
 	private void switchScene(String inputLanguage) {
+		if (!fileNames.contains(inputLanguage)) {
+			createNewErrorWindow("Not a valid language");
+			return;
+		}
 		MainScreen myScene = new MainScreen(MAINWIDTH, MAINHEIGHT, BACKGROUND, inputLanguage);
 		// center the scene
 		Rectangle2D primaryScreenBounds = Screen.getPrimary().getVisualBounds();
@@ -98,6 +103,5 @@ public class LanguageLoader extends HBox {
 		myScene.getTurExpo().lookup(".title").setStyle("-fx-padding: 6 0 6 -15;-fx-background-color: -fx-box-border, -fx-inner-border,linear-gradient(to bottom,#d3d3d3 ,white);");
 		
 		  }
-		
 	
 }

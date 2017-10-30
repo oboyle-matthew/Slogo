@@ -16,7 +16,7 @@ public interface GUIDelegate {
 	void createCustomizeWindow();
 
 	void moveX(Double newValue);
-	
+		
 	void setDirection(Double angle);
 	
 	void changeBackground(String color);
@@ -32,6 +32,8 @@ public interface GUIDelegate {
 	void rotateLeftButtonPressed();
 	
 	void rotateRightButtonPressed();
+
+	String[] getInfo();
 
 	
 	

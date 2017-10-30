@@ -8,6 +8,7 @@ import java.util.Arrays;
 //import GUI.TableViewSample.EditingCell;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TableCell;
@@ -16,6 +17,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 
 import javafx.scene.control.cell.TextFieldTableCell;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import modelLogic.Turtle;
@@ -30,7 +32,8 @@ public class PropertiesBox extends VBox {
 	private GUIDelegate app;
 	private Label text;
 	private TableView propertyTable;
-	private static String[] propertyArr = {"0.0","0.0","0.0","0.0","true","1","1.0","SOLID"};
+	private ObservableList<TurProperty> displayList;
+	private static String[] propertyArr = {"0.0","0.0","0.0","true", "red","1","SOLID"};
 
 	
 	public PropertiesBox(GUIDelegate app) {
@@ -48,7 +51,7 @@ public class PropertiesBox extends VBox {
         propertyTable.getColumns().addAll(firstCol, lastCol);
         
         
-		ObservableList<TurProperty> displayList =FXCollections.observableArrayList ();
+        displayList =FXCollections.observableArrayList ();
 			for (int i = 0; i < 7; i++) {
 	        	displayList.add(new TurProperty(properties[i], propertyArr[i]));
 	        }
@@ -121,6 +124,14 @@ public class PropertiesBox extends VBox {
 	public void updatePropertiesBox(ObservableList<TurProperty> displayList) {
 		app.setDirection(Double.parseDouble(displayList.get(0).getMyValue()));
 		app.moveX(Double.parseDouble(displayList.get(1).getMyValue()));
+	}
+	
+	public void updatePropertiesBox() {
+		propertyArr = app.getInfo();
+		displayList.clear();
+		for (int i = 0; i < 7; i++) {
+        	displayList.add(new TurProperty(properties[i], propertyArr[i]));
+        }
 	}
 
 

@@ -8,9 +8,11 @@ import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Rectangle2D;
+import javafx.scene.control.Alert;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
@@ -50,9 +52,21 @@ public class LanguageLoader extends HBox {
 
 	private void createGoButton() {
 		goButton = new Button(myResources.getString("Go"));
-		goButton.setOnAction((event) -> {
-			switchScene((String) lanLoader.getValue());
-		});
+		try {
+			goButton.setOnAction((event) -> {
+				switchScene((String) lanLoader.getValue());
+			});
+		} catch (Exception e) {
+			createNewErrorWindow("Not a valid language");
+			e.printStackTrace();
+		}
+	}
+	
+	private void createNewErrorWindow(String errorText) {
+		Alert alert = new Alert(AlertType.INFORMATION);
+		alert.setTitle("User Input Error");
+		alert.setHeaderText(errorText);
+		alert.show();
 	}
 
 	private List<String> createFileList() {

@@ -13,9 +13,10 @@ public class TabToolBar extends TabPane {
 	
 	private GUIDelegate app;
 	private HistoryBox historyBox;
+	private PropertiesBox propertiesBox;
 	
 	public TabToolBar(GUIDelegate app) {
-		
+		propertiesBox = new PropertiesBox(app);
 		this.app = app;
 		//addTab();
 		historyBox = new HistoryBox(app);
@@ -32,6 +33,10 @@ public class TabToolBar extends TabPane {
 		return historyBox;
 	}
 	
+	public PropertiesBox getPropertiesBox() {
+		return propertiesBox;
+	}
+	
 	
 	private void addTab(String tabName,Pane tabContext ) {
 		Tab tabSize = new Tab();
@@ -46,7 +51,7 @@ private Pane sizingSample() {
         BorderPane border = new BorderPane();
         border.setPadding(new Insets(20, 20, 20, 20));
         border.setStyle("-fx-background-color: white");
-        border.setCenter(new PropertiesBox(app));    
+        border.setCenter(propertiesBox);    
        
         return border;
     }
@@ -72,5 +77,7 @@ private Pane historyCommand() {
     
    
     return border;
-}
+	}
+
+
 }

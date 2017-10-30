@@ -415,7 +415,7 @@ public class MainScreen extends ScreenDisplay implements GUIDelegate{
 	@Override
 	public String[] getInfo() {
 		String[] info = {
-				Double.toString(ogTurtle.getDirection()),
+				Double.toString(ogTurtle.getHeading()),
 				Double.toString(ogTurtle.getXPos()),
 				Double.toString(ogTurtle.getYPos()),
 				"true", "green", "5", "DASHED"};

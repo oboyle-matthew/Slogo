@@ -68,7 +68,4 @@ public class TransitionOperator {
 		});
 		addAndPlay(pt);
 	}
-	
-
-
 }

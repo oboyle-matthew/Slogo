@@ -15,8 +15,11 @@ public class ParsedCommand extends ParsedItem {
 	private static final String COMMAND_POSTFIX = "Command";
 	private static final String COMMANDS_DIR = "commands.";
 	
+	private boolean isCommand;  
+	
 	ParsedCommand(String commandName) {
 		myString = commandName;
+		isCommand = createExecutableCommand(commandName) != null;   
 	}
 	
 	/**
@@ -65,6 +68,10 @@ public class ParsedCommand extends ParsedItem {
 	 */
 	public String[] getParameterOrder() {
 		return createExecutableCommand(myString).paramNumber();
+	}
+	
+	public boolean isCommand() {
+		return isCommand; 
 	}
 
 	@Override

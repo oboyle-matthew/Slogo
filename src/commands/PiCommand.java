@@ -2,8 +2,8 @@ package commands;
 
 import java.util.Map;
 
+import modelLogic.CanvasWriter;
 import modelLogic.ParsedItem;
-import modelLogic.Turtle;
 
 /** 
  * Executable Command representing the Pi command
@@ -11,7 +11,7 @@ import modelLogic.Turtle;
 public class PiCommand extends ExecutableCommand {
 
 	@Override
-	public double execute(ParsedItem[] params, Turtle tortuga, Map<String, Double> variables) {
+	public double execute(ParsedItem[] params, CanvasWriter writer, Map<String, Double> variables) {
 		return Math.PI; 
 	}
 }

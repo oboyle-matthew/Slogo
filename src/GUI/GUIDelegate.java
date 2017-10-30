@@ -1,5 +1,6 @@
 package GUI;
 
+import javafx.scene.Node;
 import javafx.scene.shape.Path;
 
 public interface GUIDelegate {
@@ -37,9 +38,9 @@ public interface GUIDelegate {
 
 	String[] getInfo();
 	
-	void addLine(Path p);
+	void addNode(Node n);
 	
-	void removeLine(Path p);
+	void removeNode(Node n);
 	
 	void updateTurtleProperties();
 }

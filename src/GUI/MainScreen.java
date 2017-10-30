@@ -8,6 +8,7 @@ import java.util.ResourceBundle;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.EventHandler;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.Image;
@@ -27,6 +28,7 @@ import javafx.scene.shape.LineTo;
 import javafx.scene.shape.MoveTo;
 import javafx.scene.shape.Path;
 import javafx.stage.Stage;
+import modelLogic.CanvasWriter;
 import modelLogic.CommandParser;
 import modelLogic.Turtle;
 
@@ -63,7 +65,7 @@ public class MainScreen extends ScreenDisplay implements GUIDelegate{
 	// for input box
 	private CustomizeButton myCustomizeButton;
 	private CreateNewTurtleButton myNewTurtleButton;
-	private List<Turtle> turtleArray;
+	private List<CanvasWriter> writerList;
 	private HBox ButtonBar;
 	private GridPane myDirectionGrid;
 	private TurtleFileExplorer fileExplorer;
@@ -72,7 +74,7 @@ public class MainScreen extends ScreenDisplay implements GUIDelegate{
 
 	public MainScreen(int width, int height, Paint background, String language) {
 		super(width, height, background);
-		turtleArray = new ArrayList<Turtle>();
+		writerList = new ArrayList<>();
 		myLanguage = language;
 		parser = new CommandParser(language);
 		createMainScreen(language);
@@ -195,9 +197,8 @@ public class MainScreen extends ScreenDisplay implements GUIDelegate{
 	@Override
 	public void createTurtle() {
 		Turtle newTurtle = new Turtle(this);
-		newTurtle.goTo(0.0, 0.0);
-		getRootChildren().add(newTurtle.getImageViewForScreen());
-		turtleArray.add(newTurtle);
+		newTurtle.goToRelativePosition(0.0, 0.0);
+		writerList.add(newTurtle);
 		updateTurtleProperties();
 	}
 	
@@ -220,9 +221,9 @@ public class MainScreen extends ScreenDisplay implements GUIDelegate{
 
 	@Override
 	public void runCommand(String text) {
-		for (Turtle t : turtleArray) {
+		for (CanvasWriter w : writerList) {
 			try {
-				parser.executeInput(text,  t);
+				parser.executeInput(text,  w);
 			} catch (Exception e) {
 				createNewErrorWindow(text);
 				e.printStackTrace();
@@ -288,14 +289,14 @@ public class MainScreen extends ScreenDisplay implements GUIDelegate{
 
 	@Override
 	public void moveX(Double newLocation) {
-		operateOnTurtles("moveTo", new Class[] {Double.class, Double.class}, new Object[] {newLocation} );
+		operateOnWriters("moveTo", new Class[] {Double.class, Double.class}, new Object[] {newLocation} );
 	}
 	
-	private void operateOnTurtles(String methodName, Class[] parameterTypes, Object[] params) {
-		for(Turtle t : turtleArray) {
+	private void operateOnWriters(String methodName, Class[] parameterTypes, Object[] params) {
+		for(CanvasWriter w : writerList) {
 			try {
-				Method m = t.getClass().getMethod(methodName, parameterTypes);
-				m.invoke(t, params);
+				Method m = w.getClass().getMethod(methodName, parameterTypes);
+				m.invoke(w, params);
 			} catch(Exception e) {
 				System.out.println("Could not call: " + methodName);
 				e.printStackTrace();
@@ -320,47 +321,46 @@ public class MainScreen extends ScreenDisplay implements GUIDelegate{
 
 	@Override
 	public void forwardButtonPressed() {
-		operateOnTurtles("moveForward", new Class[]{Double.class}, new Object[] {50.0});
+		operateOnWriters("moveForward", new Class[]{Double.class}, new Object[] {50.0});
 	}
 
 	@Override
 	public void backwardButtonPressed() {
-		operateOnTurtles("moveBackwards",new Class[] {Double.class}, new Object[] {50.0});
+		operateOnWriters("moveBackwards",new Class[] {Double.class}, new Object[] {50.0});
 	}
 
 	@Override
 	public void rotateLeftButtonPressed() {		
-		operateOnTurtles("rotateLeft",new Class[] {Double.class}, new Object[] {30.0});
+		operateOnWriters("rotateLeft",new Class[] {Double.class}, new Object[] {30.0});
 	}
 	
 	public void rotateRightButtonPressed() {
-		operateOnTurtles("rotateRight",new Class[] {Double.class}, new Object[] {30.0});
+		operateOnWriters("rotateRight",new Class[] {Double.class}, new Object[] {30.0});
 	}
 
 	@Override
 	public String[] getInfo() {
 		String[] info = {
-				Double.toString(turtleArray.get(0).getHeading()),
-				Double.toString(turtleArray.get(0).getXPos()),
-				Double.toString(turtleArray.get(0).getYPos()),
-				"" + turtleArray.get(0).getPenInfo(), turtleArray.get(0).getPenColor(), 
-				"" + turtleArray.get(0).getPenSize(), "DASHED"};
+				Double.toString(writerList.get(0).getHeading()),
+				Double.toString(writerList.get(0).getXPos()),
+				Double.toString(writerList.get(0).getYPos()),
+				"" + writerList.get(0).getMyPen().getPenInfo(), writerList.get(0).getMyPen().getPenColor().toString(), 
+				"" + writerList.get(0).getMyPen().getPenSize(), "DASHED"};
 		return info;
-	}
-
-	@Override
-	public void addLine(Path p) {
-		p.toFront();
-		getRootChildren().add(p);
-	}
-
-	@Override
-	public void removeLine(Path p) {
-		getRootChildren().remove(p);
 	}
 
 	@Override
 	public void updateTurtleProperties() {
 		myTabToolBar.getPropertiesBox().updatePropertiesBox();
+	}
+
+	@Override
+	public void addNode(Node n) {
+		getRootChildren().add(n);
+	}
+
+	@Override
+	public void removeNode(Node n) {
+		getRootChildren().remove(n);
 	}
 }

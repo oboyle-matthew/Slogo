@@ -2,8 +2,8 @@ package commands;
 
 import java.util.Map;
 
+import modelLogic.CanvasWriter;
 import modelLogic.ParsedItem;
-import modelLogic.Turtle;
 
 /**
  * Executable Command for retrieving the up or down status of the pen
@@ -11,8 +11,8 @@ import modelLogic.Turtle;
 public class IsPenDownCommand extends ExecutableCommand {
 
 	@Override
-	public double execute(ParsedItem[] params, Turtle tortuga, Map<String, Double> variables) {
-		return (tortuga.getPenInfo() ? 1 : 0);
+	public double execute(ParsedItem[] params, CanvasWriter writer, Map<String, Double> variables) {
+		return (writer.getMyPen().getPenInfo() ? 1 : 0);
 	}
 
 }

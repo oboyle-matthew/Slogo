@@ -2,14 +2,14 @@ package commands;
 
 import java.util.Map;
 
+import modelLogic.CanvasWriter;
 import modelLogic.ParsedBracketParameter;
 import modelLogic.ParsedItem;
-import modelLogic.Turtle;
 
 public class ForCommand extends ExecutableCommand {
 
 	@Override
-	public double execute(ParsedItem[] params, Turtle tortuga, Map<String, Double> variables) {
+	public double execute(ParsedItem[] params, CanvasWriter writer, Map<String, Double> variables) {
 		ParsedBracketParameter firstParam = (ParsedBracketParameter) params[0];
 		String[] repeatParameters = firstParam.getStringValues();
 		double ret = 0;
@@ -26,7 +26,7 @@ public class ForCommand extends ExecutableCommand {
 			ParsedBracketParameter p = (ParsedBracketParameter) params[1];
 			for (double i = start; i <= end; i += increment) {
 				ParsedBracketParameter temp = (ParsedBracketParameter) p.getCopy();
-				ret = p.executeCommands(tortuga, variables);
+				ret = p.executeCommands(writer, variables);
 				variables.put(repeatParameters[0], ret);
 				p = temp;
 			}

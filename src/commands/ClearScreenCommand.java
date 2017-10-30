@@ -2,14 +2,15 @@ package commands;
 
 import java.util.Map;
 
+import modelLogic.CanvasWriter;
 import modelLogic.ParsedItem;
-import modelLogic.Turtle;
 
 public class ClearScreenCommand extends ExecutableCommand {
 
 	@Override
-	public double execute(ParsedItem[] params, Turtle tortuga, Map<String, Double> variables) {
-		tortuga.removeLines(); 
-		return tortuga.moveTo(0.0, 0.0);
+	public double execute(ParsedItem[] params, CanvasWriter writer, Map<String, Double> variables) {
+		writer.removeDrawnNodes(); 
+		writer.getMyPen().setPenStatus(false);
+		return writer.goToRelativePosition(0.0, 0.0);
 	}
 }

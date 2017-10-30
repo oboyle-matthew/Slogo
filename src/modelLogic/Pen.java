@@ -38,8 +38,10 @@ public class Pen {
 		}
 	}
 		
-	public void setPenInfo(boolean newVal) {
+	public double setPenStatus(boolean newVal) {
 		isDown = newVal;
+		if(isDown) return 1;
+		return 0;
 	}
 
 	public void setPenSize(double newSize) {

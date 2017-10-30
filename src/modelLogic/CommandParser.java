@@ -108,11 +108,11 @@ private static final int LIST_TOO_SHORT = -1;
 	 * user defined variables
 	 * @return A {@code double} that is the result of the last executed command 
 	 */
-	public double executeCommands(List<ParsedItem> items, Turtle tortuga, Map<String, Double> variables) {
+	public double executeCommands(List<ParsedItem> items, CanvasWriter writer, Map<String, Double> variables) {
 		userVariables = variables;
 		double val = cleanList(items); 
 		while(items.size() > 0 && notAllParams(items)) {
-			boolean succeeded = executeNextCommand(items, tortuga);
+			boolean succeeded = executeNextCommand(items, writer);
 			if(!succeeded) {
 				createErrorWindow(INVALID_INPUT);
 				return -1; 
@@ -139,9 +139,9 @@ private static final int LIST_TOO_SHORT = -1;
 	 * @param input is a {@code String} of SLOGO commands to execute 
 	 * @param tortuga is the {@code Turtle} object to use for the execution of the commands
 	 */
-	public void executeInput(String input, Turtle tortuga) {
+	public void executeInput(String input, CanvasWriter writer) {
 		List<ParsedItem> p = getParsedItemList(input);
-		executeCommands(p, tortuga, userVariables);
+		executeCommands(p, writer, userVariables);
 	}
 	
 	/**
@@ -149,7 +149,7 @@ private static final int LIST_TOO_SHORT = -1;
 	 * @param list is a {@code List<ParsedItem>} that contains all the commands and current values of the list
 	 * @param tortuga is the {@code Turtle} to use for the execution of commands
 	 */
-	private boolean executeNextCommand(List<ParsedItem> list, Turtle tortuga) {
+	private boolean executeNextCommand(List<ParsedItem> list, CanvasWriter writer) {
 		for(int i = 0; i < list.size(); i++) {
 			if(list.get(i).getItemType().equals(COMMAND_ITEM)) {
 				ParsedCommand p = (ParsedCommand) list.get(i);
@@ -160,7 +160,7 @@ private static final int LIST_TOO_SHORT = -1;
 				ParsedItem[] params = new ParsedItem[p.getParameterOrder().length];
 				for(int j = 0; j < params.length; j++)
 					params[j] = list.remove(i + 1); 
-				double value = p.execute(params, tortuga, userVariables);
+				double value = p.execute(params, writer, userVariables);
 				list.set(i, new ParsedRegularParameter("" + value, false));
 				return true; 
 			}

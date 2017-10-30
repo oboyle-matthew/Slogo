@@ -37,9 +37,9 @@ public class ParsedBracketParameter extends ParsedItem {
 	 * variables to use for execution 
 	 * @return A {@code double} that is the value from the last executed command
 	 */
-	public double executeCommands(Turtle tortuga, Map<String, Double> variables) {
+	public double executeCommands(CanvasWriter writer, Map<String, Double> variables) {
 		CommandParser p = new CommandParser(currLanguage);
-		return p.executeCommands(myContents, tortuga, variables);
+		return p.executeCommands(myContents, writer, variables);
 	}
 
 	/**

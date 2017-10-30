@@ -2,15 +2,15 @@ package commands;
 
 import java.util.Map;
 
+import modelLogic.CanvasWriter;
 import modelLogic.ParsedItem;
-import modelLogic.Turtle;
 
 public class GreaterThanCommand extends ExecutableCommand {
 	private static final String GREATER = "greater?";
 
 	@Override
-	public double execute(ParsedItem[] params, Turtle tortuga, Map<String, Double> variables) {
-		return (new BooleanOperationCommand(GREATER)).execute(params, tortuga, variables);
+	public double execute(ParsedItem[] params, CanvasWriter writer, Map<String, Double> variables) {
+		return (new BooleanOperationCommand(GREATER)).execute(params, writer, variables);
 	} 
 	
 	@Override

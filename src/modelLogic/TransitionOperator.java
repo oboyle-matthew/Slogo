@@ -14,8 +14,8 @@ import javafx.util.Duration;
 
 public class TransitionOperator {
 	
-	private static final double ROTATION_SPEED = 0.5 * 1000; 
-	private static final double MOVEMENT_SPEED = 0.5 * 1000;
+	private static final double ROTATION_SPEED = 0.2 * 1000; 
+	private static final double MOVEMENT_SPEED = 0.1 * 1000;
 	private static final double FADE_SPEED = 0.3 * 1000;
 
 	private List<Transition> waitingTransitions;
@@ -44,7 +44,7 @@ public class TransitionOperator {
 		}
 	}
 	
-	public void createFadeOut(ImageView obj) {
+	public void createFadeOut(Node obj) {
 		FadeTransition ft = new FadeTransition(Duration.millis(FADE_SPEED));
 		ft.setCycleCount(1);
 		ft.setNode(obj);
@@ -65,7 +65,7 @@ public class TransitionOperator {
 	}
 	
 	
-	public void createRotation(ImageView obj, double angle) {
+	public void createRotation(Node obj, double angle) {
 		RotateTransition rt = new RotateTransition();
 		rt.setByAngle(angle);
 		rt.setCycleCount(1);
@@ -75,17 +75,21 @@ public class TransitionOperator {
 		addAndPlay(rt);
 	}
 	
-	public void createMovement(ImageView obj, Path movementPath, double x, double y) {
+	public void createMovement(Node obj, Path movementPath, double x, double y) {
 		PathTransition pt = new PathTransition();
 		pt.setPath(movementPath);
 		pt.setCycleCount(1);
 		pt.setNode(obj);
 		pt.setDuration(Duration.millis(MOVEMENT_SPEED));
 		pt.setOnFinished(e-> {
-			obj.setX(x);
-			obj.setY(y);
-			obj.setTranslateX(-20);
-			obj.setTranslateY(-20);
+			try {
+				((ImageView) obj).setX(x);
+				((ImageView) obj).setY(y);
+				obj.setTranslateX(-20);
+				obj.setTranslateY(-20);
+			} catch (Exception ex) {
+				System.out.println("Object is not an ImageView.");
+			}
 			transitionFinished(); 
 		});
 		addAndPlay(pt);

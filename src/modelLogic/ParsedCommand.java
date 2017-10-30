@@ -58,9 +58,9 @@ public class ParsedCommand extends ParsedItem {
 	 * @param variables is the {@code Map<String, Double>} of user created variable
 	 * @return the {@code double} returned from the execution of the command
 	 */
-	public double execute(ParsedItem[] params, Turtle tortuga, Map<String, Double> variables) {
+	public double execute(ParsedItem[] params, CanvasWriter writer, Map<String, Double> variables) {
 		if(!myString.equals("MakeVariable")) updateParams(params, variables);
-		return createExecutableCommand(myString).execute(params, tortuga, variables);
+		return createExecutableCommand(myString).execute(params, writer, variables);
 	}
 	
 	/**

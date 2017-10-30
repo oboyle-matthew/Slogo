@@ -2,8 +2,8 @@ package commands;
 
 import java.util.Map;
 
+import modelLogic.CanvasWriter;
 import modelLogic.ParsedItem;
-import modelLogic.Turtle;
 
 /**
  * Executable Command for retrieving the turtle's x coordinate
@@ -11,8 +11,8 @@ import modelLogic.Turtle;
 public class XCoordinateCommand extends ExecutableCommand {
 
 	@Override
-	public double execute(ParsedItem[] params, Turtle tortuga, Map<String, Double> variables) {
-		return tortuga.getXPos();
+	public double execute(ParsedItem[] params, CanvasWriter writer, Map<String, Double> variables) {
+		return writer.getXPos();
 	}
 	
 }

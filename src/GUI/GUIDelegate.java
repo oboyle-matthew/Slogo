@@ -47,5 +47,6 @@ public interface GUIDelegate {
 
 	void clearCanvas();
 
-	void changeFontColor(String color);
+	void changeFontColor(int index);
+
 }

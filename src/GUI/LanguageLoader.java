@@ -33,6 +33,9 @@ public class LanguageLoader extends HBox {
 	private List<String> fileNames;
 
 	public LanguageLoader(double xPos, double yPos, Stage currentStage) {
+		lanLoader.setEditable(true);
+		lanLoader.getEditor().setEditable(false);
+		lanLoader.setValue("English");
 		myResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + language);
 		stage = currentStage;
 		this.setLayoutX(xPos);

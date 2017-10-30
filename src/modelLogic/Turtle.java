@@ -3,6 +3,7 @@ package modelLogic;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import javafx.animation.Animation;
 import javafx.animation.PathTransition;
@@ -45,6 +46,9 @@ public class Turtle {
 	private boolean dragging;
 	private TransitionOperator transitionOperator;
 	private double currentHeading; 
+	private double currentX; 
+	private double currentY; 
+	
 
 	/**
 	 * Basic constructor that just initializes the myTurtle variable. Returns a new
@@ -54,6 +58,8 @@ public class Turtle {
 		myTurtle = createTurtle();
 		currentHeading = myTurtle.getRotate(); 
 		myPaths = new ArrayList<Path>();
+		currentX = myTurtle.getX();
+		currentY = myTurtle.getY();
 		transitionOperator = new TransitionOperator(); 
 		setupMouseEventHandling(); 
 	}
@@ -100,6 +106,7 @@ public class Turtle {
 		transitionOperator.createRotation(myTurtle, degreeDiff);
 		currentHeading += degreeDiff; 
 		currentHeading = currentHeading % 360; 
+		System.out.println(degreeDiff);
 		return Math.abs(degreeDiff);
 	}
 	
@@ -153,13 +160,13 @@ public class Turtle {
 	
 	public double moveTo(double newXPosition, double newYPosition) {
 		if(movementIsValid(newXPosition, newYPosition)) {
-			double xDiff = newXPosition - myTurtle.getX();
-			double yDiff = newYPosition - myTurtle.getY();
+			double xDiff = newXPosition - currentX;
+			double yDiff = newYPosition - currentY;
 			Path p = createMovementPath(newXPosition, newYPosition);
 			myPaths.add(p);
-			myTurtle.setX(newXPosition);
-			myTurtle.setY(newYPosition);
-			transitionOperator.createMovement(myTurtle, p);
+			currentX = newXPosition;
+			currentY = newYPosition;
+			transitionOperator.createMovement(myTurtle, p, newXPosition, newYPosition);
 			return Math.sqrt(xDiff * xDiff + yDiff * yDiff);
 		} 
 		return 0; 
@@ -178,7 +185,7 @@ public class Turtle {
 	 */
 	private Path createMovementPath(double newXPosition, double newYPosition) {
 		Path p = new Path();
-		MoveTo moveTo = new MoveTo(myTurtle.getX(), myTurtle.getY());
+		MoveTo moveTo = new MoveTo(currentX, currentY);
 		p.getElements().add(moveTo);
 		LineTo lineTo = new LineTo(newXPosition, newYPosition);
 		p.getElements().add(lineTo);
@@ -190,6 +197,8 @@ public class Turtle {
 		if(movementIsValid(newXPosition, newYPosition)) {
 			myTurtle.setX(newXPosition);
 			myTurtle.setY(newYPosition);
+			currentX = newXPosition;
+			currentY = newYPosition;
 		}
 		return 0.;
 	}
@@ -203,8 +212,8 @@ public class Turtle {
 	 * @return A {@code double} that reflects the distance moved by the turtle
 	 */
 	public double moveForward(Double pixels) {
-		double x = myTurtle.getX() + pixels * Math.sin(currentHeading * Math.PI / 180);
-		double y = myTurtle.getY() - pixels * Math.cos(currentHeading * Math.PI / 180);
+		double x = currentX + pixels * Math.sin(currentHeading * Math.PI / 180);
+		double y = currentY - pixels * Math.cos(currentHeading * Math.PI / 180);
 		return moveTo(x, y);
 	}
 
@@ -217,8 +226,8 @@ public class Turtle {
 	 * @return A {@code double} that reflects the distance moved by the turtle
 	 */
 	public double moveBackwards(Double pixels) {
-		double x = myTurtle.getX() - pixels * Math.sin(currentHeading * Math.PI / 180);
-		double y = myTurtle.getY() + pixels * Math.cos(currentHeading * Math.PI / 180);
+		double x = currentX - pixels * Math.sin(currentHeading * Math.PI / 180);
+		double y = currentY + pixels * Math.cos(currentHeading * Math.PI / 180);
 		return moveTo(x, y);
 	}
 

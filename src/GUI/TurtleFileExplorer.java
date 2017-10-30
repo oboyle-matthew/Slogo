@@ -45,7 +45,7 @@ public class TurtleFileExplorer extends TitledPane{
 
 	private Node createListView() {
 		ListView<HBox> paneListView = new ListView<>();
-       for (int i = 1; i < 11; i++) {
+       for (int i = 1; i < 2; i++) {
         HBox subPane = new HBox();
         Image tur = new Image(getClass().getResourceAsStream("turtleButton.png"));
         subPane.getChildren().add(new ImageView(tur));

@@ -4,12 +4,9 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
-<<<<<<< HEAD
 
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-=======
->>>>>>> 0de3b8aaa7e23e94587174436377223f9c5f1ba1
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert.AlertType;
@@ -119,20 +116,11 @@ public class MainScreen extends ScreenDisplay implements GUIDelegate{
 	    			if (rootContain(greyFilter)) rootRemove(greyFilter);
 	    		}           
 	      };  
-<<<<<<< HEAD
 	    myInputBox.addEventHandler(MouseEvent.MOUSE_CLICKED, eventHandlerTextField);
 	    myInputBox.addEventHandler(MouseEvent.MOUSE_EXITED, eventHandlerExit);
 	    
 	    // Setup direction pad 
 		Image image = new Image(getClass().getResourceAsStream("Controls.png"),120,120,false,false);
-=======
-	      
-	      //Adding an event handler to the text feld 
-	      myInputBox.addEventHandler(MouseEvent.MOUSE_CLICKED, eventHandlerTextField);
-	      myInputBox.addEventHandler(MouseEvent.MOUSE_EXITED, eventHandlerExit);
-		//Initialize a grid pane for direction Buttons
-		Image image = new Image(getClass().getResourceAsStream(CONTROLS_IMAGE),120,120,false,false);
->>>>>>> 0de3b8aaa7e23e94587174436377223f9c5f1ba1
 		ImageView directionPad = new ImageView(image);
 		directionPad.setLayoutX(608);
 		directionPad.setLayoutY(430);
@@ -168,13 +156,6 @@ public class MainScreen extends ScreenDisplay implements GUIDelegate{
 		
 		// Create the initial Turtle
 		createTurtle(); 
-<<<<<<< HEAD
-=======
-		ogTurtle = turtleArray.get(0);
-		myTabToolBar.getPropertiesBox().updatePropertiesBox();
-		 
-		 //fileExplorer.lookup(".arrow").setVisible(false);
->>>>>>> 0de3b8aaa7e23e94587174436377223f9c5f1ba1
 	}
 	
 	
@@ -187,10 +168,7 @@ public class MainScreen extends ScreenDisplay implements GUIDelegate{
 		myBackButton = new BackwardButton(this);
 		myCustomizeButton = new CustomizeButton(this);
 		myNewTurtleButton = new CreateNewTurtleButton(this);
-<<<<<<< HEAD
-=======
-		
->>>>>>> 0de3b8aaa7e23e94587174436377223f9c5f1ba1
+
 		// add all the things into an button bar hbox
 		ButtonBar = new HBox();
 		ButtonBar.getChildren().add(myRunButton);
@@ -249,12 +227,8 @@ public class MainScreen extends ScreenDisplay implements GUIDelegate{
 				createNewErrorWindow(text);
 				e.printStackTrace();
 			}
-<<<<<<< HEAD
 			updateTurtleProperties();
-=======
->>>>>>> 0de3b8aaa7e23e94587174436377223f9c5f1ba1
 		}
-		myTabToolBar.getPropertiesBox().updatePropertiesBox();
 	}
 
 	private void createNewErrorWindow(String errorText) {
@@ -327,11 +301,7 @@ public class MainScreen extends ScreenDisplay implements GUIDelegate{
 				e.printStackTrace();
 			}
 		}
-<<<<<<< HEAD
 		updateTurtleProperties();
-=======
-		myTabToolBar.getPropertiesBox().updatePropertiesBox();
->>>>>>> 0de3b8aaa7e23e94587174436377223f9c5f1ba1
 	}
 	
 	public void setDirection(Double angle) {
@@ -358,35 +328,13 @@ public class MainScreen extends ScreenDisplay implements GUIDelegate{
 		operateOnTurtles("moveBackwards",new Class[] {Double.class}, new Object[] {50.0});
 	}
 
-//	@Override
-//	public void rotateLeftButtonPressed() {
-		
 	@Override
-<<<<<<< HEAD
 	public void rotateLeftButtonPressed() {		
 		operateOnTurtles("rotateLeft",new Class[] {Double.class}, new Object[] {30.0});
 	}
 	
 	public void rotateRightButtonPressed() {
 		operateOnTurtles("rotateRight",new Class[] {Double.class}, new Object[] {30.0});
-=======
-	public void rotateLeftButtonPressed() {
-		// TODO Auto-generated method stub
-		myTabToolBar.getPropertiesBox().updatePropertiesBox();
-		for (Turtle t : turtleArray) {
-			t.rotateLeft(30);
-		}
-//		operateOnTurtles("rotateLeft",new Class[] {Double.class}, new Object[] {30.0});
-	}
-	
-	public void rotateRightButtonPressed() {
-		// TODO Auto-generated method stub
-		myTabToolBar.getPropertiesBox().updatePropertiesBox();
-		for (Turtle t : turtleArray) {
-			t.rotateRight(30);
-		}
-//		operateOnTurtles("rotateRight",new Class[] {Double.class}, new Object[] {50.0});
->>>>>>> 0de3b8aaa7e23e94587174436377223f9c5f1ba1
 	}
 
 	@Override

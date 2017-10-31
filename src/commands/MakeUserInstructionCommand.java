@@ -18,22 +18,8 @@ public class MakeUserInstructionCommand extends ExecutableCommand {
 		ParsedBracketParameter secondParam = (ParsedBracketParameter) params[1];
 		String[] commandVariables = secondParam.getStringValues();
 		ParsedBracketParameter commands = (ParsedBracketParameter) params[2];
-		double ret = 0;
-		if (parameters.length == 2) {
-			double repeat;
-			try {
-				repeat = Double.parseDouble(parameters[1]);
-			} catch (Exception e) {
-				e.printStackTrace();
-				return 0;
-			}
-			ParsedBracketParameter p = (ParsedBracketParameter) params[1];
-			for (int i = 1; i <= repeat; i++) {
-				ParsedBracketParameter temp = (ParsedBracketParameter) p.getCopy();
-				ret = p.executeCommands(tortuga, variables);
-				variables.put(parameters[0], ret);
-				p = temp;
-			}
+		if (variables.keySet().contains(commandName)) {
+			return 0;
 		}
 		return 1;
 	}

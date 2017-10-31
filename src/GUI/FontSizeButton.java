@@ -5,21 +5,21 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.ComboBox;
 
-public class BackgroundColorButton extends ComboBox<String> {
+public class FontSizeButton extends ComboBox<Integer> {
 	
-	private static final int Y_POS = 50;
+	private static final int Y_POS = 300;
 	private static final int X_POS = 100;
 	private static final int WIDTH = 200;
-	private static final String PROMPT_TEXT = "Choose a background color";
-	private static final String[] COLORS = {"white", "blue", "orange", "yellow", "green", "purple", "grey", "red"};
+	private static final String PROMPT_TEXT = "Choose a pen size";
+	private static final Integer[] COLORS = {1,2,3,4,5,6,7,8,9,10};
 	
-	public BackgroundColorButton(GUIDelegate app) {
+	public FontSizeButton(GUIDelegate app) {
 		this.setPrefWidth(WIDTH);
 		this.setLayoutX(X_POS);
 		this.setLayoutY(Y_POS);
 		this.setPromptText(PROMPT_TEXT);
-		ObservableList<String> colorList = FXCollections.observableArrayList(COLORS);
-		ChangeListener<String> propertyHandler = (obs, old, cur) -> app.changeBackground(cur);
+		ObservableList<Integer> colorList = FXCollections.observableArrayList(COLORS);
+		ChangeListener<? super Integer> propertyHandler = (obs, old, cur) -> app.changeFontWidth(cur);
 		this.getSelectionModel().selectedItemProperty().addListener(propertyHandler);
 		this.setEditable(true);
 		this.setVisibleRowCount(3);

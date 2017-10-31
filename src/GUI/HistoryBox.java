@@ -24,6 +24,13 @@ public class HistoryBox extends HBox {
 		this.app = app;
 		this.setLayoutX(500);
 		this.setLayoutY(30);
+		init();
+        this.getChildren().add(myCommandHistoryBox);
+        this.setPrefWidth(WIDTH);
+        this.setAlignment(Pos.CENTER);
+	}
+
+	public void init() {
 		myCommandHistoryBox = new ScrollPane();
 		commandHistoryView = new ListView<Button>();
 		commandHistory = new ArrayList<Button>();
@@ -31,16 +38,12 @@ public class HistoryBox extends HBox {
         commandHistoryView.setItems(items);
         commandHistoryView.getSelectionModel();
         myCommandHistoryBox.setContent(commandHistoryView);
-        this.getChildren().add(myCommandHistoryBox);
-        this.setPrefWidth(WIDTH);
-        this.setAlignment(Pos.CENTER);
 	}
 	
 	public void addCommandToHistoryBox(String command) {
 		Button button = new Button(command);
 		button.addEventHandler(MouseEvent.MOUSE_CLICKED, e->app.runCommand(command));
 		commandHistory.add(button);
-		//set button's image invisible
 		button.setStyle(  "-fx-border-color: transparent; -fx-border-width: 0;-fx-background-radius: 0;-fx-background-color: transparent;");
 		ObservableList<Button> items =FXCollections.observableArrayList(commandHistory);
         commandHistoryView.setItems(items);

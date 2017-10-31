@@ -5,7 +5,11 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.ComboBox;
 
-
+/**
+ * Creates a button to change the font color
+ * 
+ * @author Matt
+ */
 public class FontColorButton extends ComboBox<String> {
 	
 	private static final int Y_POS = 200;
@@ -25,9 +29,5 @@ public class FontColorButton extends ComboBox<String> {
 		this.setEditable(true);
 		this.setVisibleRowCount(3);
 		this.setItems(colorList);
-	}
-	
-	public void changeFontColor(String color) {
-		System.out.println("Font Test");
 	}
 }

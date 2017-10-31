@@ -5,6 +5,11 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 
+/**
+ * Creates the canvas Holder (StackPane) that the turtle uses to write
+ * 
+ * @author Tony
+ */
 public class CanvasHolder extends StackPane {
 
 	private static final double XPOS = 210;

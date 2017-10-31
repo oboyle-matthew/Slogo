@@ -5,6 +5,11 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 
+/**
+ * Creates a button to create a new turtle
+ * 
+ * @author Matt
+ */
 public class CreateNewTurtleButton extends Button {
 	
 	private static final int Y_POS = 400;

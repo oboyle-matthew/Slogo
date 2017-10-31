@@ -5,6 +5,11 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.ComboBox;
 
+/**
+ * Creates a button to change the background
+ * 
+ * @author Matt
+ */
 public class BackgroundColorButton extends ComboBox<String> {
 	
 	private static final int Y_POS = 50;

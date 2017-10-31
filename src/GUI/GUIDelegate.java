@@ -57,10 +57,8 @@ public interface GUIDelegate {
 
 	void changePenStatus(boolean UpDown);
 
-	//for left forward
 	void leftForwardButtonPressed();
 
-	//for right forward
 	void rightForwardButtonPressed();
 	
 	void updateVarBox(Map<String, Double> map);

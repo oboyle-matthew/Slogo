@@ -251,6 +251,7 @@ private static final int LIST_TOO_SHORT = -1;
 	 * create a new {@code ParsedCommand} object
 	 */
 	private String getProperCommandString(String inputCommand) {
+		inputCommand = inputCommand.toLowerCase();
 		for (Object key : currentLanguageProperties.keySet()) {
 			if (matchesProperty(inputCommand, currentLanguageProperties, (String) key))
 				return (String) key;

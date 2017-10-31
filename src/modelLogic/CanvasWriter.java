@@ -27,10 +27,10 @@ public abstract class CanvasWriter {
 	protected double myNodeSize;
 	protected boolean deactivated; 
 	protected boolean dragging;
-	private int backgroundColorIndex;
 	private int penColorIndex;
+	private int id; 
 	
-	CanvasWriter(GUIDelegate app, double nodeSize) {
+	CanvasWriter(GUIDelegate app, double nodeSize, int id) {
 		myApp = app;
 		myPen = new Pen();
 		transitionOperator = new TransitionOperator();
@@ -38,7 +38,8 @@ public abstract class CanvasWriter {
 		myNode = createNode(nodeSize);
 		myApp.addNode(myNode);
 		myNodeSize = nodeSize;
-		setupMouseEventHandling(); 
+		setupMouseEventHandling();
+		this.id = id; 
 	}
 	
 	/**
@@ -240,7 +241,6 @@ public abstract class CanvasWriter {
 	 * want to set the background to 
 	 */
 	public void setBackgroundColor(int index) {
-		backgroundColorIndex = index; 
 		myApp.changeBackground(COLORS[index % (COLORS.length - 1)]);
 	}
 	
@@ -281,6 +281,13 @@ public abstract class CanvasWriter {
 		return myNode;
 	}
 
+	/**
+	 * @return {@code int} representing the CanvasWriter's ID
+	 */
+	public int getId() {
+		return id; 
+	}
+	
 	/**
 	 * @return {@code true} if the model's node is visible, and {@code false}
 	 *         otherwise

@@ -32,8 +32,8 @@ public class Turtle extends CanvasWriter {
 	 * Basic constructor that just initializes the myTurtle variable. Returns a new
 	 * {@code Turtle} object
 	 */
-	public Turtle(GUIDelegate app) {
-		super(app, TURTLE_SIZE);
+	public Turtle(GUIDelegate app, int id) {
+		super(app, TURTLE_SIZE, id);
 		currentHeading = myNode.getRotate();
 		currentX = ((ImageView) myNode).getX();
 		currentY = ((ImageView) myNode).getY();

@@ -16,6 +16,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
@@ -37,8 +38,6 @@ public class MainScreen extends ScreenDisplay implements GUIDelegate{
 	private static final String SPECIAL_IMAGE = "src/tortoise.png";
 	private static final String ACTIVATED_IMAGE = "src/Activated.png";
 	private static final String DEACTIVATED_IMAGE = "src/Deactivated.png";
-
-
 
 	private ResourceBundle languageResources;
 	private CanvasHolder canvasHolder;
@@ -242,7 +241,9 @@ public class MainScreen extends ScreenDisplay implements GUIDelegate{
 	@Override
 	public void createInstructionsWindow() {
 		instructionsPane = new VBox();
-		newScene = new Scene(instructionsPane, 400, 400);
+		ScrollPane sp = new ScrollPane();
+		sp.setContent(instructionsPane);
+		newScene = new Scene(sp, 400, 400);
 		myStage = new Stage();
 		myStage.setScene(newScene);
 		myStage.show();

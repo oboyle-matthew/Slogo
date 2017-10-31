@@ -7,9 +7,9 @@ import modelLogic.CommandNameInfo;
 import modelLogic.ParsedItem;
 
 /**
- * This interface serves as the single interface implemented by each command 
- * class. This interface allows for our object creator to return back any type
- * of command to the controller who executes it blindly, with no knowledge of 
+ * This abstract class serves as the class extended by each command 
+ * class. This class allows for our object creator to return back any type
+ * of command to the CommandParser who executes it blindly, with no knowledge of 
  * what the command is 
  */
 

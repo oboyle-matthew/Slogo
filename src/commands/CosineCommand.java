@@ -3,6 +3,7 @@ package commands;
 import java.util.Map;
 
 import modelLogic.CanvasWriter;
+import modelLogic.CommandNameInfo;
 import modelLogic.ParsedItem;
 import modelLogic.ParsedRegularParameter;
 
@@ -11,7 +12,7 @@ public class CosineCommand extends ExecutableCommand {
 	public static final double DEFAULT_RETURN_VALUE = 0; 
 	
 	@Override
-	public double execute(ParsedItem[] params, CanvasWriter writer, Map<String, Double> variables) {
+	public double execute(ParsedItem[] params, CanvasWriter writer, Map<String, Double> variables, Map<String, CommandNameInfo> userFunctions) {
 		double value = Double.parseDouble(((ParsedRegularParameter) params[0]).toString());
 		return Math.cos(Math.toRadians(value)); 
 	}

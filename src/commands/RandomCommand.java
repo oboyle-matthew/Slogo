@@ -4,6 +4,7 @@ import java.util.Map;
 import java.util.Random;
 
 import modelLogic.CanvasWriter;
+import modelLogic.CommandNameInfo;
 import modelLogic.ParsedItem;
 import modelLogic.ParsedRegularParameter;
 
@@ -14,7 +15,7 @@ public class RandomCommand extends ExecutableCommand {
 
 	
 	@Override
-	public double execute(ParsedItem[] params, CanvasWriter writer, Map<String, Double> variables) {
+	public double execute(ParsedItem[] params, CanvasWriter writer, Map<String, Double> variables, Map<String, CommandNameInfo> userFunctions) {
 		double value = Double.parseDouble(((ParsedRegularParameter) params[0]).toString());
 		Random rn = new Random(); 
 		return rn.nextDouble() * value;

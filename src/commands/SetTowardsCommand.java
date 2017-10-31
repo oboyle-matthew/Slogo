@@ -3,6 +3,7 @@ package commands;
 import java.util.Map;
 
 import modelLogic.CanvasWriter;
+import modelLogic.CommandNameInfo;
 import modelLogic.ParsedItem;
 import modelLogic.ParsedRegularParameter;
 
@@ -14,7 +15,7 @@ public class SetTowardsCommand extends ExecutableCommand {
 	private static final int ANGLE_ADJUSTMENT = 90;
 
 	@Override
-	public double execute(ParsedItem[] params, CanvasWriter writer, Map<String, Double> variables) {
+	public double execute(ParsedItem[] params, CanvasWriter writer, Map<String, Double> variables, Map<String, CommandNameInfo> userFunctions) {
 		double xToFace = Double.parseDouble(((ParsedRegularParameter) params[0]).toString()); 
 		double yToFace = Double.parseDouble(((ParsedRegularParameter) params[1]).toString());
 		double x = writer.getXPos();

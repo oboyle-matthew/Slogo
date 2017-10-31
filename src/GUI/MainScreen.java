@@ -189,7 +189,7 @@ public class MainScreen extends ScreenDisplay implements GUIDelegate{
 	
 	@Override
 	public void createTurtle() {
-		Turtle newTurtle = new Turtle(this, writerList.size());
+		Turtle newTurtle = new Turtle(this);
 		newTurtle.goToRelativePosition(0.0, 0.0);
 		writerList.add(newTurtle);
 		updateTurtleProperties();
@@ -216,7 +216,7 @@ public class MainScreen extends ScreenDisplay implements GUIDelegate{
 	public void runCommand(String text) {
 		for (CanvasWriter w : writerList) {
 			try {
-				if(w.isActivated()) parser.executeInput(text,  w);
+				parser.executeInput(text,  w);
 			} catch (Exception e) {
 				createNewErrorWindow(text);
 				e.printStackTrace();

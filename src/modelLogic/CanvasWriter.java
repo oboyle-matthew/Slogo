@@ -17,8 +17,9 @@ public abstract class CanvasWriter {
 	protected static final double INITIAL_X_POSITION = 385.0;
 	protected static final double INITIAL_Y_POSITION = 213.0;
 	protected static final String[] COLORS = {"white", "blue", "orange", "yellow", "green", "purple", "grey", "red"};
-
+	
 	/* Instance Variables */
+	private static int writerCount = 0; 
 	protected List<Node> drawnNodes;
 	protected Pen myPen;
 	protected GUIDelegate myApp;
@@ -30,7 +31,7 @@ public abstract class CanvasWriter {
 	private int penColorIndex;
 	private int id; 
 	
-	CanvasWriter(GUIDelegate app, double nodeSize, int id) {
+	CanvasWriter(GUIDelegate app, double nodeSize) {
 		myApp = app;
 		myPen = new Pen();
 		transitionOperator = new TransitionOperator();
@@ -39,7 +40,8 @@ public abstract class CanvasWriter {
 		myApp.addNode(myNode);
 		myNodeSize = nodeSize;
 		setupMouseEventHandling();
-		this.id = id; 
+		writerCount++; 
+		id = writerCount; 
 	}
 	
 	/**
@@ -252,6 +254,19 @@ public abstract class CanvasWriter {
 		penColorIndex = index; 
 		myPen.setPenColor(COLORS[index % (COLORS.length - 1)]);
 	}
+	
+	/**
+	 * @param status is {@code boolean} representing whether the canvas writer is active or not
+	 */
+	public void setActive(boolean status) {
+		deactivated = !status;
+		toggleNodeActivated();
+	}
+	
+	/**
+	 * Updates the node whenever it has been activated
+	 */
+	protected abstract void toggleNodeActivated();
 
 	/* Getter Methods */
 
@@ -286,6 +301,13 @@ public abstract class CanvasWriter {
 	 */
 	public int getId() {
 		return id; 
+	}
+	
+	/**
+	 * @return {@code int} representing the number of CanvasWriters
+	 */
+	public static int getWriters() {
+		return writerCount;
 	}
 	
 	/**

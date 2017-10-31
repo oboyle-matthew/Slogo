@@ -39,4 +39,8 @@ public abstract class ExecutableCommand {
 		return this;
 	}
 	
+	public boolean mustBeActiveToExecute() {
+		return true;
+	}
+	
 }

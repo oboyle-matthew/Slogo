@@ -53,4 +53,8 @@ public interface GUIDelegate {
 
 	void addTurtleFile();
 
+	void penUp();
+	
+	void penDown();
+
 }

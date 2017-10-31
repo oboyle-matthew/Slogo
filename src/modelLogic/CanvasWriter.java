@@ -332,6 +332,7 @@ public abstract class CanvasWriter {
 		return myPen;
 	}
 	
+	
 	/**
 	 * @return An {@code int} representing the current color index for the pen 
 	 */

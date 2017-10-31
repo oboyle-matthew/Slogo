@@ -34,6 +34,11 @@ public class MainScreen extends ScreenDisplay implements GUIDelegate{
 	private static final String DEFAULT_RESOURCE_PACKAGE = "resources/languages/";
 	private static final int CANVAS_WIDTH = 350;
 	private static final int GRIDSIZE = 3;
+	private static final String SPECIAL_IMAGE = "src/tortoise.png";
+	private static final String ACTIVATED_IMAGE = "src/Activated.png";
+	private static final String DEACTIVATED_IMAGE = "src/Deactivated.png";
+
+
 
 	private ResourceBundle languageResources;
 	private CanvasHolder canvasHolder;
@@ -501,6 +506,17 @@ public class MainScreen extends ScreenDisplay implements GUIDelegate{
 		// TODO Auto-generated method stub
 		Map <String, Double> myMap = parser.getVariableMap();
 		myMap.put((String) variable, newValue);
+	}
+
+	@Override
+	public void changeTurtleImages(int selected) {
+		for (int i = 0; i < writerList.size(); i++) {
+			Turtle writer = (Turtle) writerList.get(i);
+			if (i == selected) writer.setImage(SPECIAL_IMAGE);
+			else if (writer.isActivated()) writer.setImage(ACTIVATED_IMAGE);
+			else writer.setImage(DEACTIVATED_IMAGE);
+		}
+		
 	}
 
 

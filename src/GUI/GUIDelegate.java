@@ -67,4 +67,6 @@ public interface GUIDelegate {
 
 	void updateVarSet(Object variable, double newValue);
 
+	void changeTurtleImages(int selected);
+
 }

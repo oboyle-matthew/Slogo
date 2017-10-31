@@ -89,6 +89,7 @@ public class TurtleFileExplorer extends TitledPane{
 	            int test = Integer.parseInt(((Label) paneListView.getSelectionModel().getSelectedItem().getChildren().get(2)).getText().toString());
 	            app.changeTurtle(test-1);
 	            app.updateTurtleProperties();
+	            app.changeTurtleImages(test-1);
 	      }
 	    });
 		

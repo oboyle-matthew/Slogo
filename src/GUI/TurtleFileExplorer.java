@@ -26,10 +26,10 @@ import modelLogic.Turtle;
 public class TurtleFileExplorer extends TitledPane{
 	
 	private ListView<HBox> paneListView = new ListView<>();
+	private GUIDelegate app;
 	int count = 0;
 	//constructor
-	public TurtleFileExplorer() {
-		
+	public TurtleFileExplorer(GUIDelegate app) {
 		this.setStyle( "-fx-background-color: white, white, white;\n" + 
 				"  -fx-background-insets: 0, 1, 2;\n" + 
 				"  -fx-background-radius: 60 60 0 0, 60 60 0 0, 0 0 0 0;\n"
@@ -78,20 +78,10 @@ public class TurtleFileExplorer extends TitledPane{
         
        paneListView.getItems().add(subPane);
        
+       
        subPane.setAlignment(Pos.BOTTOM_LEFT);
 		
 	}
-	
-	public void printIndex() {
-		
-		paneListView.setOnMouseClicked(new EventHandler<MouseEvent>() {
 
-	        @Override
-	        public void handle(MouseEvent event) {
-	            System.out.println("clicked on " + paneListView.getSelectionModel().getSelectedItem().getLayoutY());
-	            
-	        }
-	    });
-	}
 	
 }

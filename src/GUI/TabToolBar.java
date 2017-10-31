@@ -14,14 +14,14 @@ public class TabToolBar extends TabPane {
 	private GUIDelegate app;
 	private HistoryBox historyBox;
 	private PropertiesBox propertiesBox;
-	private varBox myVarBox;
+	private VarBox myVarBox;
 	
 	public TabToolBar(GUIDelegate app) {
 		propertiesBox = new PropertiesBox(app);
 		this.app = app;
 		//addTab();
 		historyBox = new HistoryBox(app);
-		myVarBox = new varBox(app);
+		myVarBox = new VarBox(app);
 		this.setStyle("-fx-padding: 1; -fx-background-color: grey, -fx-control-inner-background; -fx-background-insets: 0, 1; ");
 		// change it over here
 		this.setLayoutX(570);
@@ -40,7 +40,7 @@ public class TabToolBar extends TabPane {
 		return propertiesBox;
 	}
 	
-	public varBox getVarBox() {
+	public VarBox getVarBox() {
 		return myVarBox;
 	}
 	

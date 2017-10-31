@@ -1,5 +1,7 @@
 package GUI;
 
+import java.util.Map;
+
 import javafx.scene.Node;
 
 public interface GUIDelegate {
@@ -53,14 +55,14 @@ public interface GUIDelegate {
 
 	void addTurtleFile();
 
-	void penUp();
-	
-	void penDown();
+	void changePenStatus(boolean UpDown);
 
 	//for left forward
 	void leftForwardButtonPressed();
 
 	//for right forward
 	void rightForwardButtonPressed();
+	
+	void updateVarBox(Map<String, Double> map);
 
 }

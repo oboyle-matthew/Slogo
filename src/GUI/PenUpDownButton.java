@@ -48,7 +48,7 @@ public class PenUpDownButton extends ToggleSwitch{
                 		
                 		
                 		//TO-DO
-                		app.penDown();
+                		app.changePenStatus(true);
                 		
                 		
             		}
@@ -58,7 +58,7 @@ public class PenUpDownButton extends ToggleSwitch{
                 		button.toFront();
                 		
                 		//TO-DO
-                		app.penUp();
+                		app.changePenStatus(false);
             		}
 		});
 	}

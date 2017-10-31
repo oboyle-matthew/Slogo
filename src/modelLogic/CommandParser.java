@@ -37,11 +37,11 @@ private static final int LIST_TOO_SHORT = -1;
 	private static final String SYNTAX_STRING = "Syntax";
 	private static final String PROPERTIES_EXTENSION = ".properties";
 	private static final String INVALID_INPUT = "The input entered was invalid. Please check the help manual for a list of allowed commands.";
-	
+
 /* Instance Variables */
-	private static Properties syntaxProperties;
 	private String languageChoice;
 	private Properties currentLanguageProperties;
+	private Properties syntaxProperties;
 	private Map<String, Double> userVariables;
 	private Map<String, CommandNameInfo> userFunctions;
 
@@ -155,6 +155,7 @@ private static final int LIST_TOO_SHORT = -1;
 		for(int i = 0; i < list.size(); i++) {
 			if(list.get(i).getItemType().equals(COMMAND_ITEM)) {
 				ParsedCommand p = (ParsedCommand) list.get(i);
+				p.checkUserFunctions(userFunctions);
 				if(!p.isCommand()) return false; 
 				int canExecute = checkNextParams(list, i, p.getParameterOrder());
 				if(canExecute == LIST_TOO_SHORT) return false; 
@@ -264,7 +265,7 @@ private static final int LIST_TOO_SHORT = -1;
 	 * @param property is a {@code String} that contains the property that you want to see if the str matches
 	 * @return {@code true} if the input string does indeed match the property, and false otherwise
  	 */
-	private static boolean matchesProperty(String str, Properties p, String property) {
+	private boolean matchesProperty(String str, Properties p, String property) {
 		Pattern pattern = Pattern.compile(p.getProperty(property));
 		Matcher m = pattern.matcher(str);
 		return m.matches();

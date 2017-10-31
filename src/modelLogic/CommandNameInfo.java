@@ -4,11 +4,11 @@ import java.util.Map;
 
 public class CommandNameInfo {
 	
-	private Map<String, Double> commandVariables;
+	private String[] variableNames;
 	private ParsedBracketParameter commands;
 	
-	public CommandNameInfo(Map<String, Double> variables, ParsedBracketParameter bracketCommands) {
-		commandVariables = variables;
+	public CommandNameInfo(String[] variables, ParsedBracketParameter bracketCommands) {
+		variableNames = variables;
 		commands = bracketCommands;
 	}
 	
@@ -16,7 +16,7 @@ public class CommandNameInfo {
 		return commands;
 	}
 	
-	public Map<String, Double> getVariables() {
-		return commandVariables;
+	public String[] getVariables() {
+		return variableNames;
 	}
 }

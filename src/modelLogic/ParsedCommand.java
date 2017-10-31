@@ -3,6 +3,7 @@ package modelLogic;
 import java.util.Map;
 
 import commands.ExecutableCommand;
+import commands.GeneralCommand;
 
 /**
  * Represents a parsed command for a SLOGO command
@@ -14,12 +15,14 @@ public class ParsedCommand extends ParsedItem {
 	private static final double DEFAULT_VARIABLE_VALUE = 0;
 	private static final String COMMAND_POSTFIX = "Command";
 	private static final String COMMANDS_DIR = "commands.";
+	private ExecutableCommand myCommand;
 	
 	private boolean isCommand;  
 	
 	ParsedCommand(String commandName) {
 		myString = commandName;
-		isCommand = createExecutableCommand(commandName) != null;   
+		myCommand = createExecutableCommand(commandName);
+		isCommand = myCommand != null;   
 	}
 	
 	/**
@@ -60,14 +63,21 @@ public class ParsedCommand extends ParsedItem {
 	 */
 	public double execute(ParsedItem[] params, CanvasWriter writer, Map<String, Double> variables, Map<String, CommandNameInfo> userFunctions) {
 		if(!myString.equals("MakeVariable")) updateParams(params, variables);
-		return createExecutableCommand(myString).execute(params, writer, variables, userFunctions);
+		return myCommand.execute(params, writer, variables, userFunctions);
+	}
+	
+	public void checkUserFunctions(Map<String,CommandNameInfo> userFunctions) {
+		if(!isCommand) {
+			isCommand = userFunctions.keySet().contains(myString);
+			myCommand = new GeneralCommand();
+		}
 	}
 	
 	/**
 	 * @return A {@code String[]} that contains the parameters needed for the command to execute
 	 */
 	public String[] getParameterOrder() {
-		return createExecutableCommand(myString).paramNumber();
+		return myCommand.paramNumber();
 	}
 	
 	public boolean isCommand() {

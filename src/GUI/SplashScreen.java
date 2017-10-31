@@ -61,4 +61,6 @@ public class SplashScreen extends ScreenDisplay {
 		screenBox.setLayoutX(50);
 	}
 
+
+
 }

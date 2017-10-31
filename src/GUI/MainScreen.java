@@ -61,6 +61,7 @@ public class MainScreen extends ScreenDisplay implements GUIDelegate{
 	private BackwardButton myBackButton;
 	private BackgroundColorButton myBackgroundColorButton;
 	private FontColorButton myFontColorButton;
+	private FontSizeButton myFontSizeButton;
 	private TabToolBar myTabToolBar;
 	// for input box
 	private CustomizeButton myCustomizeButton;
@@ -70,12 +71,14 @@ public class MainScreen extends ScreenDisplay implements GUIDelegate{
 	private GridPane myDirectionGrid;
 	private TurtleFileExplorer fileExplorer;
 	private StackPane greyFilter = new StackPane();
+	private int currTurtleIndex;
 
 
 	public MainScreen(int width, int height, Paint background, String language) {
 		super(width, height, background);
 		writerList = new ArrayList<>();
 		myLanguage = language;
+		currTurtleIndex = 0;
 		parser = new CommandParser(language);
 		createMainScreen(language);
 	}
@@ -278,6 +281,8 @@ public class MainScreen extends ScreenDisplay implements GUIDelegate{
 		newProject.getChildren().add(myBackgroundColorButton);
 		myFontColorButton = new FontColorButton(this);
 		newProject.getChildren().add(myFontColorButton);
+		myFontSizeButton = new FontSizeButton(this);
+		newProject.getChildren().add(myFontSizeButton);
 	}
 
 	@Override
@@ -333,11 +338,12 @@ public class MainScreen extends ScreenDisplay implements GUIDelegate{
 	@Override
 	public String[] getInfo() {
 		String[] info = {
-				Double.toString(writerList.get(0).getHeading()),
-				Double.toString(writerList.get(0).getXPos()),
-				Double.toString(writerList.get(0).getYPos()),
-				"" + writerList.get(0).getMyPen().getPenInfo(), writerList.get(0).getMyPen().getColor(), 
-				"" + writerList.get(0).getMyPen().getPenSize(), "DASHED"};
+				Double.toString(writerList.get(currTurtleIndex).getHeading()),
+				Double.toString(writerList.get(currTurtleIndex).getXPos()),
+				Double.toString(writerList.get(currTurtleIndex).getYPos()),
+				"" + writerList.get(currTurtleIndex).getMyPen().getPenInfo(), 
+				writerList.get(currTurtleIndex).getMyPen().getColor(), 
+				"" + writerList.get(currTurtleIndex).getMyPen().getPenSize(), "DASHED"};
 		return info;
 	}
 
@@ -369,5 +375,35 @@ public class MainScreen extends ScreenDisplay implements GUIDelegate{
 				
 	}
 
+	@Override
+	public void changeFontWidth(Integer size) {
+		// TODO Auto-generated method stub
+		System.out.println(size);
+	}
+
+	@Override
+	public void clearCanvas() {
+		return;
+	}
+
+	@Override
+	public void changeFontColor(int index) {
+		for(CanvasWriter w : writerList) {
+			if(w.isActivated()) {
+				w.setPenColor(index);
+			}
+		updateTurtleProperties();	
+		}
+	}
+
+	@Override
+	public void changeTurtle(int index) {
+		currTurtleIndex = index;
+	}
+
+	@Override
+	public void addTurtleFile() {
+		fileExplorer.addTurtleFile();
+	}
 
 }

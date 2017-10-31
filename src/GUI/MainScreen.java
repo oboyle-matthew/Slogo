@@ -5,8 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.Scene;
@@ -24,26 +22,19 @@ import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Paint;
-import javafx.scene.shape.LineTo;
-import javafx.scene.shape.MoveTo;
-import javafx.scene.shape.Path;
 import javafx.stage.Stage;
 import modelLogic.CanvasWriter;
 import modelLogic.CommandParser;
 import modelLogic.Turtle;
 
 public class MainScreen extends ScreenDisplay implements GUIDelegate{
-	private static final String CONTROLS_IMAGE = "Controls.png";
 	private static final String DEFAULT_RESOURCE_PACKAGE = "resources/languages/";
 	private static final int CANVAS_WIDTH = 350;
 	private static final int GRIDSIZE = 3;
-	private static final double NEW_TURTLE_INITIAL_X_POSITION = 345.0;
-	private static final double NEW_TURTLE_INITIAL_Y_POSITION = 193.0;
 
 	private ResourceBundle languageResources;
 	private CanvasHolder canvasHolder;
 	private String myLanguage;
-	private Turtle ogTurtle;
 	private VBox instructionsPane;
 	private VBox newProject;
 	private Scene newScene;
@@ -54,7 +45,6 @@ public class MainScreen extends ScreenDisplay implements GUIDelegate{
 	private RotateRightButton myRightButton;
 	private RotateLeftButton myLeftButton;
 	private ClearButton myClearButton;
-	private HistoryBox myHistoryBox;
 	private InstructionsButton myInstructionButton;
 	private NewProjectButton myNewProjectButton;
 	private ForwardButton myForwardButton;
@@ -90,8 +80,7 @@ public class MainScreen extends ScreenDisplay implements GUIDelegate{
 		canvasHolder.updateBackgroundColor("white");
 		rootAdd(canvasHolder);
 		buttonInit();	
-		
-		myHistoryBox = new HistoryBox(this);
+	
 		
 		// Setup InputBox
 		myInputBox = new InputBox(this);
@@ -227,7 +216,7 @@ public class MainScreen extends ScreenDisplay implements GUIDelegate{
 	public void runCommand(String text) {
 		for (CanvasWriter w : writerList) {
 			try {
-				if(w.isActivated()) parser.executeInput(text,  w);
+				parser.executeInput(text,  w);
 			} catch (Exception e) {
 				createNewErrorWindow(text);
 				e.printStackTrace();
@@ -251,7 +240,6 @@ public class MainScreen extends ScreenDisplay implements GUIDelegate{
 		for (String s : languageResources.keySet()) {
 			createInstruction(instructionsPane, s);
 		}
-//		createInstruction(instructionsPane, "Forward");
 	}
 	
 	private void createInstruction(VBox instructionsPane, String instruction) {

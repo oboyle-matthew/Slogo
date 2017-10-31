@@ -60,7 +60,9 @@ public class ParsedCommand extends ParsedItem {
 	 */
 	public double execute(ParsedItem[] params, CanvasWriter writer, Map<String, Double> variables, Map<String, CommandNameInfo> userFunctions) {
 		if(!myString.equals("MakeVariable")) updateParams(params, variables);
-		return createExecutableCommand(myString).execute(params, writer, variables, userFunctions);
+		ExecutableCommand command = createExecutableCommand(myString);
+		if(!command.mustBeActiveToExecute() || writer.isActivated()) return command.execute(params, writer, variables, userFunctions);
+		return 0;
 	}
 	
 	/**

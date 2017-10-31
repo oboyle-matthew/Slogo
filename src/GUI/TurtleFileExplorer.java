@@ -40,8 +40,6 @@ public class TurtleFileExplorer extends TitledPane{
         	      HBoxBuilder.create().spacing(5).alignment(Pos.CENTER_LEFT).children(
         	           
         	        new ImageView(imageTur),
-        	       
-
         	       new Label("Package Explorer")
         	      ).build()
         	    );

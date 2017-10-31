@@ -380,13 +380,11 @@ public class MainScreen extends ScreenDisplay implements GUIDelegate{
 
 	@Override
 	public void forwardButtonPressed() {
-		operateOnWriters("setHeading", new Class[]{Double.class}, new Object[] {0.0});
 		operateOnWriters("moveForward", new Class[]{Double.class}, new Object[] {50.0});
 	}
 
 	@Override
 	public void backwardButtonPressed() {
-		operateOnWriters("setHeading", new Class[]{Double.class}, new Object[] {0.0});
 		operateOnWriters("moveBackwards",new Class[] {Double.class}, new Object[] {50.0});
 	}
 
@@ -441,8 +439,8 @@ public class MainScreen extends ScreenDisplay implements GUIDelegate{
 
 	@Override
 	public void changeFontWidth(Integer size) {
-		// TODO Auto-generated method stub
-		System.out.println(size);
+		for(CanvasWriter w : writerList)
+			w.getMyPen().setPenSize(size);
 	}
 
 	@Override
@@ -452,12 +450,7 @@ public class MainScreen extends ScreenDisplay implements GUIDelegate{
 
 	@Override
 	public void changeFontColor(int index) {
-		for(CanvasWriter w : writerList) {
-			if(w.isActivated()) {
-				w.setPenColor(index);
-			}
-		updateTurtleProperties();	
-		}
+		operateOnWriters("setPenColor",new Class[] {Integer.class}, new Object[] {index});
 	}
 
 	@Override
@@ -472,6 +465,7 @@ public class MainScreen extends ScreenDisplay implements GUIDelegate{
 	}
 
 	@Override
+<<<<<<< HEAD
 	public void changePenStatus(boolean upDown) {
 		for(CanvasWriter w : writerList) {
 			if(w.isActivated()) {
@@ -480,6 +474,17 @@ public class MainScreen extends ScreenDisplay implements GUIDelegate{
 		updateTurtleProperties();	
 		}
 		
+=======
+	public void penUp() {
+		for(CanvasWriter w : writerList)
+			w.getMyPen().setPenStatus(true);
+	}
+
+	@Override
+	public void penDown() {
+		for(CanvasWriter w : writerList)
+			w.getMyPen().setPenStatus(false);
+>>>>>>> 20464ab44c5f151e0d913f297caa55a6f89519fa
 	}
 
 	@Override
@@ -487,7 +492,7 @@ public class MainScreen extends ScreenDisplay implements GUIDelegate{
 		// TODO Auto-generated method stub
 		
 		// call set heading method
-		operateOnWriters("setHeading",new Class[] {Double.class}, new Object[] {-90.0});
+		operateOnWriters("rotateLeft",new Class[] {Double.class}, new Object[] {-90.0});
 		operateOnWriters("moveForward",new Class[] {Double.class}, new Object[] {50.0});
 		
 	}
@@ -495,7 +500,13 @@ public class MainScreen extends ScreenDisplay implements GUIDelegate{
 	@Override
 	public void rightForwardButtonPressed() {
 		// TODO Auto-generated method stub
+<<<<<<< HEAD
 		operateOnWriters("setHeading",new Class[] {Double.class}, new Object[] {90.0});
+=======
+		
+		
+		operateOnWriters("rotateRight",new Class[] {Double.class}, new Object[] {90.0});
+>>>>>>> 20464ab44c5f151e0d913f297caa55a6f89519fa
 		operateOnWriters("moveForward",new Class[] {Double.class}, new Object[] {50.0});
 		
 	}

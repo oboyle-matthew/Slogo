@@ -250,7 +250,7 @@ public abstract class CanvasWriter {
 	 * @param index is an {@code int} that represents the index of the color you
 	 * want to set the pen to 
 	 */
-	public void setPenColor(int index) {
+	public void setPenColor(Integer index) {
 		penColorIndex = index; 
 		myPen.setPenColor(COLORS[index % (COLORS.length - 1)]);
 	}

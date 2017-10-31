@@ -33,7 +33,7 @@ public class VarBox extends VBox {
 	private GUIDelegate app;
 	private TableView varTable;
 	private ObservableList<TurProperty> displayList;
-	private static String[] varValue;
+	private static Set<String> varSet;
 
 	
 	public VarBox(GUIDelegate app) {
@@ -66,7 +66,10 @@ public class VarBox extends VBox {
                     ((TurProperty) t.getTableView().getItems().get(
                         t.getTablePosition().getRow())
                         ).setMyName(t.getNewValue());
+                    System.out.println(t.getNewValue());
+                    System.out.println(t.getTablePosition().getRow());
                 }
+                
             }
         );
         
@@ -102,8 +105,8 @@ public class VarBox extends VBox {
 	
 	public void update(Map<String, Double> map) {
 		displayList.clear();
-		Set<String> varArray = map.keySet();
-		for (String s : varArray) {
+		varSet = map.keySet();
+		for (String s : varSet) {
 			displayList.add(new TurProperty(s, Double.toString(map.get(s))));
 		}
 	}

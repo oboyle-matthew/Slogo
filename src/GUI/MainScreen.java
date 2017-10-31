@@ -226,10 +226,6 @@ public class MainScreen extends ScreenDisplay implements GUIDelegate{
 			try {
 				parser.executeInput(text,  w);
 				this.updateVarBox(parser.getVariableMap());
-				System.out.println(parser.getVariableMap());
-				System.out.println(parser.getVariableMap().keySet().toString());
-				System.out.println(parser.getVariableMap().values().toString());
-
 			} catch (Exception e) {
 				createNewErrorWindow(text);
 				e.printStackTrace();
@@ -379,19 +375,18 @@ public class MainScreen extends ScreenDisplay implements GUIDelegate{
 	}
 
 	@Override
-	public void forwardButtonPressed() {
-		operateOnWriters("moveForward", new Class[]{Double.class}, new Object[] {50.0});
-	}
-
-	@Override
 	public void backwardButtonPressed() {
+		operateOnWriters("setHeading", new Class[]{Double.class}, new Object[] {0.0});
 		operateOnWriters("moveBackwards",new Class[] {Double.class}, new Object[] {50.0});
 	}
 
 	@Override
-	public void rotateLeftButtonPressed() {		
-		operateOnWriters("rotateLeft",new Class[] {Double.class}, new Object[] {30.0});
+	public void forwardButtonPressed() {
+		operateOnWriters("setHeading", new Class[]{Double.class}, new Object[] {0.0});
+		operateOnWriters("moveForward", new Class[]{Double.class}, new Object[] {50.0});
 	}
+
+
 	
 	public void rotateRightButtonPressed() {
 		operateOnWriters("rotateRight",new Class[] {Double.class}, new Object[] {30.0});
@@ -472,17 +467,15 @@ public class MainScreen extends ScreenDisplay implements GUIDelegate{
 			}
 		updateTurtleProperties();	
 		}
-		
 	}
-
+		
 	@Override
 	public void leftForwardButtonPressed() {
 		// TODO Auto-generated method stub
 		
 		// call set heading method
-		operateOnWriters("rotateLeft",new Class[] {Double.class}, new Object[] {-90.0});
+		operateOnWriters("setHeading",new Class[] {Double.class}, new Object[] {-90.0});
 		operateOnWriters("moveForward",new Class[] {Double.class}, new Object[] {50.0});
-		
 	}
 
 	@Override
@@ -490,12 +483,17 @@ public class MainScreen extends ScreenDisplay implements GUIDelegate{
 		// TODO Auto-generated method stub
 		operateOnWriters("setHeading",new Class[] {Double.class}, new Object[] {90.0});
 		operateOnWriters("moveForward",new Class[] {Double.class}, new Object[] {50.0});
-		
 	}
 
 	@Override
 	public void updateVarBox(Map<String, Double> map) {
 		myTabToolBar.getVarBox().update(map);
+		
+	}
+
+	@Override
+	public void rotateLeftButtonPressed() {
+		// TODO Auto-generated method stub
 		
 	}
 

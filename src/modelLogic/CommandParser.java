@@ -111,6 +111,7 @@ private static final int LIST_TOO_SHORT = -1;
 	 * @return A {@code double} that is the result of the last executed command 
 	 */
 	public double executeCommands(List<ParsedItem> items, CanvasWriter writer, Map<String, Double> variables) {
+		if(items.size() == 0) return 0;
 		userVariables = variables;
 		double val = cleanList(items); 
 		while(items.size() > 0 && notAllParams(items)) {
@@ -250,6 +251,7 @@ private static final int LIST_TOO_SHORT = -1;
 	 * create a new {@code ParsedCommand} object
 	 */
 	private String getProperCommandString(String inputCommand) {
+		inputCommand = inputCommand.toLowerCase();
 		for (Object key : currentLanguageProperties.keySet()) {
 			if (matchesProperty(inputCommand, currentLanguageProperties, (String) key))
 				return (String) key;

@@ -51,14 +51,18 @@ public class Turtle extends CanvasWriter {
 	@Override 
 	protected void nodeClicked() {
 		if (!dragging) {
-			if (deactivated) {
-				((ImageView) myNode).setImage(new Image((new File(ACTIVATED_TURTLE_PATH)).toURI().toString(),
-						TURTLE_SIZE, TURTLE_SIZE, false, false));
-			} else {
-				((ImageView) myNode).setImage(new Image((new File(DEACTIVATED_TURTLE_PATH)).toURI().toString(),
-						TURTLE_SIZE, TURTLE_SIZE, false, false));
-			}
-			deactivated = !deactivated;
+			setActive(!isActivated());
+		}
+	}
+	
+	@Override 
+	protected void toggleNodeActivated() {
+		if(isActivated()) {
+			((ImageView) myNode).setImage(new Image((new File(ACTIVATED_TURTLE_PATH)).toURI().toString(),
+					TURTLE_SIZE, TURTLE_SIZE, false, false));
+		} else {
+			((ImageView) myNode).setImage(new Image((new File(DEACTIVATED_TURTLE_PATH)).toURI().toString(),
+					TURTLE_SIZE, TURTLE_SIZE, false, false));
 		}
 	}
 

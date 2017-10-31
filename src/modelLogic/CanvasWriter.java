@@ -17,8 +17,9 @@ public abstract class CanvasWriter {
 	protected static final double INITIAL_X_POSITION = 385.0;
 	protected static final double INITIAL_Y_POSITION = 213.0;
 	protected static final String[] COLORS = {"white", "blue", "orange", "yellow", "green", "purple", "grey", "red"};
-
+	
 	/* Instance Variables */
+	private static int writerCount = 0; 
 	protected List<Node> drawnNodes;
 	protected Pen myPen;
 	protected GUIDelegate myApp;
@@ -27,8 +28,8 @@ public abstract class CanvasWriter {
 	protected double myNodeSize;
 	protected boolean deactivated; 
 	protected boolean dragging;
-	private int backgroundColorIndex;
 	private int penColorIndex;
+	private int id; 
 	
 	CanvasWriter(GUIDelegate app, double nodeSize) {
 		myApp = app;
@@ -38,7 +39,9 @@ public abstract class CanvasWriter {
 		myNode = createNode(nodeSize);
 		myApp.addNode(myNode);
 		myNodeSize = nodeSize;
-		setupMouseEventHandling(); 
+		setupMouseEventHandling();
+		writerCount++; 
+		id = writerCount; 
 	}
 	
 	/**
@@ -240,7 +243,6 @@ public abstract class CanvasWriter {
 	 * want to set the background to 
 	 */
 	public void setBackgroundColor(int index) {
-		backgroundColorIndex = index; 
 		myApp.changeBackground(COLORS[index % (COLORS.length - 1)]);
 	}
 	
@@ -252,6 +254,19 @@ public abstract class CanvasWriter {
 		penColorIndex = index; 
 		myPen.setPenColor(COLORS[index % (COLORS.length - 1)]);
 	}
+	
+	/**
+	 * @param status is {@code boolean} representing whether the canvas writer is active or not
+	 */
+	public void setActive(boolean status) {
+		deactivated = !status;
+		toggleNodeActivated();
+	}
+	
+	/**
+	 * Updates the node whenever it has been activated
+	 */
+	protected abstract void toggleNodeActivated();
 
 	/* Getter Methods */
 
@@ -281,6 +296,20 @@ public abstract class CanvasWriter {
 		return myNode;
 	}
 
+	/**
+	 * @return {@code int} representing the CanvasWriter's ID
+	 */
+	public int getId() {
+		return id; 
+	}
+	
+	/**
+	 * @return {@code int} representing the number of CanvasWriters
+	 */
+	public static int getWriters() {
+		return writerCount;
+	}
+	
 	/**
 	 * @return {@code true} if the model's node is visible, and {@code false}
 	 *         otherwise

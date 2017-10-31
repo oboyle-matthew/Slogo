@@ -3,6 +3,7 @@ package GUI;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.ResourceBundle;
 
 import javafx.event.EventHandler;
@@ -224,6 +225,11 @@ public class MainScreen extends ScreenDisplay implements GUIDelegate{
 		for (CanvasWriter w : writerList) {
 			try {
 				parser.executeInput(text,  w);
+				this.updateVarBox(parser.getVariableMap());
+				System.out.println(parser.getVariableMap());
+				System.out.println(parser.getVariableMap().keySet().toString());
+				System.out.println(parser.getVariableMap().values().toString());
+
 			} catch (Exception e) {
 				createNewErrorWindow(text);
 				e.printStackTrace();
@@ -466,19 +472,13 @@ public class MainScreen extends ScreenDisplay implements GUIDelegate{
 	}
 
 	@Override
-	public void penUp() {
+	public void changePenStatus(boolean upDown) {
 		for(CanvasWriter w : writerList) {
 			if(w.isActivated()) {
-				w.getMyPen().setPenStatus(true);
+				w.getMyPen().setPenStatus(upDown);
 			}
 		updateTurtleProperties();	
 		}
-		
-	}
-
-	@Override
-	public void penDown() {
-		// TODO Auto-generated method stub
 		
 	}
 
@@ -495,10 +495,14 @@ public class MainScreen extends ScreenDisplay implements GUIDelegate{
 	@Override
 	public void rightForwardButtonPressed() {
 		// TODO Auto-generated method stub
-		
-		
 		operateOnWriters("setHeading",new Class[] {Double.class}, new Object[] {90.0});
 		operateOnWriters("moveForward",new Class[] {Double.class}, new Object[] {50.0});
+		
+	}
+
+	@Override
+	public void updateVarBox(Map<String, Double> map) {
+		myTabToolBar.getVarBox().update(map);
 		
 	}
 

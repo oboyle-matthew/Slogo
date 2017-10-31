@@ -26,7 +26,7 @@ import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 
-public class varBox extends VBox {
+public class VarBox extends VBox {
 	public static String[] varName = {"circle"};
 
 	private GUIDelegate app;
@@ -35,7 +35,7 @@ public class varBox extends VBox {
 	private static String[] varValue = {"heart line"};
 
 	
-	public varBox(GUIDelegate app) {
+	public VarBox(GUIDelegate app) {
 		this.app = app;
 		
 		
@@ -155,6 +155,12 @@ public class varBox extends VBox {
 		app.setDirection(Double.parseDouble(displayList.get(0).getMyValue()));
 		app.moveX(Double.parseDouble(displayList.get(1).getMyValue()));
 	}
+	
+	public void update() {
+		
+	}
+	
+	
 	
 	public void updatePropertiesBox() {
 		varValue = app.getInfo();

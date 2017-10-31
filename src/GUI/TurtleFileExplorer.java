@@ -65,9 +65,12 @@ public class TurtleFileExplorer extends TitledPane{
 		HBox subPane = new HBox();
         Image tur = new Image(getClass().getResourceAsStream("turtleButton.png"));
         subPane.getChildren().add(new ImageView(tur));
-        Label  name = new Label(" Turtle "+ count);
+        Label  name = new Label(" Turtle ");
+        Label  index = new Label(Integer.toString(count));
         name.setFont(new Font(11));
+        index.setFont(new Font(11));
         subPane.getChildren().add(name);
+        subPane.getChildren().add(index);
         
         Label gitControl = new Label(" [GUI master]");
         gitControl.setTextFill(Color.GOLDENROD);
@@ -82,6 +85,18 @@ public class TurtleFileExplorer extends TitledPane{
        subPane.setAlignment(Pos.BOTTOM_LEFT);
 		
 	}
+	
+	public void printIndex() {
+		paneListView.setOnMouseClicked(new EventHandler<MouseEvent>() {
+
+	        @Override
+	        public void handle(MouseEvent event) {
+	            System.out.println("clicked on " + ((Label) paneListView.getSelectionModel().getSelectedItem().getChildren().get(2)).getText());
+	      }
+	    });
+	}
+	
+	
 
 	
 }

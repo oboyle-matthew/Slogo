@@ -3,6 +3,7 @@ package GUI;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -33,7 +34,8 @@ public class VarBox extends VBox {
 	private GUIDelegate app;
 	private TableView varTable;
 	private ObservableList<TurProperty> displayList;
-	private static Set<String> varSet;
+	private Set<String> varSet;
+	private Object[] varArray;
 
 	
 	public VarBox(GUIDelegate app) {
@@ -67,7 +69,9 @@ public class VarBox extends VBox {
                         t.getTablePosition().getRow())
                         ).setMyName(t.getNewValue());
                     System.out.println(t.getNewValue());
-                    System.out.println(t.getTablePosition().getRow());
+                    int row = t.getTablePosition().getRow();
+                    System.out.println(varArray[row]);
+                    app.updateVarSet(varArray[row], Double.parseDouble(t.getNewValue()));
                 }
                 
             }
@@ -106,6 +110,7 @@ public class VarBox extends VBox {
 	public void update(Map<String, Double> map) {
 		displayList.clear();
 		varSet = map.keySet();
+		varArray = varSet.toArray();
 		for (String s : varSet) {
 			displayList.add(new TurProperty(s, Double.toString(map.get(s))));
 		}

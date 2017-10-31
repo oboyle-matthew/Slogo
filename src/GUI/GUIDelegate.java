@@ -65,4 +65,6 @@ public interface GUIDelegate {
 	
 	void updateVarBox(Map<String, Double> map);
 
+	void updateVarSet(Object variable, double newValue);
+
 }

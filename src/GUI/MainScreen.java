@@ -497,4 +497,13 @@ public class MainScreen extends ScreenDisplay implements GUIDelegate{
 		
 	}
 
+	@Override
+	public void updateVarSet(Object variable, double newValue) {
+		// TODO Auto-generated method stub
+		Map <String, Double> myMap = parser.getVariableMap();
+		myMap.put((String) variable, newValue);
+	}
+
+
+
 }

@@ -25,6 +25,5 @@ public class TurProperty {
 	public void setMyValue(String myValue) {
 		this.myValue = myValue;
 	}
-
 	
 }

@@ -6,18 +6,22 @@ import javafx.collections.ObservableList;
 import javafx.scene.control.ComboBox;
 
 
-public class PenUpDownButton extends ComboBox<String> {
+public class PenUpDownButton extends ToggleSwitch{
 	
-	private static final int Y_POS = 200;
+	/*private static final int Y_POS = 200;
 	private static final int X_POS = 200;
 	private static final int WIDTH = 200;
 	private static final String PROMPT_TEXT = "Pen up or down";
-	private static final String[] OPTIONS = {"Pen Up", "Pen Down"};
+	private static final String[] OPTIONS = {"Pen Up", "Pen Down"};*/
+	
+	
 	private GUIDelegate app;
 	
 	public PenUpDownButton(GUIDelegate app) {
 		this.app = app;
-		this.setPrefWidth(WIDTH);
+		
+		
+		/*this.setPrefWidth(WIDTH);
 		this.setLayoutX(X_POS);
 		this.setLayoutY(Y_POS);
 		ObservableList<String> colorList = FXCollections.observableArrayList(OPTIONS);
@@ -26,11 +30,40 @@ public class PenUpDownButton extends ComboBox<String> {
 		this.setPromptText(PROMPT_TEXT);
 		this.setEditable(true);
 		this.setVisibleRowCount(3);
-		this.setItems(colorList);
+		this.setItems(colorList);*/
+		
+		this.setUpSwitch();
+		
+		
+		
+		
 	}
 	
-	public void changePenUpDown(int index) {
-		if (index == 0) app.penUp();
-		if (index == 1) app.penDown();
+	private void setUpSwitch() {
+		switchedOn.addListener((a,b,c) -> {
+			if (c) {
+                		switchLabel.setText("DOWN");
+                		setStyle("-fx-background-color: green;");
+                		switchLabel.toFront();
+                		
+                		
+                		//TO-DO
+                		app.penDown();
+                		
+                		
+            		}
+            		else {
+            			switchLabel.setText("UP");
+        			setStyle("-fx-background-color: grey;");
+                		button.toFront();
+                		
+                		//TO-DO
+                		app.penUp();
+            		}
+		});
 	}
-}
+	}
+	
+	
+	
+

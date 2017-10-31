@@ -8,6 +8,8 @@ import java.util.ResourceBundle;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.EventHandler;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert.AlertType;
@@ -59,6 +61,8 @@ public class MainScreen extends ScreenDisplay implements GUIDelegate{
 	private NewProjectButton myNewProjectButton;
 	private ForwardButton myForwardButton;
 	private BackwardButton myBackButton;
+	private RightForwardButton rightForwardButton = new RightForwardButton(this);
+	private LeftForwardButton leftForwardButton = new LeftForwardButton(this);
 	private BackgroundColorButton myBackgroundColorButton;
 	private FontColorButton myFontColorButton;
 	private FontSizeButton myFontSizeButton;
@@ -142,6 +146,9 @@ public class MainScreen extends ScreenDisplay implements GUIDelegate{
 	    rootAdd(myDirectionGrid);
 	    myDirectionGrid.add(myForwardButton, 1, 0);
 	    myDirectionGrid.add(myBackButton, 1, 2);
+	    myDirectionGrid.add(rightForwardButton, 2, 1);
+	    myDirectionGrid.add(leftForwardButton, 0, 1);
+	    
 		rootAdd(myTabToolBar);
 	
 		// Setup rotation buttons
@@ -277,16 +284,74 @@ public class MainScreen extends ScreenDisplay implements GUIDelegate{
 		myStage = new Stage();
 		myStage.setScene(newScene);
 		myStage.show();
-		myBackgroundColorButton = new BackgroundColorButton(this);
-		newProject.getChildren().add(myBackgroundColorButton);
-		myFontColorButton = new FontColorButton(this);
-		newProject.getChildren().add(myFontColorButton);
-		myFontSizeButton = new FontSizeButton(this);
-		newProject.getChildren().add(myFontSizeButton);
-		myPenUpDownButton = new PenUpDownButton(this);
-		newProject.getChildren().add(myPenUpDownButton);
+		//(top/right/bottom/left)
+		newProject.setPadding(new Insets(50,10,10,10));
+		newProject.setSpacing(10);
+		newProject.getStylesheets().add
+		 (this.getClass().getResource("customizeBox.css").toExternalForm());
+		// Create Several HBox inside VBox
 		
+		for (int i = 0; i < 4; i ++) {
+			// initialize a Hbox
+			switch(i) {
+			case 0:
+				HBox myBox = new HBox();
+				myBox.getChildren().add(new Label("Background Color: "));
+				((Label)myBox.getChildren().get(0)).setAlignment(Pos.CENTER_LEFT);
+				((Label)myBox.getChildren().get(0)).setPrefWidth(180);
+				myBackgroundColorButton = new BackgroundColorButton(this);
+				myBox.getChildren().add(myBackgroundColorButton);
+				newProject.getChildren().add(myBox);
+				
+				
+				break;
+				
+			case 1:
+				HBox myBox1 = new HBox();
+				myBox1.getChildren().add(new Label("Font Color: "));
+				((Label)myBox1.getChildren().get(0)).setAlignment(Pos.CENTER_LEFT);
+				((Label)myBox1.getChildren().get(0)).setPrefWidth(180);
+				
+				myFontColorButton = new FontColorButton(this);
+				myBox1.getChildren().add(myFontColorButton);
+				
+				//set paddling 
+				
+				newProject.getChildren().add(myBox1);
+				break;
+				
+			case 2:
+				HBox myBox2 = new HBox();
+				myBox2.getChildren().add(new Label("Font Size: "));
+				
+				((Label)myBox2.getChildren().get(0)).setAlignment(Pos.CENTER_LEFT);
+				((Label)myBox2.getChildren().get(0)).setPrefWidth(180);
+				
+				
+				
+				myFontSizeButton = new FontSizeButton(this);
+				myBox2.getChildren().add(myFontSizeButton);
+				newProject.getChildren().add(myBox2);	
+				
+				break;
+			
+			case 3:
+				HBox myBox3 = new HBox();
+				myBox3.getChildren().add(new Label("Pen Up/Down: "));
+				((Label)myBox3.getChildren().get(0)).setAlignment(Pos.CENTER_LEFT);
+				((Label)myBox3.getChildren().get(0)).setPrefWidth(180);
+				myPenUpDownButton = new PenUpDownButton(this);
+				myBox3.getChildren().add(myPenUpDownButton);
+				newProject.getChildren().add(myBox3);	
+				
+				break;
+			
+			}
+			
+		}
 	}
+	
+	
 
 	@Override
 	public void moveX(Double newLocation) {
@@ -321,11 +386,13 @@ public class MainScreen extends ScreenDisplay implements GUIDelegate{
 
 	@Override
 	public void forwardButtonPressed() {
+		operateOnWriters("setHeading", new Class[]{Double.class}, new Object[] {0.0});
 		operateOnWriters("moveForward", new Class[]{Double.class}, new Object[] {50.0});
 	}
 
 	@Override
 	public void backwardButtonPressed() {
+		operateOnWriters("setHeading", new Class[]{Double.class}, new Object[] {0.0});
 		operateOnWriters("moveBackwards",new Class[] {Double.class}, new Object[] {50.0});
 	}
 
@@ -419,6 +486,26 @@ public class MainScreen extends ScreenDisplay implements GUIDelegate{
 	@Override
 	public void penDown() {
 		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void leftForwardButtonPressed() {
+		// TODO Auto-generated method stub
+		
+		// call set heading method
+		operateOnWriters("setHeading",new Class[] {Double.class}, new Object[] {-90.0});
+		operateOnWriters("moveForward",new Class[] {Double.class}, new Object[] {50.0});
+		
+	}
+
+	@Override
+	public void rightForwardButtonPressed() {
+		// TODO Auto-generated method stub
+		
+		
+		operateOnWriters("setHeading",new Class[] {Double.class}, new Object[] {90.0});
+		operateOnWriters("moveForward",new Class[] {Double.class}, new Object[] {50.0});
 		
 	}
 

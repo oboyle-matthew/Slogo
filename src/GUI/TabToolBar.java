@@ -14,12 +14,14 @@ public class TabToolBar extends TabPane {
 	private GUIDelegate app;
 	private HistoryBox historyBox;
 	private PropertiesBox propertiesBox;
+	private varBox myVarBox;
 	
 	public TabToolBar(GUIDelegate app) {
 		propertiesBox = new PropertiesBox(app);
 		this.app = app;
 		//addTab();
 		historyBox = new HistoryBox(app);
+		myVarBox = new varBox(app);
 		this.setStyle("-fx-padding: 1; -fx-background-color: grey, -fx-control-inner-background; -fx-background-insets: 0, 1; ");
 		// change it over here
 		this.setLayoutX(570);
@@ -27,6 +29,7 @@ public class TabToolBar extends TabPane {
 		this.setPrefSize(420, 350);
 		addTab("Property",this.sizingSample());
 		addTab("History",this.historyCommand());
+		addTab("New Variables",this.CustomizePane());
 	}
 	
 	public HistoryBox getHistoryBox() {
@@ -37,6 +40,9 @@ public class TabToolBar extends TabPane {
 		return propertiesBox;
 	}
 	
+	public varBox getVarBox() {
+		return myVarBox;
+	}
 	
 	private void addTab(String tabName,Pane tabContext ) {
 		Tab tabSize = new Tab();
@@ -78,6 +84,32 @@ private Pane historyCommand() {
    
     return border;
 	}
+
+
+
+
+//third pane
+private Pane CustomizePane() {
+    
+    BorderPane border = new BorderPane();
+    border.setPadding(new Insets(20, 20, 20, 20));
+    border.setStyle("-fx-background-color: white");
+    Label text = new Label("Customized Variable");
+	text.setFont(new Font("Andale Mono", 20));
+	text.setStyle("-fx-effect: dropshadow(gaussian, rgba(67,96,156,0.25) , 0,0,2,2 )");
+	border.setTop(text);
+	
+    border.setCenter(myVarBox);  
+    //top Right Bottom Left
+    myVarBox.setPadding(new Insets(20, 0, 0, 0));
+    border.setAlignment(text, Pos.CENTER);
+    
+    
+    
+   
+    return border;
+	}
+
 
 
 }

@@ -88,7 +88,7 @@ public class TurtleFileExplorer extends TitledPane{
 
 	        @Override
 	        public void handle(MouseEvent event) {
-	            System.out.println("clicked on " + paneListView.getSelectionModel().getSelectedItem().getLayoutX());
+	            System.out.println("clicked on " + paneListView.getSelectionModel().getSelectedItem().getLayoutY());
 	            
 	        }
 	    });

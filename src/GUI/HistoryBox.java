@@ -12,6 +12,11 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 
+/**
+ * Creates a re-runable HBox for old commands
+ * 
+ * @author Matt
+ */
 public class HistoryBox extends HBox {
 	
 	private static final int WIDTH = 380;

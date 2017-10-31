@@ -18,6 +18,11 @@ import javafx.scene.paint.Paint;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 
+/**
+ * Creates a Combo Box for the user to choose a language
+ * 
+ * @author Matt and Walker
+ */
 public class LanguageLoader extends HBox {
 	private static final String DEFAULT_RESOURCE_PACKAGE = "resources/";
     private static final String language = "Instructions";

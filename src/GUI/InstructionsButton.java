@@ -5,6 +5,11 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 
+/**
+ * Creates a button to bring up instructions
+ * 
+ * @author Matt
+ */
 public class InstructionsButton extends Button {
 		
 	private static final String INFO_BUTTON_IMAGE = "infoButton.png";

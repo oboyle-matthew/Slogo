@@ -6,6 +6,11 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 
+/**
+ * Creates a button to create a new project
+ * 
+ * @author Matt
+ */
 public class NewProjectButton extends Button {
 	
 	private static final String ADD_FILE_IMAGE = "addFile.png";

@@ -4,6 +4,11 @@ import java.util.Map;
 
 import javafx.scene.Node;
 
+/**
+ * Creates the interface for buttons/tabs/windows etc.
+ * 
+ * @author Matt
+ */
 public interface GUIDelegate {
 	void runButtonPressed();
 	

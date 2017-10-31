@@ -72,9 +72,9 @@ public class MainScreen extends ScreenDisplay implements GUIDelegate{
 
 	public MainScreen(int width, int height, Paint background, String language) {
 		super(width, height, background);
+		currTurtleIndex = 0;
 		writerList = new ArrayList<>();
 		myLanguage = language;
-		currTurtleIndex = 0;
 		parser = new CommandParser(language);
 		createMainScreen(language);
 	}
@@ -394,6 +394,7 @@ public class MainScreen extends ScreenDisplay implements GUIDelegate{
 
 	@Override
 	public String[] getInfo() {
+		System.out.println(currTurtleIndex);
 		String[] info = {
 				Double.toString(writerList.get(currTurtleIndex).getHeading()),
 				Double.toString(writerList.get(currTurtleIndex).getXPos()),
@@ -450,7 +451,7 @@ public class MainScreen extends ScreenDisplay implements GUIDelegate{
 
 	@Override
 	public void changeTurtle(int index) {
-		System.out.println(index);
+		System.out.println(currTurtleIndex);
 		currTurtleIndex = index;
 	}
 

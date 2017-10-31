@@ -62,6 +62,7 @@ public class MainScreen extends ScreenDisplay implements GUIDelegate{
 	private BackgroundColorButton myBackgroundColorButton;
 	private FontColorButton myFontColorButton;
 	private FontSizeButton myFontSizeButton;
+	private PenUpDownButton myPenUpDownButton;
 	private TabToolBar myTabToolBar;
 	// for input box
 	private CustomizeButton myCustomizeButton;
@@ -154,7 +155,7 @@ public class MainScreen extends ScreenDisplay implements GUIDelegate{
 		myLeftButton.setLayoutY(490);	
 		
 		// Setup file explorer
-		fileExplorer = new TurtleFileExplorer();
+		fileExplorer = new TurtleFileExplorer(this);
 		rootAdd(fileExplorer);
 		fileExplorer.setLayoutX(10);
 		fileExplorer.setLayoutY(38);
@@ -282,6 +283,9 @@ public class MainScreen extends ScreenDisplay implements GUIDelegate{
 		newProject.getChildren().add(myFontColorButton);
 		myFontSizeButton = new FontSizeButton(this);
 		newProject.getChildren().add(myFontSizeButton);
+		myPenUpDownButton = new PenUpDownButton(this);
+		newProject.getChildren().add(myPenUpDownButton);
+		
 	}
 
 	@Override
@@ -397,12 +401,25 @@ public class MainScreen extends ScreenDisplay implements GUIDelegate{
 
 	@Override
 	public void changeTurtle(int index) {
+		System.out.println(index);
 		currTurtleIndex = index;
 	}
 
 	@Override
 	public void addTurtleFile() {
 		fileExplorer.addTurtleFile();
+	}
+
+	@Override
+	public void penUp() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void penDown() {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

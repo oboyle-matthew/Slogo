@@ -5,6 +5,8 @@ import java.util.ArrayList;
 
 import com.sun.xml.internal.ws.api.streaming.XMLStreamReaderFactory.Default;
 
+import javafx.collections.FXCollections;
+import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.ContentDisplay;
@@ -13,6 +15,7 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.TitledPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.HBoxBuilder;
 import javafx.scene.paint.Color;
@@ -23,10 +26,10 @@ import modelLogic.Turtle;
 public class TurtleFileExplorer extends TitledPane{
 	
 	private ListView<HBox> paneListView = new ListView<>();
+	private GUIDelegate app;
 	int count = 0;
 	//constructor
-	public TurtleFileExplorer() {
-		
+	public TurtleFileExplorer(GUIDelegate app) {
 		this.setStyle( "-fx-background-color: white, white, white;\n" + 
 				"  -fx-background-insets: 0, 1, 2;\n" + 
 				"  -fx-background-radius: 60 60 0 0, 60 60 0 0, 0 0 0 0;\n"
@@ -75,8 +78,10 @@ public class TurtleFileExplorer extends TitledPane{
         
        paneListView.getItems().add(subPane);
        
+       
        subPane.setAlignment(Pos.BOTTOM_LEFT);
 		
 	}
+
 	
 }

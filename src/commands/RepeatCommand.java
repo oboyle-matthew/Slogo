@@ -3,6 +3,7 @@ package commands;
 import java.util.Map;
 
 import modelLogic.CanvasWriter;
+import modelLogic.CommandNameInfo;
 import modelLogic.ParsedBracketParameter;
 import modelLogic.ParsedItem;
 import modelLogic.ParsedRegularParameter;
@@ -10,7 +11,7 @@ import modelLogic.ParsedRegularParameter;
 public class RepeatCommand extends ExecutableCommand {
 
 	@Override
-	public double execute(ParsedItem[] params, CanvasWriter writer, Map<String, Double> variables) {
+	public double execute(ParsedItem[] params, CanvasWriter writer, Map<String, Double> variables, Map<String, CommandNameInfo> userFunctions) {
 		double repeat = Double.parseDouble(((ParsedRegularParameter) params[0]).toString());
 		double ret = 0; 
 		ParsedBracketParameter p = (ParsedBracketParameter) params[1];

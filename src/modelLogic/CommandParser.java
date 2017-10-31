@@ -37,17 +37,19 @@ private static final int LIST_TOO_SHORT = -1;
 	private static final String SYNTAX_STRING = "Syntax";
 	private static final String PROPERTIES_EXTENSION = ".properties";
 	private static final String INVALID_INPUT = "The input entered was invalid. Please check the help manual for a list of allowed commands.";
-
+	
 /* Instance Variables */
+	private static Properties syntaxProperties;
 	private String languageChoice;
 	private Properties currentLanguageProperties;
-	private Properties syntaxProperties;
 	private Map<String, Double> userVariables;
+	private Map<String, CommandNameInfo> userFunctions;
 
 	public CommandParser(String language) {
 		languageChoice = language;
 		currentLanguageProperties = loadProperties(language);
 		userVariables = new HashMap<String, Double>();
+		userFunctions = new HashMap<String, CommandNameInfo>();
 		syntaxProperties = loadProperties(SYNTAX_STRING);
 	}
 
@@ -160,7 +162,7 @@ private static final int LIST_TOO_SHORT = -1;
 				ParsedItem[] params = new ParsedItem[p.getParameterOrder().length];
 				for(int j = 0; j < params.length; j++)
 					params[j] = list.remove(i + 1); 
-				double value = p.execute(params, writer, userVariables);
+				double value = p.execute(params, writer, userVariables, userFunctions);
 				list.set(i, new ParsedRegularParameter("" + value, false));
 				return true; 
 			}
@@ -262,7 +264,7 @@ private static final int LIST_TOO_SHORT = -1;
 	 * @param property is a {@code String} that contains the property that you want to see if the str matches
 	 * @return {@code true} if the input string does indeed match the property, and false otherwise
  	 */
-	private boolean matchesProperty(String str, Properties p, String property) {
+	private static boolean matchesProperty(String str, Properties p, String property) {
 		Pattern pattern = Pattern.compile(p.getProperty(property));
 		Matcher m = pattern.matcher(str);
 		return m.matches();
@@ -279,5 +281,9 @@ private static final int LIST_TOO_SHORT = -1;
 		ButtonType closeButton = new ButtonType("Close", ButtonData.CANCEL_CLOSE);
 		errorPopup.getDialogPane().getButtonTypes().add(closeButton);
 		errorPopup.showAndWait();
+	}
+	
+	public Map<String, Double> getVariableMap() {
+		return userVariables;
 	}
 }

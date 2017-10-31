@@ -4,13 +4,14 @@ package commands;
 import java.util.Map;
 
 import modelLogic.CanvasWriter;
+import modelLogic.CommandNameInfo;
 import modelLogic.ParsedBracketParameter;
 import modelLogic.ParsedItem;
 
 public class DoTimesCommand extends ExecutableCommand {
 
 	@Override
-	public double execute(ParsedItem[] params, CanvasWriter writer, Map<String, Double> variables) {
+	public double execute(ParsedItem[] params, CanvasWriter writer, Map<String, Double> variables, Map<String, CommandNameInfo> userFunctions) {
 		ParsedBracketParameter firstParam = (ParsedBracketParameter) params[0];
 		String[] repeatParameters = firstParam.getStringValues();
 		double ret = 0;

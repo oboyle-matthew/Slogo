@@ -3,9 +3,12 @@ package GUI;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.ResourceBundle;
 
 import javafx.event.EventHandler;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert.AlertType;
@@ -49,6 +52,8 @@ public class MainScreen extends ScreenDisplay implements GUIDelegate{
 	private NewProjectButton myNewProjectButton;
 	private ForwardButton myForwardButton;
 	private BackwardButton myBackButton;
+	private RightForwardButton rightForwardButton = new RightForwardButton(this);
+	private LeftForwardButton leftForwardButton = new LeftForwardButton(this);
 	private BackgroundColorButton myBackgroundColorButton;
 	private FontColorButton myFontColorButton;
 	private FontSizeButton myFontSizeButton;
@@ -67,9 +72,9 @@ public class MainScreen extends ScreenDisplay implements GUIDelegate{
 
 	public MainScreen(int width, int height, Paint background, String language) {
 		super(width, height, background);
+		currTurtleIndex = 0;
 		writerList = new ArrayList<>();
 		myLanguage = language;
-		currTurtleIndex = 0;
 		parser = new CommandParser(language);
 		createMainScreen(language);
 	}
@@ -131,6 +136,9 @@ public class MainScreen extends ScreenDisplay implements GUIDelegate{
 	    rootAdd(myDirectionGrid);
 	    myDirectionGrid.add(myForwardButton, 1, 0);
 	    myDirectionGrid.add(myBackButton, 1, 2);
+	    myDirectionGrid.add(rightForwardButton, 2, 1);
+	    myDirectionGrid.add(leftForwardButton, 0, 1);
+	    
 		rootAdd(myTabToolBar);
 	
 		// Setup rotation buttons
@@ -189,7 +197,7 @@ public class MainScreen extends ScreenDisplay implements GUIDelegate{
 	
 	@Override
 	public void createTurtle() {
-		Turtle newTurtle = new Turtle(this, writerList.size());
+		Turtle newTurtle = new Turtle(this);
 		newTurtle.goToRelativePosition(0.0, 0.0);
 		writerList.add(newTurtle);
 		updateTurtleProperties();
@@ -216,7 +224,8 @@ public class MainScreen extends ScreenDisplay implements GUIDelegate{
 	public void runCommand(String text) {
 		for (CanvasWriter w : writerList) {
 			try {
-				if(w.isActivated()) parser.executeInput(text,  w);
+				parser.executeInput(text,  w);
+				this.updateVarBox(parser.getVariableMap());
 			} catch (Exception e) {
 				createNewErrorWindow(text);
 				e.printStackTrace();
@@ -265,16 +274,74 @@ public class MainScreen extends ScreenDisplay implements GUIDelegate{
 		myStage = new Stage();
 		myStage.setScene(newScene);
 		myStage.show();
-		myBackgroundColorButton = new BackgroundColorButton(this);
-		newProject.getChildren().add(myBackgroundColorButton);
-		myFontColorButton = new FontColorButton(this);
-		newProject.getChildren().add(myFontColorButton);
-		myFontSizeButton = new FontSizeButton(this);
-		newProject.getChildren().add(myFontSizeButton);
-		myPenUpDownButton = new PenUpDownButton(this);
-		newProject.getChildren().add(myPenUpDownButton);
+		//(top/right/bottom/left)
+		newProject.setPadding(new Insets(50,10,10,10));
+		newProject.setSpacing(10);
+		newProject.getStylesheets().add
+		 (this.getClass().getResource("customizeBox.css").toExternalForm());
+		// Create Several HBox inside VBox
 		
+		for (int i = 0; i < 4; i ++) {
+			// initialize a Hbox
+			switch(i) {
+			case 0:
+				HBox myBox = new HBox();
+				myBox.getChildren().add(new Label("Background Color: "));
+				((Label)myBox.getChildren().get(0)).setAlignment(Pos.CENTER_LEFT);
+				((Label)myBox.getChildren().get(0)).setPrefWidth(180);
+				myBackgroundColorButton = new BackgroundColorButton(this);
+				myBox.getChildren().add(myBackgroundColorButton);
+				newProject.getChildren().add(myBox);
+				
+				
+				break;
+				
+			case 1:
+				HBox myBox1 = new HBox();
+				myBox1.getChildren().add(new Label("Font Color: "));
+				((Label)myBox1.getChildren().get(0)).setAlignment(Pos.CENTER_LEFT);
+				((Label)myBox1.getChildren().get(0)).setPrefWidth(180);
+				
+				myFontColorButton = new FontColorButton(this);
+				myBox1.getChildren().add(myFontColorButton);
+				
+				//set paddling 
+				
+				newProject.getChildren().add(myBox1);
+				break;
+				
+			case 2:
+				HBox myBox2 = new HBox();
+				myBox2.getChildren().add(new Label("Font Size: "));
+				
+				((Label)myBox2.getChildren().get(0)).setAlignment(Pos.CENTER_LEFT);
+				((Label)myBox2.getChildren().get(0)).setPrefWidth(180);
+				
+				
+				
+				myFontSizeButton = new FontSizeButton(this);
+				myBox2.getChildren().add(myFontSizeButton);
+				newProject.getChildren().add(myBox2);	
+				
+				break;
+			
+			case 3:
+				HBox myBox3 = new HBox();
+				myBox3.getChildren().add(new Label("Pen Up/Down: "));
+				((Label)myBox3.getChildren().get(0)).setAlignment(Pos.CENTER_LEFT);
+				((Label)myBox3.getChildren().get(0)).setPrefWidth(180);
+				myPenUpDownButton = new PenUpDownButton(this);
+				myBox3.getChildren().add(myPenUpDownButton);
+				newProject.getChildren().add(myBox3);	
+				
+				break;
+			
+			}
+			
+		}
 	}
+	
+	
 
 	@Override
 	public void moveX(Double newLocation) {
@@ -308,19 +375,18 @@ public class MainScreen extends ScreenDisplay implements GUIDelegate{
 	}
 
 	@Override
-	public void forwardButtonPressed() {
-		operateOnWriters("moveForward", new Class[]{Double.class}, new Object[] {50.0});
-	}
-
-	@Override
 	public void backwardButtonPressed() {
+		operateOnWriters("setHeading", new Class[]{Double.class}, new Object[] {0.0});
 		operateOnWriters("moveBackwards",new Class[] {Double.class}, new Object[] {50.0});
 	}
 
 	@Override
-	public void rotateLeftButtonPressed() {		
-		operateOnWriters("rotateLeft",new Class[] {Double.class}, new Object[] {30.0});
+	public void forwardButtonPressed() {
+		operateOnWriters("setHeading", new Class[]{Double.class}, new Object[] {0.0});
+		operateOnWriters("moveForward", new Class[]{Double.class}, new Object[] {50.0});
 	}
+
+
 	
 	public void rotateRightButtonPressed() {
 		operateOnWriters("rotateRight",new Class[] {Double.class}, new Object[] {30.0});
@@ -368,8 +434,8 @@ public class MainScreen extends ScreenDisplay implements GUIDelegate{
 
 	@Override
 	public void changeFontWidth(Integer size) {
-		// TODO Auto-generated method stub
-		System.out.println(size);
+		for(CanvasWriter w : writerList)
+			w.getMyPen().setPenSize(size);
 	}
 
 	@Override
@@ -379,17 +445,11 @@ public class MainScreen extends ScreenDisplay implements GUIDelegate{
 
 	@Override
 	public void changeFontColor(int index) {
-		for(CanvasWriter w : writerList) {
-			if(w.isActivated()) {
-				w.setPenColor(index);
-			}
-		updateTurtleProperties();	
-		}
+		operateOnWriters("setPenColor",new Class[] {Integer.class}, new Object[] {index});
 	}
 
 	@Override
 	public void changeTurtle(int index) {
-		System.out.println(index);
 		currTurtleIndex = index;
 	}
 
@@ -399,15 +459,50 @@ public class MainScreen extends ScreenDisplay implements GUIDelegate{
 	}
 
 	@Override
-	public void penUp() {
+	public void changePenStatus(boolean upDown) {
+		for(CanvasWriter w : writerList) {
+			if(w.isActivated()) {
+				w.getMyPen().setPenStatus(upDown);
+			}
+		updateTurtleProperties();	
+		}
+	}
+		
+	@Override
+	public void leftForwardButtonPressed() {
+		// TODO Auto-generated method stub
+		
+		// call set heading method
+		operateOnWriters("setHeading",new Class[] {Double.class}, new Object[] {-90.0});
+		operateOnWriters("moveForward",new Class[] {Double.class}, new Object[] {50.0});
+	}
+
+	@Override
+	public void rightForwardButtonPressed() {
+		// TODO Auto-generated method stub
+		operateOnWriters("setHeading",new Class[] {Double.class}, new Object[] {90.0});
+		operateOnWriters("moveForward",new Class[] {Double.class}, new Object[] {50.0});
+	}
+
+	@Override
+	public void updateVarBox(Map<String, Double> map) {
+		myTabToolBar.getVarBox().update(map);
+		
+	}
+
+	@Override
+	public void rotateLeftButtonPressed() {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void penDown() {
+	public void updateVarSet(Object variable, double newValue) {
 		// TODO Auto-generated method stub
-		
+		Map <String, Double> myMap = parser.getVariableMap();
+		myMap.put((String) variable, newValue);
 	}
+
+
 
 }

@@ -20,4 +20,9 @@ public class SetPenColorCommand extends ExecutableCommand {
 	public String[] paramNumber() {
 		return new String[] { REGULAR_PARAM };
 	}
+	
+	@Override 
+	public boolean mustBeActiveToExecute() {
+		return false; 
+	}
 }

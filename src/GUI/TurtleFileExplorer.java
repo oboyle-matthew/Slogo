@@ -11,6 +11,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.ContentDisplay;
 import javafx.scene.control.Label;
+import javafx.scene.control.Labeled;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TitledPane;
 import javafx.scene.image.Image;
@@ -30,6 +31,7 @@ public class TurtleFileExplorer extends TitledPane{
 	int count = 0;
 	//constructor
 	public TurtleFileExplorer(GUIDelegate app) {
+		this.app = app;
 		this.setStyle( "-fx-background-color: white, white, white;\n" + 
 				"  -fx-background-insets: 0, 1, 2;\n" + 
 				"  -fx-background-radius: 60 60 0 0, 60 60 0 0, 0 0 0 0;\n"
@@ -79,8 +81,16 @@ public class TurtleFileExplorer extends TitledPane{
         
        paneListView.getItems().add(subPane);
        
-       
-       subPane.setAlignment(Pos.BOTTOM_LEFT);
+       subPane.setAlignment(Pos.BOTTOM_LEFT); 
+       paneListView.setOnMouseClicked(new EventHandler<MouseEvent>() {
+
+	        @Override
+	        public void handle(MouseEvent event) {
+	            int test = Integer.parseInt(((Label) paneListView.getSelectionModel().getSelectedItem().getChildren().get(2)).getText().toString());
+	            app.changeTurtle(test-1);
+	            app.updateTurtleProperties();
+	      }
+	    });
 		
 	}
 	

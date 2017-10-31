@@ -27,6 +27,7 @@ private static final int NOT_ENOUGH_PARAMS = 0;
 private static final int LIST_TOO_SHORT = -1;
 	/* Final Variables */
 	private static final String COMMAND_ITEM = "command";
+	protected static final String BRACKET_PARAM = "bracket parameter";
 	private static final String WHITESPACE_PROPERTY = "Whitespace";
 	private static final String COMMENT_PROPERTY = "Comment";
 	private static final String FIRST_BRACKET_PROPERTY = "ListStart";
@@ -98,7 +99,7 @@ private static final int LIST_TOO_SHORT = -1;
 					System.out.println("inner input of bracket is" + innerInput);
 					List<ParsedItem> l = getParsedItemList(innerInput); 
 					list.add(new ParsedBracketParameter(l, languageChoice));
-					i = i + l.size() + 1; 
+					i = i + totalLength(l) + 1; 
 				}
 			}
 		}
@@ -108,6 +109,18 @@ private static final int LIST_TOO_SHORT = -1;
 		}
 		System.out.println("");
 		return list;
+	}
+
+	private int totalLength(List<ParsedItem> l) {
+		int size = 0;
+		for(ParsedItem item: l) {
+			if (item.getItemType().equals(BRACKET_PARAM)) {
+				ParsedBracketParameter bracketItem = (ParsedBracketParameter) item;
+				size += bracketItem.getSize();
+			}
+			size++;
+		}
+		return size;
 	}
 
 	/**

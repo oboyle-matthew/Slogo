@@ -28,7 +28,3 @@ to warp [ ]
     set :distance sum :distance 10
   ]
 ]
-
-
-cs
-tunnel

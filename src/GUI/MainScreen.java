@@ -412,7 +412,12 @@ public class MainScreen extends ScreenDisplay implements GUIDelegate{
 
 	@Override
 	public void penUp() {
-		// TODO Auto-generated method stub
+		for(CanvasWriter w : writerList) {
+			if(w.isActivated()) {
+				w.getMyPen().setPenStatus(true);
+			}
+		updateTurtleProperties();	
+		}
 		
 	}
 

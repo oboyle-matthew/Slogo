@@ -1,9 +1,10 @@
 package GUI;
 
 
-
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Map;
+import java.util.Set;
 
 //import GUI.TableViewSample.EditingCell;
 import javafx.collections.FXCollections;
@@ -27,12 +28,12 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 
 public class VarBox extends VBox {
-	public static String[] varName = {"circle"};
+	public static String[] varName;
 
 	private GUIDelegate app;
 	private TableView varTable;
 	private ObservableList<TurProperty> displayList;
-	private static String[] varValue = {"heart line"};
+	private static String[] varValue;
 
 	
 	public VarBox(GUIDelegate app) {
@@ -42,38 +43,21 @@ public class VarBox extends VBox {
 		
 		varTable = new TableView();
 		
-		// Set up table colomn
 		TableColumn firstCol = new TableColumn("Variable Name");
         TableColumn lastCol = new TableColumn("Value");
         varTable.getColumns().addAll(firstCol, lastCol);
         
-        
         displayList =FXCollections.observableArrayList ();
 			
-	        	displayList.add(new TurProperty(varName[0], varValue[0]));
-	        
-//			   new TurProperty( "Direction ",propertyArr[0]),
-//			   new TurProperty("X position ",propertyArr[1]), 
-//			   new TurProperty( 	"Pen Down ",propertyArr[2]), 
-//			   new TurProperty( 	"Pen Color ", propertyArr[3]), 
-//			   new TurProperty( 	"PenSize ", propertyArr[4]),
-//			   new TurProperty(	"PenStyle " , propertyArr[5]));
-		
-		
-		
-		//first col
 		firstCol.setPrefWidth(189);
         firstCol.setCellValueFactory(
                 new PropertyValueFactory<TurProperty, String>("myName"));
         
-        // last col
         lastCol.setPrefWidth(189);
         lastCol.setCellValueFactory(
                 new PropertyValueFactory<TurProperty, String>("myValue"));
         
         varTable.setItems(displayList);
-       // updatePropertiesBox(displayList);
-        //Make it editable 
         lastCol.setCellFactory(TextFieldTableCell.forTableColumn());
         lastCol.setOnEditCommit(
             new EventHandler<CellEditEvent<TurProperty, String>>() {
@@ -82,26 +66,6 @@ public class VarBox extends VBox {
                     ((TurProperty) t.getTableView().getItems().get(
                         t.getTablePosition().getRow())
                         ).setMyName(t.getNewValue());
-                    
-
-
-                    int rowNum = t.getTablePosition().getRow();
-                    String val = t.getNewValue();
-                    System.out.print(rowNum + " : ");
-                    System.out.println(val);
-                    System.out.println(varName[rowNum]+"(" + val + ")" + "\n");
-                    
-//                    for (Command c : Command.values()) {
-//                    	System.out.print(c + " : ");
-//                    	System.out.println(c.name());
-//                    }
-
-                    
-                    app.moveX(Double.parseDouble(t.getNewValue()));
-                    
-                    
-//                    app.moveX(Double.parseDouble(t.getNewValue()));
-//                    System.out.println(t.getNewValue());
                 }
             }
         );
@@ -115,31 +79,11 @@ public class VarBox extends VBox {
                     ((TurProperty) t.getTableView().getItems().get(
                         t.getTablePosition().getRow())
                         ).setMyName(t.getNewValue());
-                    
-
-
                     int rowNum = t.getTablePosition().getRow();
                     String val = t.getNewValue();
-                    System.out.print(rowNum + " : ");
-                    System.out.println(val);
-                    System.out.println(varName[rowNum]+"(" + val + ")" + "\n");
-                    
-//                    for (Command c : Command.values()) {
-//                    	System.out.print(c + " : ");
-//                    	System.out.println(c.name());
-//                    }
-
-                    
-                    app.moveX(Double.parseDouble(t.getNewValue()));
-                    
-                    
-//                    app.moveX(Double.parseDouble(t.getNewValue()));
-//                    System.out.println(t.getNewValue());
                 }
             }
         );
-        
-
 
 		this.getChildren().add(varTable);
 		this.setAlignment(Pos.CENTER);
@@ -156,23 +100,13 @@ public class VarBox extends VBox {
 		app.moveX(Double.parseDouble(displayList.get(1).getMyValue()));
 	}
 	
-	public void update() {
-		
-	}
-	
-	
-	
-	public void updatePropertiesBox() {
-		varValue = app.getInfo();
+	public void update(Map<String, Double> map) {
 		displayList.clear();
-		for (int i = 0; i < 7; i++) {
-        	displayList.add(new TurProperty(varName[i], varValue[i]));
-        }
+		Set<String> varArray = map.keySet();
+		for (String s : varArray) {
+			displayList.add(new TurProperty(s, Double.toString(map.get(s))));
+		}
 	}
-
-
-	
-	
 	
 }
 

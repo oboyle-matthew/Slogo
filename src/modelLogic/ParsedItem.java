@@ -10,7 +10,6 @@ public abstract class ParsedItem {
 	protected static final String COMMAND = "command";
 	protected static final String BRACKET_PARAM = "bracket parameter";
 	protected static final String REGULAR_PARAM = "regular parameter";
-	protected static final String USER_COMMAND = "regular parameter";
 
 /* Instance Variables */
 	protected String myString; 

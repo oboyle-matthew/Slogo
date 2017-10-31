@@ -27,7 +27,7 @@ public class ForCommand extends ExecutableCommand {
 			ParsedBracketParameter p = (ParsedBracketParameter) params[1];
 			for (double i = start; i <= end; i += increment) {
 				ParsedBracketParameter temp = (ParsedBracketParameter) p.getCopy();
-				ret = p.executeCommands(writer, variables);
+				ret = p.executeCommands(writer, variables, userFunctions);
 				variables.put(repeatParameters[0], ret);
 				p = temp;
 			}

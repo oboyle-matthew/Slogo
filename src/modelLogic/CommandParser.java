@@ -37,15 +37,16 @@ private static final int LIST_TOO_SHORT = -1;
 	private static final String SYNTAX_STRING = "Syntax";
 	private static final String PROPERTIES_EXTENSION = ".properties";
 	private static final String INVALID_INPUT = "The input entered was invalid. Please check the help manual for a list of allowed commands.";
-	
+
 /* Instance Variables */
-	private static Properties syntaxProperties;
 	private String languageChoice;
 	private Properties currentLanguageProperties;
+	private Properties syntaxProperties;
 	private Map<String, Double> userVariables;
 	private Map<String, CommandNameInfo> userFunctions;
 
 	public CommandParser(String language) {
+		System.out.println("New Command Parser made");
 		languageChoice = language;
 		currentLanguageProperties = loadProperties(language);
 		userVariables = new HashMap<String, Double>();
@@ -92,13 +93,20 @@ private static final int LIST_TOO_SHORT = -1;
 				} else if(matchesProperty(splitInputList.get(i), syntaxProperties, VARIABLE_PROPERTY)) {
 					list.add(new ParsedRegularParameter(splitInputList.get(i), true));
 				} else if(matchesProperty(splitInputList.get(i), syntaxProperties, FIRST_BRACKET_PROPERTY)) {
+//					System.out.println("split input is " + splitInputList.toString());
 					String innerInput = getBracketContent(splitInputList, i);
+					System.out.println("inner input of bracket is" + innerInput);
 					List<ParsedItem> l = getParsedItemList(innerInput); 
 					list.add(new ParsedBracketParameter(l, languageChoice));
 					i = i + l.size() + 1; 
 				}
 			}
 		}
+		System.out.println("list broken down into: ");
+		for(ParsedItem item: list) {
+			System.out.print(item.getItemType() + " ");
+		}
+		System.out.println("");
 		return list;
 	}
 
@@ -110,13 +118,18 @@ private static final int LIST_TOO_SHORT = -1;
 	 * user defined variables
 	 * @return A {@code double} that is the result of the last executed command 
 	 */
-	public double executeCommands(List<ParsedItem> items, CanvasWriter writer, Map<String, Double> variables) {
-		if(items.size() == 0) return 0;
+	public double executeCommands(List<ParsedItem> items, CanvasWriter writer, Map<String, Double> variables, Map<String, CommandNameInfo> functions) {
 		userVariables = variables;
+		userFunctions = functions;
 		double val = cleanList(items); 
+		List<ParsedItem> oldItems = null;
 		while(items.size() > 0 && notAllParams(items)) {
-			boolean succeeded = executeNextCommand(items, writer);
-			if(!succeeded) {
+			oldItems = copyParsedList(items);
+			System.out.println("items are: " + items.toString());
+			boolean succeeded = executeNextCommand(items, writer, functions);
+			System.out.println("items are: " + items.toString());
+			System.out.println("Success status: " + succeeded);
+			if(!succeeded || !itemsDiffer(oldItems, items)) {
 				createErrorWindow(INVALID_INPUT);
 				return -1; 
 			}
@@ -125,6 +138,28 @@ private static final int LIST_TOO_SHORT = -1;
 		return val;
 	}
 	
+	private boolean itemsDiffer(List<ParsedItem> oldItems, List<ParsedItem> items) {
+		if (oldItems == null || oldItems.size() != items.size()) {
+			return true;
+		}
+		for (int i = 0; i<oldItems.size(); i++) {
+			ParsedItem old = oldItems.get(i);
+			ParsedItem recent = items.get(i);
+			if (old.myString != recent.myString) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	private List<ParsedItem> copyParsedList(List<ParsedItem> items) {
+		List<ParsedItem> copy = new ArrayList<ParsedItem>();
+		for(ParsedItem item: items) {
+			copy.add(item.getCopy());
+		}
+		return copy;
+	}
+
 	/**
 	 * Checks if the passed in list contains only param objects
 	 * @param items is a {@code List<ParsedItem>} that is the list you want to check
@@ -144,19 +179,23 @@ private static final int LIST_TOO_SHORT = -1;
 	 */
 	public void executeInput(String input, CanvasWriter writer) {
 		List<ParsedItem> p = getParsedItemList(input);
-		executeCommands(p, writer, userVariables);
+		executeCommands(p, writer, userVariables, userFunctions);
 	}
 	
 	/**
 	 * Execute the next command that can be executed in the passed in list 
 	 * @param list is a {@code List<ParsedItem>} that contains all the commands and current values of the list
+	 * @param functions 
 	 * @param tortuga is the {@code Turtle} to use for the execution of commands
 	 */
-	private boolean executeNextCommand(List<ParsedItem> list, CanvasWriter writer) {
+	private boolean executeNextCommand(List<ParsedItem> list, CanvasWriter writer, Map<String, CommandNameInfo> functions) {
 		for(int i = 0; i < list.size(); i++) {
 			if(list.get(i).getItemType().equals(COMMAND_ITEM)) {
 				ParsedCommand p = (ParsedCommand) list.get(i);
+				System.out.println(p.myString + " is a command");
+				p.checkUserFunctions(userFunctions);
 				if(!p.isCommand()) return false; 
+				System.out.println(p.myString + " made it passed command check");
 				int canExecute = checkNextParams(list, i, p.getParameterOrder());
 				if(canExecute == LIST_TOO_SHORT) return false; 
 				if(canExecute == NOT_ENOUGH_PARAMS) continue; 
@@ -185,8 +224,16 @@ private static final int LIST_TOO_SHORT = -1;
 	 * 	   -1 - There isn't enough room left in the list for the command to be able to execute, which is an error  
 	 */
 	private int checkNextParams(List<ParsedItem> list, int currIndex, String[] paramsNeeded) {
+		System.out.println("params needed are " + Arrays.toString(paramsNeeded));
+		System.out.println("list is " + list.toString());
+		for(ParsedItem item: list) {
+			System.out.print(item.getItemType());
+		}
+		System.out.println("current index is "  + currIndex);
 		if(currIndex + paramsNeeded.length >= list.size()) return LIST_TOO_SHORT; 
 		for(int i = currIndex + 1; i < paramsNeeded.length + currIndex + 1; i++) {
+			System.out.println("system check one: " + list.get(i).getItemType());
+			System.out.println("equals: " + paramsNeeded[i - currIndex - 1]);
 			if(!list.get(i).getItemType().equals(paramsNeeded[i - currIndex - 1])) return NOT_ENOUGH_PARAMS;
 		}
 		return 1; 
@@ -202,7 +249,8 @@ private static final int LIST_TOO_SHORT = -1;
 		ParsedItem curr = list.get(0); 
 		double val = 0;
 		if(list.size() == 1 && !notAllParams(list)) return Double.parseDouble( ((ParsedRegularParameter)curr).toString());
-		while(list.size() > 1 && !curr.getItemType().equals(COMMAND_ITEM)) {
+		while((list.size() > 1 && !curr.getItemType().equals(COMMAND_ITEM)) && !curr.myString.contains(":")) {
+			System.out.println(curr + " is " + curr.getItemType());
 			list.remove(0);
 			val = Double.parseDouble(((ParsedRegularParameter)curr).toString());
 			curr = list.get(0);
@@ -226,9 +274,11 @@ private static final int LIST_TOO_SHORT = -1;
 				bracketNum++;
 			} else if(matchesProperty(curr, syntaxProperties, LAST_BRACKET_PROPERTY)) {
 				bracketNum--;
-			} else {
-				s = s + " " + curr; 
+				if(bracketNum == 0) {
+					break;
+				}
 			}
+			s = s + " " + curr; 
 			index++;
 		}
 		return s;
@@ -266,7 +316,7 @@ private static final int LIST_TOO_SHORT = -1;
 	 * @param property is a {@code String} that contains the property that you want to see if the str matches
 	 * @return {@code true} if the input string does indeed match the property, and false otherwise
  	 */
-	private static boolean matchesProperty(String str, Properties p, String property) {
+	private boolean matchesProperty(String str, Properties p, String property) {
 		Pattern pattern = Pattern.compile(p.getProperty(property));
 		Matcher m = pattern.matcher(str);
 		return m.matches();

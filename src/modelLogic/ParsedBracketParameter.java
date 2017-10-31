@@ -37,9 +37,9 @@ public class ParsedBracketParameter extends ParsedItem {
 	 * variables to use for execution 
 	 * @return A {@code double} that is the value from the last executed command
 	 */
-	public double executeCommands(CanvasWriter writer, Map<String, Double> variables) {
+	public double executeCommands(CanvasWriter writer, Map<String, Double> variables, Map<String, CommandNameInfo> functions) {
 		CommandParser p = new CommandParser(currLanguage);
-		return p.executeCommands(myContents, writer, variables);
+		return p.executeCommands(myContents, writer, variables, functions);
 	}
 
 	/**
@@ -56,7 +56,7 @@ public class ParsedBracketParameter extends ParsedItem {
 	}
 
 	@Override
-	public ParsedItem getCopy() {
+	public ParsedBracketParameter getCopy() {
 		List<ParsedItem> vals = new ArrayList<ParsedItem>();
 		for (ParsedItem s : myContents)
 			vals.add(s.getCopy());

@@ -65,6 +65,11 @@ public class Turtle extends CanvasWriter {
 					TURTLE_SIZE, TURTLE_SIZE, false, false));
 		}
 	}
+	
+	public void setImage(String imageString) {
+		((ImageView) myNode).setImage(new Image((new File(imageString)).toURI().toString(),
+				TURTLE_SIZE, TURTLE_SIZE, false, false));
+	}
 
 	/* Movement Methods */
 
@@ -163,4 +168,5 @@ public class Turtle extends CanvasWriter {
 	public double getYPos() {
 		return INITIAL_Y_POSITION - currentY;
 	}
+
 }

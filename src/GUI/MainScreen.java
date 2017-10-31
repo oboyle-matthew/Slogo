@@ -16,6 +16,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
@@ -30,10 +31,21 @@ import modelLogic.CanvasWriter;
 import modelLogic.CommandParser;
 import modelLogic.Turtle;
 
+/**
+ * This class represents the main screen of the program. This extends the interface
+ * GUIDelegate, which controls all of the commands that the user can input, along
+ * with all buttons, tabs, scrollpanes etc.
+ * 
+ * @author Matt and Tony
+ */
+
 public class MainScreen extends ScreenDisplay implements GUIDelegate{
 	private static final String DEFAULT_RESOURCE_PACKAGE = "resources/languages/";
 	private static final int CANVAS_WIDTH = 350;
 	private static final int GRIDSIZE = 3;
+	private static final String SPECIAL_IMAGE = "src/tortoise.png";
+	private static final String ACTIVATED_IMAGE = "src/Activated.png";
+	private static final String DEACTIVATED_IMAGE = "src/Deactivated.png";
 
 	private ResourceBundle languageResources;
 	private CanvasHolder canvasHolder;
@@ -52,8 +64,8 @@ public class MainScreen extends ScreenDisplay implements GUIDelegate{
 	private NewProjectButton myNewProjectButton;
 	private ForwardButton myForwardButton;
 	private BackwardButton myBackButton;
-	private RightForwardButton rightForwardButton = new RightForwardButton(this);
-	private LeftForwardButton leftForwardButton = new LeftForwardButton(this);
+	private RightForwardButton rightForwardButton;
+	private LeftForwardButton leftForwardButton;
 	private BackgroundColorButton myBackgroundColorButton;
 	private FontColorButton myFontColorButton;
 	private FontSizeButton myFontSizeButton;
@@ -68,7 +80,6 @@ public class MainScreen extends ScreenDisplay implements GUIDelegate{
 	private TurtleFileExplorer fileExplorer;
 	private StackPane greyFilter = new StackPane();
 	private int currTurtleIndex;
-
 
 	public MainScreen(int width, int height, Paint background, String language) {
 		super(width, height, background);
@@ -85,46 +96,39 @@ public class MainScreen extends ScreenDisplay implements GUIDelegate{
 		canvasHolder.updateBackgroundColor("white");
 		rootAdd(canvasHolder);
 		buttonInit();	
-	
-		
-		// Setup InputBox
-		myInputBox = new InputBox(this);
-	    myInputBox.setPrefWidth(350);
-		myInputBox.setPrefHeight(175);
-		rootAdd(myInputBox);
-		 
-		// Setup Event Handlers for Input Box
-	    EventHandler<MouseEvent> eventHandlerTextField = new EventHandler<MouseEvent>() { 
-	    		@Override 
-	    		public void handle(MouseEvent event) {  
-	 			
-	 			greyFilter.setStyle("-fx-background-color: rgba(33, 33, 146, 0.5); -fx-background-radius: 10;");
-	 			greyFilter.setLayoutX(0);
-	 			greyFilter.setLayoutY(0);
-	 			if (!rootContain(greyFilter)) {
-	 				greyFilter.setPrefSize(1000, 600);
-	 				rootRemove(myInputBox);
-	 				rootAdd(greyFilter);
-	 				rootAdd(myInputBox);
-	        	 	}
-	         }           
-	      };  
-	      
-	    EventHandler<MouseEvent> eventHandlerExit = new EventHandler<MouseEvent>() { 
-	    		@Override 
-	    		public void handle(MouseEvent event) { 	
-	    			if (rootContain(greyFilter)) rootRemove(greyFilter);
-	    		}           
-	      };  
+		createInputBox();
+	    EventHandler<MouseEvent> eventHandlerTextField = createInputBoxEventHandler();  
+	    EventHandler<MouseEvent> eventHandlerExit = createEventHandlerExit();  
 	    myInputBox.addEventHandler(MouseEvent.MOUSE_CLICKED, eventHandlerTextField);
 	    myInputBox.addEventHandler(MouseEvent.MOUSE_EXITED, eventHandlerExit);
-	    
-	    // Setup direction pad 
-		Image image = new Image(getClass().getResourceAsStream("Controls.png"),120,120,false,false);
-		ImageView directionPad = new ImageView(image);
-		directionPad.setLayoutX(608);
-		directionPad.setLayoutY(430);
-		rootAdd(directionPad);
+		createDirectionPad();
+		createDirectionGrid();
+		rootAdd(myTabToolBar);
+		createControlButtons();	
+		createFileExplorer();
+		createTurtle(); 
+	}
+	
+	// Setup file explorer
+	public void createFileExplorer() {
+		fileExplorer = new TurtleFileExplorer(this);
+		rootAdd(fileExplorer);
+		fileExplorer.setLayoutX(10);
+		fileExplorer.setLayoutY(38);
+	}
+
+	public void createControlButtons() {
+		myRightButton = new RotateRightButton(this);
+		myLeftButton = new RotateLeftButton(this);
+		rootAdd(myRightButton);
+		rootAdd(myLeftButton);
+		myRightButton.setLayoutX(758);
+		myRightButton.setLayoutY(430);
+		myLeftButton.setLayoutX(758);
+		myLeftButton.setLayoutY(490);
+	}
+
+	public void createDirectionGrid() {
 		myDirectionGrid = new GridPane();
 		for(int i = 0; i < GRIDSIZE ; i++) {
 			myDirectionGrid.getColumnConstraints().add(new ColumnConstraints(40));
@@ -138,56 +142,94 @@ public class MainScreen extends ScreenDisplay implements GUIDelegate{
 	    myDirectionGrid.add(myBackButton, 1, 2);
 	    myDirectionGrid.add(rightForwardButton, 2, 1);
 	    myDirectionGrid.add(leftForwardButton, 0, 1);
-	    
-		rootAdd(myTabToolBar);
-	
-		// Setup rotation buttons
-		myRightButton = new RotateRightButton(this);
-		myLeftButton = new RotateLeftButton(this);
-		rootAdd(myRightButton);
-		rootAdd(myLeftButton);
-		myRightButton.setLayoutX(758);
-		myRightButton.setLayoutY(430);
-		myLeftButton.setLayoutX(758);
-		myLeftButton.setLayoutY(490);	
-		
-		// Setup file explorer
-		fileExplorer = new TurtleFileExplorer(this);
-		rootAdd(fileExplorer);
-		fileExplorer.setLayoutX(10);
-		fileExplorer.setLayoutY(38);
-		
-		// Create the initial Turtle
-		createTurtle(); 
+	}
+
+	public void createDirectionPad() {
+		Image image = new Image(getClass().getResourceAsStream("Controls.png"),120,120,false,false);
+		ImageView directionPad = new ImageView(image);
+		directionPad.setLayoutX(608);
+		directionPad.setLayoutY(430);
+		rootAdd(directionPad);
+	}
+
+	public void createInputBox() {
+		myInputBox = new InputBox(this);
+	    myInputBox.setPrefWidth(350);
+		myInputBox.setPrefHeight(175);
+		rootAdd(myInputBox);
+	}
+
+	public EventHandler<MouseEvent> createEventHandlerExit() {
+		EventHandler<MouseEvent> eventHandlerExit = new EventHandler<MouseEvent>() { 
+	    		@Override 
+	    		public void handle(MouseEvent event) { 	
+	    			if (rootContain(greyFilter)) rootRemove(greyFilter);
+	    		}           
+	      };
+		return eventHandlerExit;
+	}
+
+	public EventHandler<MouseEvent> createInputBoxEventHandler() {
+		EventHandler<MouseEvent> eventHandlerTextField = new EventHandler<MouseEvent>() { 
+	    		@Override 
+	    		public void handle(MouseEvent event) {  
+	 			
+	 			greyFilter.setStyle("-fx-background-color: rgba(33, 33, 146, 0.5); -fx-background-radius: 10;");
+	 			greyFilter.setLayoutX(0);
+	 			greyFilter.setLayoutY(0);
+	 			if (!rootContain(greyFilter)) {
+	 				greyFilter.setPrefSize(1000, 600);
+	 				rootRemove(myInputBox);
+	 				rootAdd(greyFilter);
+	 				rootAdd(myInputBox);
+	        	 	}
+	         }           
+	      };
+		return eventHandlerTextField;
 	}
 	
 	
 	private void buttonInit() {
-		myRunButton = new RunButton(this);
-		myClearButton = new ClearButton(this);
-		myInstructionButton = new InstructionsButton(this);
-		myNewProjectButton = new NewProjectButton(this);
-		myForwardButton = new ForwardButton(this);
-		myBackButton = new BackwardButton(this);
-		myCustomizeButton = new CustomizeButton(this);
-		myNewTurtleButton = new CreateNewTurtleButton(this);
+		createButtons();
 
 		// add all the things into an button bar hbox
 		ButtonBar = new HBox();
-		ButtonBar.getChildren().add(myRunButton);
-		ButtonBar.getChildren().add(myClearButton);
-		ButtonBar.getChildren().add(myNewTurtleButton);
-		ButtonBar.getChildren().add(myNewProjectButton);
-		ButtonBar.getChildren().add(myInstructionButton);
-		ButtonBar.getChildren().add(myCustomizeButton);
+		fillButtonBar();
 		ButtonBar.setSpacing(0);
+		Pane ToolBar = createToolBar();
+		rootAdd(ToolBar);
+	}
+
+	public Pane createToolBar() {
 		Pane ToolBar = new Pane();
 		ToolBar.getChildren().add(ButtonBar);
 		ToolBar.setPrefSize(1005, 30);
 		ToolBar.setLayoutX(-1);
 		ToolBar.setLayoutY(-1);
 		ToolBar.setStyle(  "-fx-border-width: 1px; -fx-border-color: #4d4d4d; -fx-background-color: #e6e6e6;");
-		rootAdd(ToolBar);
+		return ToolBar;
+	}
+
+	public void fillButtonBar() {
+		ButtonBar.getChildren().add(myRunButton);
+		ButtonBar.getChildren().add(myClearButton);
+		ButtonBar.getChildren().add(myNewTurtleButton);
+		ButtonBar.getChildren().add(myNewProjectButton);
+		ButtonBar.getChildren().add(myInstructionButton);
+		ButtonBar.getChildren().add(myCustomizeButton);
+	}
+
+	public void createButtons() {
+		myRunButton = new RunButton(this);
+		myClearButton = new ClearButton(this);
+		myInstructionButton = new InstructionsButton(this);
+		myNewProjectButton = new NewProjectButton(this);
+		myForwardButton = new ForwardButton(this);
+		myBackButton = new BackwardButton(this);
+		rightForwardButton = new RightForwardButton(this);
+		leftForwardButton = new LeftForwardButton(this);
+		myCustomizeButton = new CustomizeButton(this);
+		myNewTurtleButton = new CreateNewTurtleButton(this);
 	}
 	
 	//get fileExplorer
@@ -237,7 +279,9 @@ public class MainScreen extends ScreenDisplay implements GUIDelegate{
 	@Override
 	public void createInstructionsWindow() {
 		instructionsPane = new VBox();
-		newScene = new Scene(instructionsPane, 400, 400);
+		ScrollPane sp = new ScrollPane();
+		sp.setContent(instructionsPane);
+		newScene = new Scene(sp, 400, 400);
 		myStage = new Stage();
 		myStage.setScene(newScene);
 		myStage.show();
@@ -285,60 +329,59 @@ public class MainScreen extends ScreenDisplay implements GUIDelegate{
 			// initialize a Hbox
 			switch(i) {
 			case 0:
-				HBox myBox = new HBox();
-				myBox.getChildren().add(new Label("Background Color: "));
-				((Label)myBox.getChildren().get(0)).setAlignment(Pos.CENTER_LEFT);
-				((Label)myBox.getChildren().get(0)).setPrefWidth(180);
-				myBackgroundColorButton = new BackgroundColorButton(this);
-				myBox.getChildren().add(myBackgroundColorButton);
-				newProject.getChildren().add(myBox);
-				
-				
+				backgroundColorCustomize();
 				break;
-				
 			case 1:
-				HBox myBox1 = new HBox();
-				myBox1.getChildren().add(new Label("Font Color: "));
-				((Label)myBox1.getChildren().get(0)).setAlignment(Pos.CENTER_LEFT);
-				((Label)myBox1.getChildren().get(0)).setPrefWidth(180);
-				
-				myFontColorButton = new FontColorButton(this);
-				myBox1.getChildren().add(myFontColorButton);
-				
-				//set paddling 
-				
-				newProject.getChildren().add(myBox1);
+				fontColorCustomize();
 				break;
-				
 			case 2:
-				HBox myBox2 = new HBox();
-				myBox2.getChildren().add(new Label("Font Size: "));
-				
-				((Label)myBox2.getChildren().get(0)).setAlignment(Pos.CENTER_LEFT);
-				((Label)myBox2.getChildren().get(0)).setPrefWidth(180);
-				
-				
-				
-				myFontSizeButton = new FontSizeButton(this);
-				myBox2.getChildren().add(myFontSizeButton);
-				newProject.getChildren().add(myBox2);	
-				
+				fontSizeCustomize();	
 				break;
-			
 			case 3:
-				HBox myBox3 = new HBox();
-				myBox3.getChildren().add(new Label("Pen Up/Down: "));
-				((Label)myBox3.getChildren().get(0)).setAlignment(Pos.CENTER_LEFT);
-				((Label)myBox3.getChildren().get(0)).setPrefWidth(180);
-				myPenUpDownButton = new PenUpDownButton(this);
-				myBox3.getChildren().add(myPenUpDownButton);
-				newProject.getChildren().add(myBox3);	
-				
+				penActiveCustomize();	
 				break;
-			
 			}
-			
 		}
+	}
+
+	public void penActiveCustomize() {
+		HBox myBox3 = new HBox();
+		myBox3.getChildren().add(new Label("Pen Up/Down: "));
+		((Label)myBox3.getChildren().get(0)).setAlignment(Pos.CENTER_LEFT);
+		((Label)myBox3.getChildren().get(0)).setPrefWidth(180);
+		myPenUpDownButton = new PenUpDownButton(this);
+		myBox3.getChildren().add(myPenUpDownButton);
+		newProject.getChildren().add(myBox3);
+	}
+
+	public void fontSizeCustomize() {
+		HBox myBox2 = new HBox();
+		myBox2.getChildren().add(new Label("Font Size: "));
+		((Label)myBox2.getChildren().get(0)).setAlignment(Pos.CENTER_LEFT);
+		((Label)myBox2.getChildren().get(0)).setPrefWidth(180);
+		myFontSizeButton = new FontSizeButton(this);
+		myBox2.getChildren().add(myFontSizeButton);
+		newProject.getChildren().add(myBox2);
+	}
+
+	public void fontColorCustomize() {
+		HBox myBox1 = new HBox();
+		myBox1.getChildren().add(new Label("Font Color: "));
+		((Label)myBox1.getChildren().get(0)).setAlignment(Pos.CENTER_LEFT);
+		((Label)myBox1.getChildren().get(0)).setPrefWidth(180);
+		myFontColorButton = new FontColorButton(this);
+		myBox1.getChildren().add(myFontColorButton);
+		newProject.getChildren().add(myBox1);
+	}
+
+	public void backgroundColorCustomize() {
+		HBox myBox = new HBox();
+		myBox.getChildren().add(new Label("Background Color: "));
+		((Label)myBox.getChildren().get(0)).setAlignment(Pos.CENTER_LEFT);
+		((Label)myBox.getChildren().get(0)).setPrefWidth(180);
+		myBackgroundColorButton = new BackgroundColorButton(this);
+		myBox.getChildren().add(myBackgroundColorButton);
+		newProject.getChildren().add(myBox);
 	}
 	
 	
@@ -363,7 +406,6 @@ public class MainScreen extends ScreenDisplay implements GUIDelegate{
 		updateTurtleProperties();
 	}
 	
-	
 	@Override
 	public void changeBackground(String color) {
 		canvasHolder.updateBackgroundColor(color);
@@ -376,8 +418,8 @@ public class MainScreen extends ScreenDisplay implements GUIDelegate{
 
 	@Override
 	public void backwardButtonPressed() {
-		operateOnWriters("setHeading", new Class[]{Double.class}, new Object[] {0.0});
-		operateOnWriters("moveBackwards",new Class[] {Double.class}, new Object[] {50.0});
+		operateOnWriters("setHeading", new Class[]{Double.class}, new Object[] {180.0});
+		operateOnWriters("moveForward",new Class[] {Double.class}, new Object[] {50.0});
 	}
 
 	@Override
@@ -385,11 +427,15 @@ public class MainScreen extends ScreenDisplay implements GUIDelegate{
 		operateOnWriters("setHeading", new Class[]{Double.class}, new Object[] {0.0});
 		operateOnWriters("moveForward", new Class[]{Double.class}, new Object[] {50.0});
 	}
-
-
 	
+	@Override
+	public void rotateLeftButtonPressed() {
+		operateOnWriters("rotateLeft",new Class[] {Double.class}, new Object[] {90.0});	
+	}
+
+	@Override
 	public void rotateRightButtonPressed() {
-		operateOnWriters("rotateRight",new Class[] {Double.class}, new Object[] {30.0});
+		operateOnWriters("rotateRight",new Class[] {Double.class}, new Object[] {90.0});
 	}
 
 	@Override
@@ -400,7 +446,7 @@ public class MainScreen extends ScreenDisplay implements GUIDelegate{
 				Double.toString(writerList.get(currTurtleIndex).getYPos()),
 				"" + writerList.get(currTurtleIndex).getMyPen().getPenInfo(), 
 				writerList.get(currTurtleIndex).getMyPen().getColor(), 
-				"" + writerList.get(currTurtleIndex).getMyPen().getPenSize(), "DASHED"};
+				"" + writerList.get(currTurtleIndex).getMyPen().getPenSize(), "SOLID"};
 		return info;
 	}
 
@@ -470,16 +516,12 @@ public class MainScreen extends ScreenDisplay implements GUIDelegate{
 		
 	@Override
 	public void leftForwardButtonPressed() {
-		// TODO Auto-generated method stub
-		
-		// call set heading method
-		operateOnWriters("setHeading",new Class[] {Double.class}, new Object[] {-90.0});
+		operateOnWriters("setHeading",new Class[] {Double.class}, new Object[] {270.0});
 		operateOnWriters("moveForward",new Class[] {Double.class}, new Object[] {50.0});
 	}
 
 	@Override
 	public void rightForwardButtonPressed() {
-		// TODO Auto-generated method stub
 		operateOnWriters("setHeading",new Class[] {Double.class}, new Object[] {90.0});
 		operateOnWriters("moveForward",new Class[] {Double.class}, new Object[] {50.0});
 	}
@@ -490,11 +532,7 @@ public class MainScreen extends ScreenDisplay implements GUIDelegate{
 		
 	}
 
-	@Override
-	public void rotateLeftButtonPressed() {
-		// TODO Auto-generated method stub
-		
-	}
+	
 
 	@Override
 	public void updateVarSet(Object variable, double newValue) {
@@ -503,6 +541,14 @@ public class MainScreen extends ScreenDisplay implements GUIDelegate{
 		myMap.put((String) variable, newValue);
 	}
 
-
-
+	@Override
+	public void changeTurtleImages(int selected) {
+		for (int i = 0; i < writerList.size(); i++) {
+			Turtle writer = (Turtle) writerList.get(i);
+			if (i == selected) writer.setImage(SPECIAL_IMAGE);
+			else if (writer.isActivated()) writer.setImage(ACTIVATED_IMAGE);
+			else writer.setImage(DEACTIVATED_IMAGE);
+		}
+		
+	}
 }

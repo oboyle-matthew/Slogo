@@ -155,6 +155,7 @@ public class MainScreen extends ScreenDisplay implements GUIDelegate{
 		rootAdd(fileExplorer);
 		fileExplorer.setLayoutX(10);
 		fileExplorer.setLayoutY(38);
+		fileExplorer.printIndex();
 		
 		// Create the initial Turtle
 		createTurtle(); 

@@ -5,6 +5,8 @@ import java.util.ArrayList;
 
 import com.sun.xml.internal.ws.api.streaming.XMLStreamReaderFactory.Default;
 
+import javafx.collections.FXCollections;
+import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.ContentDisplay;
@@ -13,6 +15,7 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.TitledPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.HBoxBuilder;
 import javafx.scene.paint.Color;
@@ -77,6 +80,18 @@ public class TurtleFileExplorer extends TitledPane{
        
        subPane.setAlignment(Pos.BOTTOM_LEFT);
 		
+	}
+	
+	public void printIndex() {
+		
+		paneListView.setOnMouseClicked(new EventHandler<MouseEvent>() {
+
+	        @Override
+	        public void handle(MouseEvent event) {
+	            System.out.println("clicked on " + paneListView.getSelectionModel().getSelectedItem().getLayoutX());
+	            
+	        }
+	    });
 	}
 	
 }

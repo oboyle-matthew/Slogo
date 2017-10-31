@@ -38,6 +38,15 @@ public class SplashScreen extends ScreenDisplay {
 	}
 
 	private void basicSetup() {
+		createTitle();
+		LanLoader = new LanguageLoader(100, 100, stage);
+		LanLoader.setAlignment(Pos.CENTER);
+		Image image = new Image(getClass().getClassLoader().getResourceAsStream(TURTLRIMAGE));
+		turtleGif = new ImageView(image);
+		createScreenBox();
+	}
+
+	public void createTitle() {
 		SlogoTitle = new Text(10, 20, TITLE);
 		SlogoTitle.setFont(Font.font(TITLEFONT, FontPosture.ITALIC, 30));
 		SlogoTitle.setFill(Color.DARKBLUE);
@@ -45,13 +54,9 @@ public class SplashScreen extends ScreenDisplay {
 		titleBox.setAlignment(Pos.CENTER);
 		titleBox.getChildren().add(SlogoTitle);
 		titleBox.setPrefSize(PREFSIZE, PREFSIZE);
+	}
 
-		LanLoader = new LanguageLoader(100, 100, stage);
-		LanLoader.setAlignment(Pos.CENTER);
-
-		Image image = new Image(getClass().getClassLoader().getResourceAsStream(TURTLRIMAGE));
-		turtleGif = new ImageView(image);
-
+	public void createScreenBox() {
 		screenBox = new VBox();
 		screenBox.getChildren().add(titleBox);
 		screenBox.getChildren().add(turtleGif);

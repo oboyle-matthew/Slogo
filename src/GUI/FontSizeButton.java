@@ -5,6 +5,12 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.ComboBox;
 
+/**
+ * Creates a button to change the font size (method functions properly but 
+ * font size not working on back-end
+ * 
+ * @author Matt
+ */
 public class FontSizeButton extends ComboBox<Integer> {
 	
 	private static final int Y_POS = 300;

@@ -4,6 +4,11 @@ import java.util.Map;
 
 import javafx.scene.Node;
 
+/**
+ * Creates the interface for buttons/tabs/windows etc.
+ * 
+ * @author Matt
+ */
 public interface GUIDelegate {
 	void runButtonPressed();
 	
@@ -57,10 +62,8 @@ public interface GUIDelegate {
 
 	void changePenStatus(boolean UpDown);
 
-	//for left forward
 	void leftForwardButtonPressed();
 
-	//for right forward
 	void rightForwardButtonPressed();
 	
 	void updateVarBox(Map<String, Double> map);

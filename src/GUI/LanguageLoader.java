@@ -18,6 +18,11 @@ import javafx.scene.paint.Paint;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 
+/**
+ * Creates a Combo Box for the user to choose a language
+ * 
+ * @author Matt and Walker
+ */
 public class LanguageLoader extends HBox {
 	private static final String DEFAULT_RESOURCE_PACKAGE = "resources/";
     private static final String language = "Instructions";
@@ -95,16 +100,12 @@ public class LanguageLoader extends HBox {
 			return;
 		}
 		MainScreen myScene = new MainScreen(MAINWIDTH, MAINHEIGHT, BACKGROUND, inputLanguage);
-		// center the scene
 		Rectangle2D primaryScreenBounds = Screen.getPrimary().getVisualBounds();
 		stage.setX(primaryScreenBounds.getWidth() / 2 - MAINWIDTH / 2);
 		stage.setY(primaryScreenBounds.getHeight() / 2 - MAINHEIGHT / 2);
 		stage.setScene(myScene.getScene());
 		myScene.getTurExpo().lookup(".arrow").setVisible(false);
-		//topRightBottomLeft
-		//myScene.getTurExpo().lookup(".title").setStyle("-fx-padding: 6 0 6 -15;");
 		myScene.getTurExpo().lookup(".title").setStyle("-fx-padding: 6 0 6 -15;-fx-background-color: -fx-box-border, -fx-inner-border,linear-gradient(to bottom,#d3d3d3 ,white);");
-		
 		  }
 	
 }

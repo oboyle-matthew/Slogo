@@ -3,6 +3,11 @@ package GUI;
 import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
 
+/**
+ * Creates a button to move forwards
+ * 
+ * @author Matt
+ */
 public class ForwardButton extends Button {
 	
 	public ForwardButton(GUIDelegate app) {

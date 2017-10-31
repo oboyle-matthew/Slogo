@@ -2,6 +2,11 @@ package GUI;
 
 import javafx.scene.control.TextArea;
 
+/**
+ * Creates a TextArea for users to enter commands
+ * 
+ * @author Matt
+ */
 public class InputBox extends TextArea {
 		
 	private static final String PROMPT_TEXT = "Input some command ……";

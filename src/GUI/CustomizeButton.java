@@ -5,6 +5,11 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 
+/**
+ * Creates a customizable button to bring up new customize window
+ * 
+ * @author Matt
+ */
 public class CustomizeButton extends Button {
 	
 	private static final String IMAGE_DIR = "CustomizeButton.png";

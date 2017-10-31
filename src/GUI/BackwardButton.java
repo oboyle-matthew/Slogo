@@ -3,6 +3,11 @@ package GUI;
 import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
 
+/**
+ * Creates a button to move backwards
+ * 
+ * @author Matt
+ */
 public class BackwardButton extends Button {
 	
 	private static final int Y_POS = 450;

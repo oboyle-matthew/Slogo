@@ -81,14 +81,14 @@ public class TurtleFileExplorer extends TitledPane{
         
        paneListView.getItems().add(subPane);
        
-       
        subPane.setAlignment(Pos.BOTTOM_LEFT); 
        paneListView.setOnMouseClicked(new EventHandler<MouseEvent>() {
 
 	        @Override
 	        public void handle(MouseEvent event) {
 	            int test = Integer.parseInt(((Label) paneListView.getSelectionModel().getSelectedItem().getChildren().get(2)).getText().toString());
-	            app.changeTurtle(test);
+	            app.changeTurtle(test-1);
+	            app.updateTurtleProperties();
 	      }
 	    });
 		

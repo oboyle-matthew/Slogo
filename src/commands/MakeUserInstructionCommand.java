@@ -15,7 +15,7 @@ import modelLogic.CommandParser;
 
 public class MakeUserInstructionCommand extends ExecutableCommand {
 
-	private static final String COMMAND_REGEX = "-?[0-9]+\\.?[0-9]*";
+	private static final String VARIABLE_REGEX = ":[a-zA-Z]+";
 
 	@Override
 	public double execute(ParsedItem[] params, CanvasWriter writer, Map<String, Double> variables,
@@ -29,9 +29,10 @@ public class MakeUserInstructionCommand extends ExecutableCommand {
 			return 0;
 		}
 		for (String inputVariable : commandVariableNames) {
-			Pattern pattern = Pattern.compile(COMMAND_REGEX);
+			Pattern pattern = Pattern.compile(VARIABLE_REGEX);
 			Matcher m = pattern.matcher(inputVariable);
 			if (!m.matches()) {
+				System.out.println(inputVariable + " is not a variable");
 				return 0;
 			}
 		}
@@ -42,7 +43,8 @@ public class MakeUserInstructionCommand extends ExecutableCommand {
 
 	@Override
 	public String[] paramNumber() {
-		return new String[] { REGULAR_PARAM, BRACKET_PARAM, BRACKET_PARAM };
+		System.out.println("param number was requested");
+		return new String[] { COMMAND, BRACKET_PARAM, BRACKET_PARAM };
 	}
 
 }

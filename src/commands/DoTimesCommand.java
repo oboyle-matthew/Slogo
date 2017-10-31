@@ -26,7 +26,7 @@ public class DoTimesCommand extends ExecutableCommand {
 			ParsedBracketParameter p = (ParsedBracketParameter) params[1];
 			for (int i = 1; i <= repeat; i++) {
 				ParsedBracketParameter temp = (ParsedBracketParameter) p.getCopy();
-				ret = p.executeCommands(writer, variables);
+				ret = p.executeCommands(writer, variables, userFunctions);
 				variables.put(repeatParameters[0], ret);
 				p = temp; 
 			}

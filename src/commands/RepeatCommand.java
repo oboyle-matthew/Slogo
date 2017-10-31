@@ -1,5 +1,6 @@
 package commands;
 
+import java.util.Arrays;
 import java.util.Map;
 
 import modelLogic.CanvasWriter;
@@ -16,10 +17,11 @@ public class RepeatCommand extends ExecutableCommand {
 		double ret = 0; 
 		ParsedBracketParameter p = (ParsedBracketParameter) params[1];
 		for(int i = 0; i < repeat; i++) {
+			System.out.println("repeat value is: " + repeat);
 			ParsedBracketParameter temp = (ParsedBracketParameter) p.getCopy();
 			variables.put(":repcount", i + 1.0);
-			ret = p.executeCommands(writer, variables);
-			p = temp; 
+			System.out.println("temp value is: " + Arrays.toString(temp.getStringValues()));
+			ret = temp.executeCommands(writer, variables, userFunctions);
 		}
 		return ret;
 	}

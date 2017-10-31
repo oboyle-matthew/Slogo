@@ -67,9 +67,11 @@ public class ParsedCommand extends ParsedItem {
 	}
 	
 	public void checkUserFunctions(Map<String,CommandNameInfo> userFunctions) {
-		if(!isCommand) {
-			isCommand = userFunctions.keySet().contains(myString);
-			myCommand = new GeneralCommand();
+		System.out.println(myString + " is being checked in " + userFunctions.toString());
+		if(userFunctions.keySet().contains(myString)) {
+			System.out.println(myString + " was found in userFunctions!");
+			isCommand = true;
+			myCommand = new GeneralCommand(userFunctions.get(myString));
 		}
 	}
 	

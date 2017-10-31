@@ -16,7 +16,7 @@ public class IfCommand extends ExecutableCommand {
 		double ret = 0; 
 		if(value != 0) {
 			ParsedBracketParameter p = (ParsedBracketParameter) params[1];
-			ret = p.executeCommands(writer, variables);
+			ret = p.executeCommands(writer, variables, userFunctions);
 		}
 		return ret;
 	}

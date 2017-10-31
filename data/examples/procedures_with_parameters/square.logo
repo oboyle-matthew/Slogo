@@ -9,6 +9,6 @@ to square [ :distance ]
 make :distance 200
 repeat 10 [
   square :distance
-  make :distance - :distance 10
+  make :distance 10
   rt 36
 ]

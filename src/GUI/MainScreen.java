@@ -394,7 +394,6 @@ public class MainScreen extends ScreenDisplay implements GUIDelegate{
 
 	@Override
 	public String[] getInfo() {
-		System.out.println(currTurtleIndex);
 		String[] info = {
 				Double.toString(writerList.get(currTurtleIndex).getHeading()),
 				Double.toString(writerList.get(currTurtleIndex).getXPos()),
@@ -451,7 +450,6 @@ public class MainScreen extends ScreenDisplay implements GUIDelegate{
 
 	@Override
 	public void changeTurtle(int index) {
-		System.out.println(currTurtleIndex);
 		currTurtleIndex = index;
 	}
 

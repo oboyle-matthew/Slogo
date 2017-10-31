@@ -57,4 +57,10 @@ public interface GUIDelegate {
 	
 	void penDown();
 
+	//for left forward
+	void leftForwardButtonPressed();
+
+	//for right forward
+	void rightForwardButtonPressed();
+
 }

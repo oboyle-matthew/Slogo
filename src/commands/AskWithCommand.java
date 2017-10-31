@@ -15,9 +15,9 @@ public class AskWithCommand extends ExecutableCommand {
 		ParsedBracketParameter commands = (ParsedBracketParameter) params[1];
 		boolean priorStatus = writer.isActivated();
 		if(!priorStatus) writer.setActive(true);
-		double condition = conditionCommands.executeCommands(writer, variables);
+		double condition = conditionCommands.executeCommands(writer, variables, userFunctions);
 		if(condition > 0) {
-			return commands.executeCommands(writer, variables);
+			return commands.executeCommands(writer, variables, userFunctions);
 		}
 		if(!priorStatus) writer.setActive(false);
 		return 0;

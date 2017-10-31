@@ -20,7 +20,7 @@ public class AskCommand extends ExecutableCommand {
 				if(writer.getId() == id) {
 					boolean priorStatus = writer.isActivated();
 					if(!priorStatus)  writer.setActive(true);
-					double ret = commands.executeCommands(writer, variables);
+					double ret = commands.executeCommands(writer, variables, userFunctions);
 					if(!priorStatus) writer.setActive(false);
 					return ret;
 				}

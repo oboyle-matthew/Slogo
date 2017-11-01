@@ -24,7 +24,6 @@ public class MakeUserInstructionCommand extends ExecutableCommand {
 		ParsedBracketParameter secondParam = (ParsedBracketParameter) params[1];
 		String[] commandVariableNames = secondParam.getStringValues();
 		ParsedBracketParameter commands = (ParsedBracketParameter) params[2];
-		Map<String, Double> commandVariables = new HashMap<String, Double>();
 		if (variables.keySet().contains(commandName)) {
 			return 0;
 		}
@@ -32,7 +31,6 @@ public class MakeUserInstructionCommand extends ExecutableCommand {
 			Pattern pattern = Pattern.compile(VARIABLE_REGEX);
 			Matcher m = pattern.matcher(inputVariable);
 			if (!m.matches()) {
-				System.out.println(inputVariable + " is not a variable");
 				return 0;
 			}
 		}
@@ -43,7 +41,6 @@ public class MakeUserInstructionCommand extends ExecutableCommand {
 
 	@Override
 	public String[] paramNumber() {
-		System.out.println("param number was requested");
 		return new String[] { COMMAND, BRACKET_PARAM, BRACKET_PARAM };
 	}
 

@@ -19,7 +19,6 @@ public class GeneralCommand extends ExecutableCommand {
 	@Override
 	public double execute(ParsedItem[] params, CanvasWriter writer, Map<String, Double> variables,
 			Map<String, CommandNameInfo> userFunctions) {
-		System.out.println("creating general command");
 		String[] varNames = myCommand.getVariables();
 		Map<String, Double> allVariables = new HashMap<String, Double>(variables);
 		for(int i = 0; i<params.length; i++) {

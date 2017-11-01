@@ -47,7 +47,6 @@ private static final int LIST_TOO_SHORT = -1;
 	private Map<String, CommandNameInfo> userFunctions;
 
 	public CommandParser(String language) {
-		System.out.println("New Command Parser made");
 		languageChoice = language;
 		currentLanguageProperties = loadProperties(language);
 		userVariables = new HashMap<String, Double>();
@@ -94,20 +93,13 @@ private static final int LIST_TOO_SHORT = -1;
 				} else if(matchesProperty(splitInputList.get(i), syntaxProperties, VARIABLE_PROPERTY)) {
 					list.add(new ParsedRegularParameter(splitInputList.get(i), true));
 				} else if(matchesProperty(splitInputList.get(i), syntaxProperties, FIRST_BRACKET_PROPERTY)) {
-//					System.out.println("split input is " + splitInputList.toString());
 					String innerInput = getBracketContent(splitInputList, i);
-					System.out.println("inner input of bracket is" + innerInput);
 					List<ParsedItem> l = getParsedItemList(innerInput); 
 					list.add(new ParsedBracketParameter(l, languageChoice));
 					i = i + totalLength(l) + 1; 
 				}
 			}
 		}
-		System.out.println("list broken down into: ");
-		for(ParsedItem item: list) {
-			System.out.print(item.getItemType() + " ");
-		}
-		System.out.println("");
 		return list;
 	}
 
@@ -138,10 +130,7 @@ private static final int LIST_TOO_SHORT = -1;
 		List<ParsedItem> oldItems = null;
 		while(items.size() > 0 && notAllParams(items)) {
 			oldItems = copyParsedList(items);
-			System.out.println("items are: " + items.toString());
 			boolean succeeded = executeNextCommand(items, writer, functions);
-			System.out.println("items are: " + items.toString());
-			System.out.println("Success status: " + succeeded);
 			if(!succeeded || !itemsDiffer(oldItems, items)) {
 				createErrorWindow(INVALID_INPUT);
 				return -1; 
@@ -205,10 +194,8 @@ private static final int LIST_TOO_SHORT = -1;
 		for(int i = 0; i < list.size(); i++) {
 			if(list.get(i).getItemType().equals(COMMAND_ITEM)) {
 				ParsedCommand p = (ParsedCommand) list.get(i);
-				System.out.println(p.myString + " is a command");
 				p.checkUserFunctions(userFunctions);
 				if(!p.isCommand()) return false; 
-				System.out.println(p.myString + " made it passed command check");
 				int canExecute = checkNextParams(list, i, p.getParameterOrder());
 				if(canExecute == LIST_TOO_SHORT) return false; 
 				if(canExecute == NOT_ENOUGH_PARAMS) continue; 
@@ -237,16 +224,8 @@ private static final int LIST_TOO_SHORT = -1;
 	 * 	   -1 - There isn't enough room left in the list for the command to be able to execute, which is an error  
 	 */
 	private int checkNextParams(List<ParsedItem> list, int currIndex, String[] paramsNeeded) {
-		System.out.println("params needed are " + Arrays.toString(paramsNeeded));
-		System.out.println("list is " + list.toString());
-		for(ParsedItem item: list) {
-			System.out.print(item.getItemType());
-		}
-		System.out.println("current index is "  + currIndex);
 		if(currIndex + paramsNeeded.length >= list.size()) return LIST_TOO_SHORT; 
 		for(int i = currIndex + 1; i < paramsNeeded.length + currIndex + 1; i++) {
-			System.out.println("system check one: " + list.get(i).getItemType());
-			System.out.println("equals: " + paramsNeeded[i - currIndex - 1]);
 			if(!list.get(i).getItemType().equals(paramsNeeded[i - currIndex - 1])) return NOT_ENOUGH_PARAMS;
 		}
 		return 1; 
@@ -263,7 +242,6 @@ private static final int LIST_TOO_SHORT = -1;
 		double val = 0;
 		if(list.size() == 1 && !notAllParams(list)) return Double.parseDouble( ((ParsedRegularParameter)curr).toString());
 		while((list.size() > 1 && !curr.getItemType().equals(COMMAND_ITEM)) && !curr.myString.contains(":")) {
-			System.out.println(curr + " is " + curr.getItemType());
 			list.remove(0);
 			val = Double.parseDouble(((ParsedRegularParameter)curr).toString());
 			curr = list.get(0);

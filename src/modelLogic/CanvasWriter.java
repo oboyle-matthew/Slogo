@@ -7,6 +7,10 @@ import GUI.GUIDelegate;
 import javafx.scene.Node;
 import javafx.scene.input.MouseEvent;
 
+/**
+ * @author Walker
+ *
+ */
 public abstract class CanvasWriter {
 
 	/* Final Variables */

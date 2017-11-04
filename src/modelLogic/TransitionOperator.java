@@ -12,6 +12,13 @@ import javafx.scene.image.ImageView;
 import javafx.scene.shape.Path;
 import javafx.util.Duration;
 
+/**
+ * Used to handle the transitions so that there is no overlap meaning the turtle
+ * doesn't move to an xy position while changing its heading.
+ * 
+ * @author Walker
+ *
+ */
 public class TransitionOperator {
 
 	/* Final Variables */
@@ -26,34 +33,6 @@ public class TransitionOperator {
 	TransitionOperator() {
 		waitingTransitions = new LinkedList<>();
 		transitionRunning = false;
-	}
-
-	/**
-	 * Either add a transition to the list of waiting transitions, or play the
-	 * transition if nothing is playing or in the list
-	 * 
-	 * @param a
-	 *            is a {@code Transition} that is waiting to be run
-	 */
-	private void addAndPlay(Transition a) {
-		if (!transitionRunning && waitingTransitions.size() == 0) {
-			transitionRunning = true;
-			a.play();
-		} else {
-			waitingTransitions.add(a);
-		}
-	}
-
-	/**
-	 * Plays the next transition waiting to run if there are any
-	 */
-	private void transitionFinished() {
-		transitionRunning = false;
-		if (waitingTransitions.size() != 0) {
-			Transition next = waitingTransitions.remove(0);
-			transitionRunning = true;
-			next.play();
-		}
 	}
 
 	/**
@@ -132,5 +111,33 @@ public class TransitionOperator {
 		rt.setDuration(Duration.millis(ROTATION_SPEED));
 		rt.setOnFinished(e -> transitionFinished());
 		addAndPlay(rt);
+	}
+	
+	/**
+	 * Either add a transition to the list of waiting transitions, or play the
+	 * transition if nothing is playing or in the list
+	 * 
+	 * @param a
+	 *            is a {@code Transition} that is waiting to be run
+	 */
+	private void addAndPlay(Transition a) {
+		if (!transitionRunning && waitingTransitions.size() == 0) {
+			transitionRunning = true;
+			a.play();
+		} else {
+			waitingTransitions.add(a);
+		}
+	}
+
+	/**
+	 * Plays the next transition waiting to run if there are any
+	 */
+	private void transitionFinished() {
+		transitionRunning = false;
+		if (waitingTransitions.size() != 0) {
+			Transition next = waitingTransitions.remove(0);
+			transitionRunning = true;
+			next.play();
+		}
 	}
 }

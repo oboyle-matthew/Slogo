@@ -8,6 +8,15 @@ import modelLogic.CommandNameInfo;
 import modelLogic.ParsedBracketParameter;
 import modelLogic.ParsedItem;
 
+/**
+ * A general command is necessary for user interactable commands. These are very
+ * simple in that they essentially take information from the CommandNameInfo
+ * Objects created by user commands and determine the information about a
+ * command programatically form that information.
+ * 
+ * @author Simran
+ *
+ */
 public class GeneralCommand extends ExecutableCommand {
 
 	private CommandNameInfo myCommand;
@@ -21,7 +30,7 @@ public class GeneralCommand extends ExecutableCommand {
 			Map<String, CommandNameInfo> userFunctions) {
 		String[] varNames = myCommand.getVariables();
 		Map<String, Double> allVariables = new HashMap<String, Double>(variables);
-		for(int i = 0; i<params.length; i++) {
+		for (int i = 0; i < params.length; i++) {
 			Double varVal = Double.parseDouble(params[i].toString());
 			allVariables.put(varNames[i], varVal);
 		}

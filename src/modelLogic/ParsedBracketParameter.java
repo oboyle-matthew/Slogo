@@ -23,17 +23,6 @@ public class ParsedBracketParameter extends ParsedItem {
 	}
 
 	/**
-	 * @return A {@code String} that represents the string representation of this
-	 *         command
-	 */
-	private String buildNameString() {
-		String name = "[ ";
-		for (ParsedItem p : myContents)
-			name = name + p + " ";
-		return name + "]";
-	}
-
-	/**
 	 * Executes the commands contained within this bracket parameter
 	 * 
 	 * @param tortuga
@@ -57,11 +46,26 @@ public class ParsedBracketParameter extends ParsedItem {
 		return myContents.stream().map(item -> item.toString()).toArray(String[]::new);
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see modelLogic.ParsedItem#getItemType()
+	 */
 	@Override
 	public String getItemType() {
 		return BRACKET_PARAM;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see modelLogic.ParsedItem#getCopy()
+	 * 
+	 * Copies are necessary so for things like repeats. If you execute a bracket
+	 * command and not its copy, you lost the actually bracket command when you want
+	 * to execute it multiple times. Instead you execute a copy so you have an
+	 * initial version to execute again in case you need to.
+	 */
 	@Override
 	public ParsedBracketParameter getCopy() {
 		List<ParsedItem> vals = new ArrayList<ParsedItem>();
@@ -70,6 +74,13 @@ public class ParsedBracketParameter extends ParsedItem {
 		return new ParsedBracketParameter(vals, currLanguage);
 	}
 
+	/**
+	 * Used to get the number of elements in the bracket parameter. This is similar
+	 * to the code to calculate the size of the entire list of parsed Items, but
+	 * there is no way sensible reason or way to avoid this.
+	 * 
+	 * @return
+	 */
 	public int getSize() {
 		int size = 0;
 		for (ParsedItem item : myContents) {
@@ -81,5 +92,16 @@ public class ParsedBracketParameter extends ParsedItem {
 			}
 		}
 		return size;
+	}
+	
+	/**
+	 * @return A {@code String} that represents the string representation of this
+	 *         command
+	 */
+	private String buildNameString() {
+		String name = "[ ";
+		for (ParsedItem p : myContents)
+			name = name + p + " ";
+		return name + "]";
 	}
 }

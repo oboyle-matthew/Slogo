@@ -9,7 +9,7 @@ import modelLogic.ParsedBracketParameter;
 import modelLogic.ParsedItem;
 
 /**
- * A general command is necessary for user interactable commands. These are very
+ * A general command is necessary for user commands. These are very
  * simple in that they essentially take information from the CommandNameInfo
  * Objects created by user commands and determine the information about a
  * command programatically form that information.

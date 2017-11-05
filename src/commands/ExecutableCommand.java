@@ -28,8 +28,10 @@ public abstract class ExecutableCommand {
 	 * @param writer
 	 *            is a {@code Turtle} object representing the turtle on the screen
 	 *            you want to call the command with
+	 * 
 	 * @param userFunctions
-	 *            TODO
+	 *            is a map of previously user defined fuctions.
+	 * 
 	 * @param args
 	 *            is a {@code double[]} of values to be passed on to the command for
 	 *            its use

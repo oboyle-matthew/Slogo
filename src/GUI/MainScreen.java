@@ -551,4 +551,9 @@ public class MainScreen extends ScreenDisplay implements GUIDelegate{
 		}
 		
 	}
+
+	@Override
+	public void moveY(double newLocation) {
+		operateOnWriters("moveTo", new Class[] {Double.class, Double.class}, new Object[] {newLocation} );
+	}
 }

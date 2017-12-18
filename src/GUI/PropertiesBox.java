@@ -82,7 +82,10 @@ public class PropertiesBox extends VBox {
                         ).setMyName(t.getNewValue());
                     int rowNum = t.getTablePosition().getRow();
                     String val = t.getNewValue();    
-                    app.moveX(Double.parseDouble(t.getNewValue()));
+                    if (rowNum == 0) app.setDirection(Double.parseDouble(t.getNewValue()));
+                    if (rowNum == 1) app.moveX(Double.parseDouble(t.getNewValue()));
+                    if (rowNum == 2) app.moveY(Double.parseDouble(t.getNewValue()));
+                    if (rowNum == 3) app.changePenStatus(true);
                 }
             }
         );

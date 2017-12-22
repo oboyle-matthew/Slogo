@@ -1,17 +1,24 @@
 package commands;
 
+import java.util.Map;
+
+import modelLogic.ParsedItem;
+import modelLogic.ParsedRegularParameter;
 import modelLogic.Turtle;
 
 /**
  * Executable command for setting the turtle's current heading
  */
-public class SetHeadingCommand implements ExecutableCommand {
-
-	private static final double DEFAULT_DIRECTION = 90;
+public class SetHeadingCommand extends ExecutableCommand {
 
 	@Override
-	public double execute(Turtle tortuga, double[] args) {
-		if(args == null || args.length == 0) return tortuga.setHeading(DEFAULT_DIRECTION);
-		return tortuga.setHeading(args[0]);
+	public double execute(ParsedItem[] params, Turtle tortuga, Map<String, Double> variables) {
+		double value = Double.parseDouble(((ParsedRegularParameter) params[0]).toString());
+		return tortuga.setHeading(value);
 	}
+	
+	@Override
+	public String[] paramNumber() {
+		return new String[] {REGULAR_PARAM};
+	} 
 }

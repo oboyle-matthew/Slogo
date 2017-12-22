@@ -1,13 +1,14 @@
 package commands;
 
+import java.util.Map;
+
+import modelLogic.ParsedItem;
 import modelLogic.Turtle;
 
-public class ClearScreenCommand implements ExecutableCommand {
+public class ClearScreenCommand extends ExecutableCommand {
 
 	@Override
-	public double execute(Turtle tortuga, double[] args) {
-		// TODO Auto-generated method stub
+	public double execute(ParsedItem[] params, Turtle tortuga, Map<String, Double> variables) {
 		return 0;
 	}
-
 }

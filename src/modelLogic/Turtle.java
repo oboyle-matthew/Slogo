@@ -96,16 +96,18 @@ public class Turtle extends CanvasWriter {
 			adjustCoordinates(currCoordinates);
 		double xDiff = currCoordinates[0] - currentX;
 		double yDiff = currCoordinates[1] - currentY;
-		if (animated) {
-			Path p = createMovementPath(currCoordinates[0], currCoordinates[1]);
-			transitionOperator.createMovement(myNode, p, currCoordinates[0], currCoordinates[1]);
-			transitionOperator.createFadeIn(p);
-		} else {
-			((ImageView) myNode).setX(currCoordinates[0]);
-			((ImageView) myNode).setY(currCoordinates[1]);
+		if (this.isActivated()) {
+			if (animated) {
+				Path p = createMovementPath(currCoordinates[0], currCoordinates[1]);
+				transitionOperator.createMovement(myNode, p, currCoordinates[0], currCoordinates[1]);
+				transitionOperator.createFadeIn(p);
+			} else {
+				((ImageView) myNode).setX(currCoordinates[0]);
+				((ImageView) myNode).setY(currCoordinates[1]);
+			}
+			currentX = currCoordinates[0];
+			currentY = currCoordinates[1];
 		}
-		currentX = currCoordinates[0];
-		currentY = currCoordinates[1];
 		return Math.sqrt(xDiff * xDiff + yDiff * yDiff);
 	}
 

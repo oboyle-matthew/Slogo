@@ -72,4 +72,6 @@ public interface GUIDelegate {
 
 	void changeTurtleImages(int selected);
 
+	void moveY(double parseDouble);
+
 }

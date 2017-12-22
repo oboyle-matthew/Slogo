@@ -1,7 +1,6 @@
 package GUI;
 
 import java.util.List;
-
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.collections.ObservableList;

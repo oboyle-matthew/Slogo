@@ -28,12 +28,7 @@ public class SplashScreen extends ScreenDisplay {
 	public SplashScreen(int width, int height, Paint background, Stage currentStage) {
 		super(width, height, background);
 		stage = currentStage;
-		// TODO Auto-generated constructor stub
 		basicSetup();
-
-		/*
-		 * rootAdd(LanLoader); rootAdd(titleBox); rootAdd(turtleGif);
-		 */
 		rootAdd(screenBox);
 	}
 

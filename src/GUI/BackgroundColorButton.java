@@ -1,33 +1,30 @@
 package GUI;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
 import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.paint.Color;
 
+/**
+ * Creates a button to change the background
+ * 
+ * @author Matt
+ */
 public class BackgroundColorButton extends ComboBox<String> {
 	
-//	private GUIDelegate app;
+	private static final int Y_POS = 50;
+	private static final int X_POS = 100;
+	private static final int WIDTH = 200;
+	private static final String PROMPT_TEXT = "Choose a background color";
+	private static final String[] COLORS = {"white", "blue", "orange", "yellow", "green", "purple", "grey", "red"};
 	
 	public BackgroundColorButton(GUIDelegate app) {
-//		this.app = app;
-		this.setPrefWidth(200);
-		this.setLayoutX(100);
-		this.setLayoutY(50);
-		ArrayList<String> colors = new ArrayList<>(Arrays.asList("red", "orange", "green", "blue", "yellow"));
-		ObservableList<String> colorList = FXCollections.observableArrayList(colors);
-		this.setPromptText("Choose a background color");
-		ChangeListener<String> propertyHandler = (obs, old, cur) -> {
-			app.changeBackground(cur);
-		};
+		this.setPrefWidth(WIDTH);
+		this.setLayoutX(X_POS);
+		this.setLayoutY(Y_POS);
+		this.setPromptText(PROMPT_TEXT);
+		ObservableList<String> colorList = FXCollections.observableArrayList(COLORS);
+		ChangeListener<String> propertyHandler = (obs, old, cur) -> app.changeBackground(cur);
 		this.getSelectionModel().selectedItemProperty().addListener(propertyHandler);
 		this.setEditable(true);
 		this.setVisibleRowCount(3);

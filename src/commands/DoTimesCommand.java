@@ -1,25 +1,24 @@
 package commands;
 
-import java.util.Arrays;
-import java.util.List;
+
 import java.util.Map;
 
+import modelLogic.CanvasWriter;
+import modelLogic.CommandNameInfo;
 import modelLogic.ParsedBracketParameter;
 import modelLogic.ParsedItem;
-import modelLogic.ParsedRegularParameter;
-import modelLogic.Turtle;
 
 public class DoTimesCommand extends ExecutableCommand {
 
 	@Override
-	public double execute(ParsedItem[] params, Turtle tortuga, Map<String, Double> variables) {
+	public double execute(ParsedItem[] params, CanvasWriter writer, Map<String, Double> variables, Map<String, CommandNameInfo> userFunctions) {
 		ParsedBracketParameter firstParam = (ParsedBracketParameter) params[0];
-		String[] parameters = firstParam.getStringValues();
+		String[] repeatParameters = firstParam.getStringValues();
 		double ret = 0;
-		if (parameters.length == 2) {
+		if (repeatParameters.length == 2) {
 			double repeat;
 			try {
-				repeat = Double.parseDouble(parameters[1]);
+				repeat = Double.parseDouble(repeatParameters[1]);
 			} catch (Exception e) {
 				e.printStackTrace();
 				return 0;
@@ -27,8 +26,8 @@ public class DoTimesCommand extends ExecutableCommand {
 			ParsedBracketParameter p = (ParsedBracketParameter) params[1];
 			for (int i = 1; i <= repeat; i++) {
 				ParsedBracketParameter temp = (ParsedBracketParameter) p.getCopy();
-				ret = p.executeCommands(tortuga, variables);
-				variables.put(parameters[0], ret);
+				ret = p.executeCommands(writer, variables, userFunctions);
+				variables.put(repeatParameters[0], ret);
 				p = temp; 
 			}
 		}

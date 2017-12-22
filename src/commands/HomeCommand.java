@@ -2,8 +2,9 @@ package commands;
 
 import java.util.Map;
 
+import modelLogic.CanvasWriter;
+import modelLogic.CommandNameInfo;
 import modelLogic.ParsedItem;
-import modelLogic.Turtle;
 
 /**
  * Executable Command for moving the turtle to the home position, (0,0). 
@@ -11,7 +12,7 @@ import modelLogic.Turtle;
 public class HomeCommand extends ExecutableCommand {
 
 	@Override
-	public double execute(ParsedItem[] params, Turtle tortuga, Map<String, Double> variables) {
-		return tortuga.moveTo(0, 0); 
+	public double execute(ParsedItem[] params, CanvasWriter writer, Map<String, Double> variables, Map<String, CommandNameInfo> userFunctions) {
+		return writer.goToRelativePosition(0.0, 0.0);
 	}
 }

@@ -2,8 +2,9 @@ package commands;
 
 import java.util.Map;
 
+import modelLogic.CanvasWriter;
+import modelLogic.CommandNameInfo;
 import modelLogic.ParsedItem;
-import modelLogic.Turtle;
 
 /**
  * Executable Command for retrieving the state of the turtle's visibility
@@ -11,8 +12,8 @@ import modelLogic.Turtle;
 public class IsShowingCommand extends ExecutableCommand {
 
 	@Override
-	public double execute(ParsedItem[] params, Turtle tortuga, Map<String, Double> variables) {
-		return (tortuga.isTurtleVisible() ? 1 : 0);
+	public double execute(ParsedItem[] params, CanvasWriter writer, Map<String, Double> variables, Map<String, CommandNameInfo> userFunctions) {
+		return (writer.isVisible() ? 1 : 0);
 	}
 
 }

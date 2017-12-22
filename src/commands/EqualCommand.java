@@ -2,15 +2,16 @@ package commands;
 
 import java.util.Map;
 
+import modelLogic.CanvasWriter;
+import modelLogic.CommandNameInfo;
 import modelLogic.ParsedItem;
-import modelLogic.Turtle;
 
 public class EqualCommand extends ExecutableCommand {
 	private static final String EQUAL = "equal?";
 
 	@Override
-	public double execute(ParsedItem[] params, Turtle tortuga, Map<String, Double> variables) {
-		return (new BooleanOperationCommand(EQUAL)).execute(params, tortuga, variables);
+	public double execute(ParsedItem[] params, CanvasWriter writer, Map<String, Double> variables, Map<String, CommandNameInfo> userFunctions) {
+		return (new BooleanOperationCommand(EQUAL)).execute(params, writer, variables, userFunctions);
 	} 
 	
 	@Override

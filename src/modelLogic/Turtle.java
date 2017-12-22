@@ -1,19 +1,14 @@
 package modelLogic;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
-import javafx.animation.PathTransition;
-import javafx.animation.RotateTransition;
-import javafx.event.EventHandler;
+
+import GUI.GUIDelegate;
+import javafx.scene.Node;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseButton;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.shape.LineTo;
 import javafx.scene.shape.MoveTo;
 import javafx.scene.shape.Path;
-import javafx.util.Duration;
 
 /**
  * This class represents the model for the turtle that can be interacted with
@@ -21,144 +16,96 @@ import javafx.util.Duration;
  * 
  * @author Walker and Simran
  */
-public class Turtle {
+public class Turtle extends CanvasWriter {
 
-	/* Finals */
+	/* Final Variables */
 	private static final String ACTIVATED_TURTLE_PATH = "src/Activated.png";
-	private static final String DEACTIVATED_TURTLE_PATH = "src/Deactivated.png";	
-	private static final double ROTATION_SPEED = 2 * 1000;
-	private static final double MOVEMENT_SPEED = 1 * 1000;
-	private final double TURTLE_SIZE = 40.0;
+	private static final String DEACTIVATED_TURTLE_PATH = "src/Deactivated.png";
+	private static final double TURTLE_SIZE = 40.0;
 
 	/* Instance Variables */
-	private ImageView myTurtle;
-	private boolean penDown;
-	private List<Path> myPaths;
-	private int myColor;
-	private double myPenSize;
-	private double myPenStyle;
-	private boolean animationRunning;
-	private boolean deactivated;
-	private boolean dragging;
+	private double currentHeading;
+	private double currentX;
+	private double currentY;
 
 	/**
 	 * Basic constructor that just initializes the myTurtle variable. Returns a new
 	 * {@code Turtle} object
 	 */
-	public Turtle() {
-		myTurtle = createTurtle();
-		animationRunning = false;
-		myPaths = new ArrayList<Path>();
-		penDown = false;
-		myTurtle.addEventHandler(MouseEvent.MOUSE_PRESSED, e->dragging = false);
-		myTurtle.addEventHandler(MouseEvent.DRAG_DETECTED, e->dragging = true);
-		myTurtle.addEventHandler(MouseEvent.MOUSE_DRAGGED, e->moveTo(e.getSceneX(), e.getSceneY()));
-		myTurtle.addEventHandler(MouseEvent.MOUSE_RELEASED, e->turtleClicked());
+	public Turtle(GUIDelegate app) {
+		super(app, TURTLE_SIZE);
+		currentHeading = myNode.getRotate();
+		currentX = ((ImageView) myNode).getX();
+		currentY = ((ImageView) myNode).getY();
 	}
-	
-	private void turtleClicked() {
+
+	@Override
+	protected Node createNode(double size) {
+		File file = new File(ACTIVATED_TURTLE_PATH);
+		Image turtleImage = new Image(file.toURI().toString(), TURTLE_SIZE, TURTLE_SIZE, false, false);
+		return new ImageView(turtleImage);
+	}
+
+	/* Event Handling */
+
+	@Override 
+	protected void nodeClicked() {
 		if (!dragging) {
-			if (deactivated) {
-				myTurtle.setImage(new Image((new File(ACTIVATED_TURTLE_PATH)).toURI().toString(), 40, 40, false, false));
-			} else {
-				myTurtle.setImage(new Image((new File(DEACTIVATED_TURTLE_PATH)).toURI().toString(), 40, 40, false, false));
-			} 
-			deactivated = !deactivated;
+			setActive(!isActivated());
 		}
 	}
 	
-//	EventHandler<MouseEvent> moveTurtleDragged = new EventHandler<MouseEvent>() {
-//		public void handle(MouseEvent t) {
-//			moveToSimple(t.getSceneX(), t.getSceneY());
-//		}
-//	};
-
-	/* Rotation Methods */
-
-	/**
-	 * Sets the heading of my turtle to the specified angle
-	 * 
-	 * @param angle
-	 *            is an {@code double} representing the angle to set the turtle to
-	 *            face. The function expects an angle in degrees, and the angle is
-	 *            measured counter-clockwise from an x-axis centered on the turtle.
-	 * @return A {@code double} representing the number of degrees rotated
-	 */
-	public double setHeading(double angle) {
-		double degreeDiff = angle - myTurtle.getRotate();
-		RotateTransition rotateTransition = new RotateTransition(Duration.millis(ROTATION_SPEED));
-		myTurtle.setRotate(angle);
-		rotateTransition.setToAngle(angle);
-		rotateTransition.setCycleCount(1);
-		rotateTransition.setNode(myTurtle);
-		rotateTransition.play();
-		return Math.abs(degreeDiff);
+	@Override 
+	protected void toggleNodeActivated() {
+		if(isActivated()) {
+			((ImageView) myNode).setImage(new Image((new File(ACTIVATED_TURTLE_PATH)).toURI().toString(),
+					TURTLE_SIZE, TURTLE_SIZE, false, false));
+		} else {
+			((ImageView) myNode).setImage(new Image((new File(DEACTIVATED_TURTLE_PATH)).toURI().toString(),
+					TURTLE_SIZE, TURTLE_SIZE, false, false));
+		}
 	}
 	
-	
-
-	/**
-	 * Rotates the turtle to the left by a specified amount.
-	 * 
-	 * @param angle
-	 *            is an {@code double} representing the number of angles to rotate
-	 *            to the left by
-	 * @return A {@code double} that is the number of degrees just rotated
-	 */
-	public double rotateLeft(double angle) {
-		return setHeading(myTurtle.getRotate() - angle);
-	}
-
-	/**
-	 * Rotates the turtle to the right by a specified amount.
-	 * 
-	 * @param angle
-	 *            is an {@code double} representing the number of angles to rotate
-	 *            to the right by
-	 * @return A {@code double} that is the number of degrees just rotated
-	 */
-	public double rotateRight(double angle) {
-		return setHeading(myTurtle.getRotate() + angle);
+	public void setImage(String imageString) {
+		((ImageView) myNode).setImage(new Image((new File(imageString)).toURI().toString(),
+				TURTLE_SIZE, TURTLE_SIZE, false, false));
 	}
 
 	/* Movement Methods */
 
-	/**
-	 * Moves the turtle to the new position
-	 * 
-	 * @param newXPosition
-	 *            is an {@code double} specifying the new x-coordinate of the turtle
-	 * @param newYPosition
-	 *            is an {@code double} specifying the new y-coordinate of the turtle
-	 * @return A {@code double} that reflects the distance moved by the turtle
-	 */
-	
-	
-	
-//	10, 38     top left
-//	360,38 top right
-//	10, 388 bottom left
-//	360, 388 bottom right
-	
-	public double moveTo(double newXPosition, double newYPosition) {
-		System.out.println(TURTLE_SIZE);
-		newXPosition = Math.max(10., newXPosition);
-		newXPosition = Math.min(360.-TURTLE_SIZE, newXPosition);
-		newYPosition = Math.max(38., newYPosition);
-		newYPosition = Math.min(388.-TURTLE_SIZE, newYPosition);
-		System.out.println("heading to: " + newXPosition + " and " + newYPosition);
-		double xDiff = newXPosition - myTurtle.getX();
-		double yDiff = newYPosition - myTurtle.getY();
-		Path p = createMovementPath(newXPosition, newYPosition);
-		PathTransition pt = new PathTransition();
-		myTurtle.setX(newXPosition);
-		myTurtle.setY(newYPosition);
-		pt.setNode(myTurtle);
-		pt.setPath(p);
-		pt.setDuration(Duration.millis(MOVEMENT_SPEED));
-		pt.setCycleCount(1);
-		pt.play();
-		myPaths.add(p);
+	@Override
+	public double moveForward(Double distance) {
+		// Moves opposite of the direction the turtle is facing
+		double newX = currentX + distance * Math.sin(currentHeading * Math.PI / 180);
+		double newY = currentY - distance * Math.cos(currentHeading * Math.PI / 180);
+		return moveTo(newX, newY, true);
+	}
+
+	@Override
+	public double moveBackwards(Double distance) {
+		// Moves in the direction the turtle is facing
+		double newX = currentX - distance * Math.sin(currentHeading * Math.PI / 180);
+		double newY = currentY + distance * Math.cos(currentHeading * Math.PI / 180);
+		return moveTo(newX, newY, true);
+	}
+
+	@Override
+	public double moveTo(Double newXPosition, Double newYPosition, boolean animated) {
+		double[] currCoordinates = new double[] { newXPosition, newYPosition };
+		if (!movementIsValid(newXPosition, newYPosition))
+			adjustCoordinates(currCoordinates);
+		double xDiff = currCoordinates[0] - currentX;
+		double yDiff = currCoordinates[1] - currentY;
+		if (animated) {
+			Path p = createMovementPath(currCoordinates[0], currCoordinates[1]);
+			transitionOperator.createMovement(myNode, p, currCoordinates[0], currCoordinates[1]);
+			transitionOperator.createFadeIn(p);
+		} else {
+			((ImageView) myNode).setX(currCoordinates[0]);
+			((ImageView) myNode).setY(currCoordinates[1]);
+		}
+		currentX = currCoordinates[0];
+		currentY = currCoordinates[1];
 		return Math.sqrt(xDiff * xDiff + yDiff * yDiff);
 	}
 
@@ -174,156 +121,52 @@ public class Turtle {
 	 * @return A {@code Path} that corresponds to the line the turtle is moving over
 	 */
 	private Path createMovementPath(double newXPosition, double newYPosition) {
-		Path p = new Path();
-		MoveTo moveTo = new MoveTo(myTurtle.getX(), myTurtle.getY());
-		p.getElements().add(moveTo);
-		LineTo lineTo = new LineTo(newXPosition, newYPosition);
-		p.getElements().add(lineTo);
+		Path p = new Path(new MoveTo(currentX, currentY), new LineTo(newXPosition, newYPosition));
+		if (myPen.getPenInfo()) {
+			p.setStrokeWidth(myPen.getPenSize());
+			p.setStyle("-fx-stroke:" + myPen.getColor() + ";");
+			p.setOpacity(0);
+			addToDrawnNodes(p);
+		}
 		return p;
 	}
 
-	public double moveToSimple(double newXPosition, double newYPosition) {
-		myTurtle.setX(newXPosition);
-		myTurtle.setY(newYPosition);
-		return 0.;
+	/* Rotation Methods */
+
+	@Override
+	public double rotateLeft(Double angle) {
+		return setHeading(currentHeading - angle);
 	}
 
-	/**
-	 * Move the turtle forward by a certain amount
-	 * 
-	 * @param pixels
-	 *            is a {@code double} specifying how many pixels to move the turtle
-	 *            forward by
-	 * @return A {@code double} that reflects the distance moved by the turtle
-	 */
-	public double moveForward(double pixels) {
-		double x = myTurtle.getX() + pixels * Math.sin(myTurtle.getRotate() * Math.PI / 180);
-		double y = myTurtle.getY() - pixels * Math.cos(myTurtle.getRotate() * Math.PI / 180);
-		return moveTo(x, y);
+	@Override
+	public double rotateRight(Double angle) {
+		return setHeading(currentHeading + angle);
 	}
 
-	/**
-	 * Move the turtle backwards by a certain amount
-	 * 
-	 * @param pixels
-	 *            is a {@code double} specifying how many pixels to move the turtle
-	 *            backwards by
-	 * @return A {@code double} that reflects the distance moved by the turtle
-	 */
-	public double moveBackwards(double pixels) {
-		double x = myTurtle.getX() - pixels * Math.sin(myTurtle.getRotate() * Math.PI / 180);
-		double y = myTurtle.getY() + pixels * Math.cos(myTurtle.getRotate() * Math.PI / 180);
-		return moveTo(x, y);	}
-
-	/* Visbility Settings */
-
-	/**
-	 * Makes sure the turtle is visible
-	 * 
-	 * @return Always returns 0
-	 */
-	public double showTurtle() {
-		myTurtle.setVisible(true);
-		return 1;
-	}
-
-	/**
-	 * Hides the turtle
-	 * 
-	 * @return Always returns 1
-	 */
-	public double hideTurtle() {
-		myTurtle.setVisible(false);
-		return 0;
-	}
-
-	/**
-	 * Provides the {@code ImageView} for the controller to add to the view of the
-	 * application
-	 * 
-	 * @return An {@code ImageView} that represents the turtle
-	 */
-	public ImageView getImageViewForScreen() {
-		return myTurtle;
-	}
-
-	/* Turtle Pen Commands */
-
-	/**
-	 * Sets the turtle's pen to be down
-	 * 
-	 * @return 1 always
-	 */
-	public double penDown() {
-		penDown = true;
-		return 1;
-	}
-
-	/**
-	 * Sets the turtle's pen to be up
-	 * 
-	 * @return 0 always
-	 */
-	public double penUp() {
-		penDown = false;
-		return 0;
+	@Override
+	public double setHeading(Double angle) {
+		double degreeDiff = angle - currentHeading;
+		transitionOperator.createRotation(myNode, degreeDiff);
+		currentHeading += degreeDiff;
+		currentHeading = currentHeading % 360;
+		return Math.abs(degreeDiff);
 	}
 
 	/* Turtle Query Methods */
 
-	/**
-	 * @return A {@code double[]} of length 2, where the first item is the turtle's
-	 *         x-coordinate, and the second item is the turtle's y-coordinate
-	 */
-	public double[] getCoordinates() {
-		return new double[] { myTurtle.getX(), myTurtle.getY() };
-	}
-
-	/**
-	 * @return A {@code double} that specifies the Turtle's current heading. Will
-	 *         always be between 0 and 360 degrees.
-	 */
+	@Override
 	public double getHeading() {
-		return myTurtle.getRotate();
+		return currentHeading;
 	}
 
-	/**
-	 * @return {@code True} if the turtle is currently being shown on the screen
-	 */
-	public boolean isTurtleVisible() {
-		return myTurtle.isVisible();
-	}
-
-	public double getDirection() {
-		return 1.4;
-	}
-
+	@Override
 	public double getXPos() {
-		return 100.;
+		return currentX - INITIAL_X_POSITION;
 	}
 
+	@Override
 	public double getYPos() {
-		return 50.;
+		return INITIAL_Y_POSITION - currentY;
 	}
 
-	/**
-	 * @return A {@code boolean} representing the current state of the turtle
-	 */
-	public boolean getPenInfo() {
-		return penDown;
-	}
-
-	public double getPenSize() {
-		return 1.2;
-	}
-
-	public String getPenStyle() {
-		return "SOLID";
-	}
-
-	private ImageView createTurtle() {
-		File file = new File(ACTIVATED_TURTLE_PATH);
-		Image turtleImage = new Image(file.toURI().toString(), TURTLE_SIZE, TURTLE_SIZE, false, false);
-		return new ImageView(turtleImage);
-	}
 }

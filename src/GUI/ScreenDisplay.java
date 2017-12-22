@@ -40,18 +40,23 @@ public abstract class ScreenDisplay {
 		return root.getChildren();
 	}
 	
-	public abstract void step(double elapsedTime);
-
 	public void init() {
-		frame = new KeyFrame(Duration.millis(MILLISECOND_DELAY), e -> this.step(SECOND_DELAY));
+		//frame = new KeyFrame(Duration.millis(MILLISECOND_DELAY), e -> this.step(SECOND_DELAY));
 		animation.setCycleCount(Timeline.INDEFINITE);
-		animation.getKeyFrames().add(frame);
+		//animation.getKeyFrames().add(frame);
 	}
 
 	protected void rootAdd(Node object) {
 		root.getChildren().add(object);
 	}
 
+	protected void rootRemove(Node object) {
+		root.getChildren().remove(object);
+	}
+	
+	protected boolean rootContain(Node object) {
+		return root.getChildren().contains(object);
+	}
 	protected void centerScene() {
 
 	}

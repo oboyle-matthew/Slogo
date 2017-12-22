@@ -2,8 +2,9 @@ package commands;
 
 import java.util.Map;
 
+import modelLogic.CanvasWriter;
+import modelLogic.CommandNameInfo;
 import modelLogic.ParsedItem;
-import modelLogic.Turtle;
 
 /**
  * Executable Command for putting the Turtle's pen up
@@ -12,7 +13,7 @@ import modelLogic.Turtle;
 public class PenUpCommand extends ExecutableCommand {
 
 	@Override
-	public double execute(ParsedItem[] params, Turtle tortuga, Map<String, Double> variables) {
-		return tortuga.penUp();
+	public double execute(ParsedItem[] params, CanvasWriter writer, Map<String, Double> variables, Map<String, CommandNameInfo> userFunctions) {
+		return writer.getMyPen().setPenStatus(false);
 	}
 }

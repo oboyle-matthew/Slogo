@@ -2,8 +2,9 @@ package commands;
 
 import java.util.Map;
 
+import modelLogic.CanvasWriter;
+import modelLogic.CommandNameInfo;
 import modelLogic.ParsedItem;
-import modelLogic.Turtle;
 
 /**
  * Executable Command for retrieving the turtle's y coordinate
@@ -11,8 +12,8 @@ import modelLogic.Turtle;
 public class YCoordinateCommand extends ExecutableCommand {
 
 	@Override
-	public double execute(ParsedItem[] params, Turtle tortuga, Map<String, Double> variables) {
-		return tortuga.getCoordinates()[1]; 
+	public double execute(ParsedItem[] params, CanvasWriter writer, Map<String, Double> variables, Map<String, CommandNameInfo> userFunctions) {
+		return writer.getYPos(); 
 	}
 
 }
